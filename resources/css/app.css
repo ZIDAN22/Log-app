@@ -20,9 +20,12 @@
     width: 5rem !important;
 }
 
-.sidebar-collapsed .brand-text,
+.sidebar-collapsed .brand-image {
+    display: block !important;
+}
+
 .sidebar-collapsed .sidebar-label,
-.sidebar-collapsed .sidebar-footer {
+.sidebar-collapsed .space-y-2 > div:first-child {
     display: none !important;
 }
 

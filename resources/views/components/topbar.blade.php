@@ -1,8 +1,14 @@
 <header class="border-b border-slate-200 bg-slate-50 px-4 py-4 sm:px-6 md:px-8">
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-            <h1 class="text-2xl font-semibold text-slate-900">Dashboard Ekspedisi</h1>
-            <p class="mt-1 text-sm text-slate-500">Pemantauan real-time untuk pengiriman, inventaris, dan performa armada.</p>
+        <div class="flex items-center gap-4">
+            <button id="sidebarToggle" class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 transition hover:bg-slate-200">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16M4 6h16M4 18h16" />
+                </svg>
+            </button>
+            <div>
+                <h1 class="text-2xl font-semibold text-slate-900">PT. Berlian Lintas Logistik</h1>
+            </div>
         </div>
         <div class="flex items-center gap-3">
             <div class="relative hidden md:block">
