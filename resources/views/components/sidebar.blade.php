@@ -48,7 +48,7 @@
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Tracking Status</span>
             </a>
-            <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+            <a href="{{ route('invoices.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-emerald-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
