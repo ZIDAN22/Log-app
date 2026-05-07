@@ -2,12 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShipmentController;
-use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\InvoiceController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('dashboard');
+
+// Pengiriman Routes
+Route::resource('pengiriman', ShipmentController::class);
 
 // Warehouse Routes
 Route::view('warehouse', 'warehouse.index')->name('warehouse.index');
@@ -23,8 +25,6 @@ Route::view('warehouse/outbound/{id}/edit', 'warehouse.outbound.edit')->name('wa
 Route::view('warehouse/outbound/{id}/delete', 'warehouse.outbound.delete')->name('warehouse.outbound.delete');
 Route::view('warehouse/history', 'warehouse.history')->name('warehouse.history');
 
-// Pengiriman Routes
-Route::resource('pengiriman', PengirimanController::class);
 
 // Invoice Routes
 Route::get('packing-list', [InvoiceController::class, 'packingListHistory'])->name('packing-list.index');
