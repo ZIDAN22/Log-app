@@ -43,6 +43,34 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Display a packing list related to an invoice.
+     */
+    public function packingList(string $id)
+    {
+        $invoiceNumber = strtoupper($id ?: 'INV-2026-0001');
+        $packingItems = [
+            ['description' => 'Kursi Lipat Plastik', 'qty' => 10, 'koli' => 2, 'unit_price' => 75000],
+            ['description' => 'Meja Kayu Portable', 'qty' => 5, 'koli' => 3, 'unit_price' => 120000],
+            ['description' => 'Pallet Kayu', 'qty' => 2, 'koli' => 1, 'unit_price' => 350000],
+        ];
+
+        $summary = [
+            'total_items' => collect($packingItems)->sum('qty'),
+            'total_koli' => collect($packingItems)->sum('koli'),
+            'grand_total' => collect($packingItems)->reduce(function ($carry, $item) {
+                return $carry + ($item['qty'] * $item['unit_price']);
+            }, 0),
+        ];
+
+        return view('packing-list.show', compact('invoiceNumber', 'packingItems', 'summary'));
+    }
+
+    public function packingListHistory()
+    {
+        return view('packing-list.index');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)

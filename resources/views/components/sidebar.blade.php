@@ -56,7 +56,7 @@
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Invoice</span>
             </a>
-            <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+            <a href="{{ route('packing-list.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-emerald-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
@@ -71,7 +71,7 @@
             <div class="md:inline hidden px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
                 Warehouse
             </div>
-            <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+            <a href="{{ route('warehouse.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-orange-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -79,7 +79,7 @@
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Data Gudang</span>
             </a>
-            <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+            <a href="{{ route('warehouse.inbound.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-orange-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -87,7 +87,7 @@
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Barang Masuk</span>
             </a>
-            <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+            <a href="{{ route('warehouse.outbound.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-orange-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
@@ -95,7 +95,7 @@
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Barang Keluar</span>
             </a>
-            <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+            <a href="{{ route('warehouse.history') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-orange-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
