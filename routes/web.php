@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShipmentController;
+use App\Http\Controllers\PackingListController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\DeliveryOrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,6 +12,11 @@ Route::get('/', function () {
 
 // Pengiriman Routes
 Route::resource('pengiriman', ShipmentController::class);
+
+// Delivery Orders Routes
+Route::resource('delivery-orders', DeliveryOrderController::class);
+Route::post('pengiriman/{shipment}/generate-delivery-order', [DeliveryOrderController::class, 'generate'])->name('delivery-orders.generate');
+Route::get('delivery-orders/{deliveryOrder}/print-pdf', [DeliveryOrderController::class, 'printPdf'])->name('delivery-orders.print-pdf');
 
 // Warehouse Routes
 Route::view('warehouse', 'warehouse.index')->name('warehouse.index');
@@ -26,7 +33,9 @@ Route::view('warehouse/outbound/{id}/delete', 'warehouse.outbound.delete')->name
 Route::view('warehouse/history', 'warehouse.history')->name('warehouse.history');
 
 
+// Packing List Routes
+Route::get('packing-list/{packing_list}/print-pdf', [PackingListController::class, 'printPdf'])->name('packing-list.print-pdf');
+Route::resource('packing-list', PackingListController::class);
+
 // Invoice Routes
-Route::get('packing-list', [InvoiceController::class, 'packingListHistory'])->name('packing-list.index');
-Route::get('invoices/{invoice}/packing-list', [InvoiceController::class, 'packingList'])->name('invoices.packing-list');
 Route::resource('invoices', InvoiceController::class);

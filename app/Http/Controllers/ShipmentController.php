@@ -37,7 +37,8 @@ class ShipmentController extends Controller
             $query->whereDate('pickup_date', '<=', $to);
         }
 
-        $shipments = $query->orderBy('pickup_date', 'desc')
+        $shipments = $query->with('deliveryOrder')
+            ->orderBy('pickup_date', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();

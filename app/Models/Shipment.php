@@ -10,6 +10,7 @@ class Shipment extends Model
     public const STATUS_PROCESSED = 'Diproses';
     public const STATUS_SENT = 'Dikirim';
     public const STATUS_IN_TRANSIT = 'Dalam Perjalanan';
+    public const STATUS_PACKING_COMPLETED = 'Packing Completed';
     public const STATUS_DELIVERED = 'Sampai';
 
     public const STATUSES = [
@@ -17,6 +18,7 @@ class Shipment extends Model
         self::STATUS_PROCESSED,
         self::STATUS_SENT,
         self::STATUS_IN_TRANSIT,
+        self::STATUS_PACKING_COMPLETED,
         self::STATUS_DELIVERED,
     ];
 
@@ -126,6 +128,7 @@ class Shipment extends Model
             self::STATUS_PROCESSED => ['bg' => 'bg-blue-100', 'text' => 'text-blue-800'],
             self::STATUS_SENT => ['bg' => 'bg-orange-100', 'text' => 'text-orange-800'],
             self::STATUS_IN_TRANSIT => ['bg' => 'bg-cyan-100', 'text' => 'text-cyan-800'],
+            self::STATUS_PACKING_COMPLETED => ['bg' => 'bg-sky-100', 'text' => 'text-sky-800'],
             self::STATUS_DELIVERED => ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-800'],
         ];
     }
@@ -135,5 +138,15 @@ class Shipment extends Model
         $styles = self::statusStyles();
 
         return $styles[$this->shipment_status]['bg'] . ' ' . $styles[$this->shipment_status]['text'];
+    }
+
+    public function deliveryOrder()
+    {
+        return $this->hasOne(DeliveryOrder::class);
+    }
+
+    public function packingList()
+    {
+        return $this->hasOne(PackingList::class);
     }
 }

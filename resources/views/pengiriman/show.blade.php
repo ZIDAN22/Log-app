@@ -117,18 +117,58 @@
 
                 <div class="rounded-3xl border border-slate-200 bg-white p-6">
                     <h2 class="text-xl font-semibold text-slate-900 mb-5">Timeline Status</h2>
-                    <ol class="space-y-4">
-                        @foreach(\App\Models\Shipment::STATUSES as $status)
-                            <li class="rounded-3xl border px-4 py-4 {{ $shipment->shipment_status === $status ? 'border-blue-300 bg-blue-50' : 'border-slate-200 bg-slate-50' }}">
-                                <div class="flex items-center justify-between gap-3">
-                                    <p class="font-medium text-slate-900">{{ $status }}</p>
-                                    @if($shipment->shipment_status === $status)
-                                        <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">Current</span>
+                    @php
+                        $statusSteps = [
+                            ['label' => 'Pending Pickup', 'statusKey' => 'Pending Pickup'],
+                            ['label' => 'Pickup Process', 'statusKey' => 'Diproses'],
+                            ['label' => 'Barang Diterima Gudang', 'statusKey' => 'Barang Diterima Gudang'],
+                            ['label' => 'Packing Completed', 'statusKey' => 'Packing Completed'],
+                            ['label' => 'Dikirim', 'statusKey' => 'Dikirim'],
+                            ['label' => 'Dalam Perjalanan', 'statusKey' => 'Dalam Perjalanan'],
+                            ['label' => 'Sampai', 'statusKey' => 'Sampai'],
+                        ];
+                        $currentStepIndex = collect($statusSteps)->pluck('statusKey')->search($shipment->shipment_status);
+                        $currentStep = $currentStepIndex !== false ? $currentStepIndex + 1 : 1;
+                    @endphp
+
+                    <div class="relative pl-10">
+                        <span class="pointer-events-none absolute left-4 top-5 h-full w-px bg-slate-200"></span>
+
+                        @foreach($statusSteps as $index => $step)
+                            @php
+                                $stepPosition = $index + 1;
+                                $isCurrent = $stepPosition === $currentStep;
+                                $isCompleted = $stepPosition < $currentStep;
+                                $isUpcoming = $stepPosition > $currentStep;
+                            @endphp
+
+                            <div class="relative mb-8 last:mb-0">
+                                <div class="absolute -left-1.5 top-0 flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-inset {{ $isCompleted ? 'bg-emerald-500 text-white ring-emerald-500' : ($isCurrent ? 'bg-blue-600 text-white ring-blue-600' : 'bg-slate-200 text-slate-600 ring-slate-200') }}">
+                                    @if($isCompleted)
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+                                            <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.386 7.386a1 1 0 01-1.42 0L3.296 8.094a1 1 0 011.42-1.42l4.096 4.096 6.674-6.674a1 1 0 011.418 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    @else
+                                        <span class="text-sm font-semibold">{{ $stepPosition }}</span>
                                     @endif
                                 </div>
-                            </li>
+
+                                <div class="rounded-3xl border px-4 py-4 {{ $isCurrent ? 'border-blue-200 bg-blue-50' : 'border-slate-200 bg-slate-50' }}">
+                                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                        <div>
+                                            <p class="text-sm font-semibold {{ $isCompleted ? 'text-slate-900' : ($isCurrent ? 'text-slate-900' : 'text-slate-700') }}">{{ $step['label'] }}</p>
+                                            @if($isCurrent)
+                                                <p class="mt-1 text-xs text-slate-500">Status saat ini berada pada tahap ini.</p>
+                                            @endif
+                                        </div>
+                                        <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold {{ $isCompleted ? 'bg-emerald-100 text-emerald-800' : ($isCurrent ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-600') }}">
+                                            {{ $isCompleted ? 'Completed' : ($isCurrent ? 'Current' : 'Upcoming') }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
-                    </ol>
+                    </div>
                 </div>
             </aside>
         </div>
