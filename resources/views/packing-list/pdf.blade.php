@@ -77,6 +77,7 @@
                     <th>Nama Barang</th>
                     <th>Qty</th>
                     <th>Packaging</th>
+                    <th>Total Packaging</th>
                     <th>Berat (kg)</th>
                     <th class="text-right">Harga / Unit</th>
                     <th class="text-right">Subtotal</th>
@@ -88,6 +89,7 @@
                     <td>{{ $item->item_name }}</td>
                     <td>{{ $item->qty }}</td>
                     <td>{{ $item->packaging_type }}</td>
+                    <td>{{ $item->total_packaging }}</td>
                     <td>{{ number_format($item->weight, 2, ',', '.') }}</td>
                     <td class="text-right">Rp {{ number_format($item->unit_price, 0, ',', '.') }}</td>
                     <td class="text-right">Rp {{ number_format($item->subtotal_price, 0, ',', '.') }}</td>

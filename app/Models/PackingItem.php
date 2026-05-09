@@ -12,6 +12,7 @@ class PackingItem extends Model
         'item_name',
         'qty',
         'packaging_type',
+        'total_packaging',
         'unit_price',
         'subtotal_price',
         'weight',
@@ -20,6 +21,7 @@ class PackingItem extends Model
 
     protected $casts = [
         'qty' => 'integer',
+        'total_packaging' => 'integer',
         'unit_price' => 'decimal:2',
         'subtotal_price' => 'decimal:2',
         'weight' => 'decimal:2',

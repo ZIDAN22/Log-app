@@ -87,6 +87,7 @@
                                     <th class="px-4 py-3 text-left">Nama Barang</th>
                                     <th class="px-4 py-3 text-center">Qty</th>
                                     <th class="px-4 py-3 text-center">Packaging</th>
+                                    <th class="px-4 py-3 text-center">Total Packaging</th>
                                     <th class="px-4 py-3 text-right">Berat (kg)</th>
                                     <th class="px-4 py-3 text-right">Harga / Unit</th>
                                     <th class="px-4 py-3 text-right">Subtotal</th>
@@ -98,6 +99,7 @@
                                     <td class="px-4 py-4 text-slate-700">{{ $item->item_name }}</td>
                                     <td class="px-4 py-4 text-center text-slate-700">{{ $item->qty }}</td>
                                     <td class="px-4 py-4 text-center text-slate-700">{{ $item->packaging_type }}</td>
+                                    <td class="px-4 py-4 text-center text-slate-700">{{ $item->total_packaging }}</td>
                                     <td class="px-4 py-4 text-right text-slate-700">{{ number_format($item->weight, 2, ',', '.') }}</td>
                                     <td class="px-4 py-4 text-right text-slate-700">Rp {{ number_format($item->unit_price, 0, ',', '.') }}</td>
                                     <td class="px-4 py-4 text-right text-slate-900 font-semibold">Rp {{ number_format($item->subtotal_price, 0, ',', '.') }}</td>

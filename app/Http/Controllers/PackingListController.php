@@ -63,11 +63,13 @@ class PackingListController extends Controller
             $qty = (int) $item['qty'];
             $unitPrice = (float) $item['unit_price'];
             $weight = (float) $item['weight'];
+            $totalPackaging = (int) $item['total_packaging'];
 
             return [
                 'item_name' => $item['item_name'],
                 'qty' => $qty,
                 'packaging_type' => $item['packaging_type'],
+                'total_packaging' => $totalPackaging,
                 'unit_price' => $unitPrice,
                 'subtotal_price' => round($qty * $unitPrice, 2),
                 'weight' => round($weight, 2),
@@ -78,7 +80,7 @@ class PackingListController extends Controller
         $totalQty = $items->sum('qty');
         $totalWeight = $items->sum('weight');
         $totalValue = $items->sum('subtotal_price');
-        $totalPackage = $items->count();
+        $totalPackage = $items->sum('total_packaging');
 
         DB::transaction(function () use ($data, $items, $totalQty, $totalWeight, $totalValue, $totalPackage, $shipment) {
             $packingList = PackingList::create([
@@ -124,11 +126,13 @@ class PackingListController extends Controller
             $qty = (int) $item['qty'];
             $unitPrice = (float) $item['unit_price'];
             $weight = (float) $item['weight'];
+            $totalPackaging = (int) $item['total_packaging'];
 
             return [
                 'item_name' => $item['item_name'],
                 'qty' => $qty,
                 'packaging_type' => $item['packaging_type'],
+                'total_packaging' => $totalPackaging,
                 'unit_price' => $unitPrice,
                 'subtotal_price' => round($qty * $unitPrice, 2),
                 'weight' => round($weight, 2),
@@ -139,7 +143,7 @@ class PackingListController extends Controller
         $totalQty = $items->sum('qty');
         $totalWeight = $items->sum('weight');
         $totalValue = $items->sum('subtotal_price');
-        $totalPackage = $items->count();
+        $totalPackage = $items->sum('total_packaging');
 
         DB::transaction(function () use ($data, $items, $totalQty, $totalWeight, $totalValue, $totalPackage, $packingList) {
             $packingList->update([

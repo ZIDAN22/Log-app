@@ -70,6 +70,7 @@
                             <tr>
                                 <th class="px-4 py-3 text-left">Nama Barang</th>
                                 <th class="px-4 py-3 text-left">Packaging</th>
+                                <th class="px-4 py-3 text-center">Total Packaging</th>
                                 <th class="px-4 py-3 text-center">Qty</th>
                                 <th class="px-4 py-3 text-center">Berat (kg)</th>
                                 <th class="px-4 py-3 text-right">Harga / Unit</th>
@@ -83,7 +84,7 @@
                             $oldItems = old('items', []);
                             @endphp
                             @if(count($oldItems) === 0)
-                            @php $oldItems = [['item_name' => '', 'packaging_type' => 'Box', 'qty' => 1, 'weight' => 0, 'unit_price' => 0, 'item_notes' => '']]; @endphp
+                            @php $oldItems = [['item_name' => '', 'packaging_type' => 'Box', 'total_packaging' => 1, 'qty' => 1, 'weight' => 0, 'unit_price' => 0, 'item_notes' => '']]; @endphp
                             @endif
 
                             @foreach($oldItems as $index => $item)
@@ -97,6 +98,9 @@
                                         <option value="{{ $type }}" {{ ($item['packaging_type'] ?? '') === $type ? 'selected' : '' }}>{{ $type }}</option>
                                         @endforeach
                                     </select>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <input type="number" min="1" step="1" data-name="total_packaging" name="items[{{ $index }}][total_packaging]" value="{{ $item['total_packaging'] ?? 1 }}" class="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 text-center focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" required />
                                 </td>
                                 <td class="px-4 py-3">
                                     <input type="number" min="1" step="1" data-name="qty" name="items[{{ $index }}][qty]" value="{{ $item['qty'] ?? 1 }}" class="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 text-center focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" required />
@@ -178,21 +182,24 @@
         let totalQty = 0;
         let totalWeight = 0;
         let totalValue = 0;
+        let totalPackaging = 0;
 
         rows.forEach(row => {
             const qty = parseFloat(row.querySelector('[data-name="qty"]').value) || 0;
             const weight = parseFloat(row.querySelector('[data-name="weight"]').value) || 0;
             const subtotal = parseFloat(row.querySelector('[data-name="subtotal_price"]').value) || 0;
+            const packaging = parseInt(row.querySelector('[data-name="total_packaging"]').value) || 0;
 
             totalQty += qty;
             totalWeight += weight;
             totalValue += subtotal;
+            totalPackaging += packaging;
         });
 
         document.querySelector('#summary-qty').textContent = totalQty;
         document.querySelector('#summary-weight').textContent = totalWeight.toFixed(2) + ' kg';
         document.querySelector('#summary-value').textContent = formatCurrency(totalValue);
-        document.querySelector('#summary-package').textContent = rows.length;
+        document.querySelector('#summary-package').textContent = totalPackaging;
     }
 
     function reindexRows() {
@@ -206,7 +213,7 @@
     }
 
     function bindRowEvents(row) {
-        row.querySelectorAll('[data-name="qty"], [data-name="unit_price"], [data-name="weight"]').forEach(input => {
+        row.querySelectorAll('[data-name="qty"], [data-name="unit_price"], [data-name="weight"], [data-name="total_packaging"]').forEach(input => {
             input.addEventListener('input', () => {
                 updateRow(row);
                 updateSummary();
@@ -233,6 +240,9 @@
                 <select data-name="packaging_type" name="" class="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900" required>
                     ${['Box','Pallet','Drum','Sack','Crate','Unit','Lainnya'].map(type => `<option value="${type}" ${data.packaging_type === type ? 'selected' : ''}>${type}</option>`).join('')}
                 </select>
+            </td>
+            <td class="px-4 py-3">
+                <input type="number" min="1" step="1" data-name="total_packaging" name="" value="${data.total_packaging ?? 1}" class="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 text-center" required />
             </td>
             <td class="px-4 py-3">
                 <input type="number" min="1" step="1" data-name="qty" name="" value="${data.qty ?? 1}" class="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-slate-900 text-center" required />
