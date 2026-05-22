@@ -39,6 +39,14 @@
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Daftar Pengiriman</span>
             </a>
 
+            <a href="{{ route('packing-list.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-emerald-400">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                    </svg>
+                </span>
+                <span class="sidebar-label hidden md:inline font-medium text-sm">Packing List</span>
+            </a>
             <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-emerald-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,14 +64,6 @@
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Invoice</span>
             </a>
-            <a href="{{ route('packing-list.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
-                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-emerald-400">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                    </svg>
-                </span>
-                <span class="sidebar-label hidden md:inline font-medium text-sm">Packing List</span>
-            </a>
         </div>
 
         <!-- WAREHOUSE SECTION -->
@@ -79,7 +79,7 @@
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Data Gudang</span>
             </a>
-            <a href="{{ route('warehouse.inbound.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+            <a href="{{ route('inbound.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-orange-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />

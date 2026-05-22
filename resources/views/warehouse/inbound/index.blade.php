@@ -120,6 +120,9 @@
                                 <div class="flex gap-2">
                                     <button onclick="openDetailModal(1)" class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition text-xs font-medium">Detail</button>
                                     <button class="px-3 py-1.5 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 transition text-xs font-medium">Edit</button>
+                                    <a href="#" target="_blank" class="px-2 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 transition inline-flex items-center" title="Print Label">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -145,6 +148,9 @@
                                 <div class="flex gap-2">
                                     <button onclick="openDetailModal(2)" class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition text-xs font-medium">Detail</button>
                                     <button class="px-3 py-1.5 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 transition text-xs font-medium">Edit</button>
+                                    <a href="#" target="_blank" class="px-2 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 transition inline-flex items-center" title="Print Label">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -170,6 +176,9 @@
                                 <div class="flex gap-2">
                                     <button onclick="openDetailModal(3)" class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition text-xs font-medium">Detail</button>
                                     <button class="px-3 py-1.5 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 transition text-xs font-medium">Edit</button>
+                                    <a href="#" target="_blank" class="px-2 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 transition inline-flex items-center" title="Print Label">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -195,6 +204,9 @@
                                 <div class="flex gap-2">
                                     <button onclick="openDetailModal(4)" class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition text-xs font-medium">Detail</button>
                                     <button class="px-3 py-1.5 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 transition text-xs font-medium">Edit</button>
+                                    <a href="#" target="_blank" class="px-2 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 transition inline-flex items-center" title="Print Label">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -220,6 +232,9 @@
                                 <div class="flex gap-2">
                                     <button onclick="openDetailModal(5)" class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition text-xs font-medium">Detail</button>
                                     <button class="px-3 py-1.5 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 transition text-xs font-medium">Edit</button>
+                                    <a href="#" target="_blank" class="px-2 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 transition inline-flex items-center" title="Print Label">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                    </a>
                                 </div>
                             </td>
                         </tr>

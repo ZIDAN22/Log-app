@@ -2,113 +2,201 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
+use App\Models\PackingList;
+use App\Models\Shipment;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        // Nanti akan mengambil data dari database
-        // Untuk saat ini hanya menampilkan view
-        return view('invoices.index');
-    }
+        $query = Invoice::with('packingList.shipment');
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        if ($search = $request->query('search')) {
+            $query->where(function ($sub) use ($search) {
+                $sub->where('invoice_number', 'like', "%{$search}%")
+                    ->orWhere('receipt_number', 'like', "%{$search}%")
+                    ->orWhere('customer_name', 'like', "%{$search}%");
+            });
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        if ($paymentStatus = $request->query('payment_status')) {
+            $query->where('payment_status', $paymentStatus);
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        // Nanti akan mengambil data spesifik dari database
-        // Untuk saat ini hanya menampilkan view
-        return view('invoices.show');
-    }
+        if ($from = $request->query('from')) {
+            $query->whereDate('invoice_date', '>=', $from);
+        }
 
-    /**
-     * Display a packing list related to an invoice.
-     */
-    public function packingList(string $id)
-    {
-        $invoiceNumber = strtoupper($id ?: 'INV-2026-0001');
-        $packingItems = [
-            ['description' => 'Kursi Lipat Plastik', 'qty' => 10, 'koli' => 2, 'unit_price' => 75000],
-            ['description' => 'Meja Kayu Portable', 'qty' => 5, 'koli' => 3, 'unit_price' => 120000],
-            ['description' => 'Pallet Kayu', 'qty' => 2, 'koli' => 1, 'unit_price' => 350000],
-        ];
+        if ($to = $request->query('to')) {
+            $query->whereDate('invoice_date', '<=', $to);
+        }
 
         $summary = [
-            'total_items' => collect($packingItems)->sum('qty'),
-            'total_koli' => collect($packingItems)->sum('koli'),
-            'grand_total' => collect($packingItems)->reduce(function ($carry, $item) {
-                return $carry + ($item['qty'] * $item['unit_price']);
-            }, 0),
+            'total' => Invoice::count(),
+            'unpaid' => Invoice::where('payment_status', Invoice::STATUS_UNPAID)->count(),
+            'dp' => Invoice::where('payment_status', Invoice::STATUS_DP)->count(),
+            'paid' => Invoice::where('payment_status', Invoice::STATUS_PAID)->count(),
         ];
 
-        return view('packing-list.show', compact('invoiceNumber', 'packingItems', 'summary'));
+        $invoices = $query->orderBy('invoice_date', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('invoices.index', compact('invoices', 'summary'));
     }
 
-    public function packingListHistory()
+    public function create()
     {
-        return view('packing-list.index');
+        $packingLists = PackingList::with('shipment', 'items')
+            ->doesntHave('invoice')
+            ->orderBy('packing_date', 'desc')
+            ->get();
+
+        return view('invoices.create', compact('packingLists'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'packing_list_id' => 'required|exists:packing_lists,id|unique:invoices,packing_list_id',
+            'invoice_number' => 'required|string|max:255',
+            'invoice_date' => 'required|date',
+            'payment_status' => 'required|in:' . implode(',', Invoice::PAYMENT_STATUSES),
+            'payment_method' => 'nullable|string|max:255',
+            'notes' => 'nullable|string',
+            'delivery_fee' => 'nullable|numeric|min:0',
+            'proof_of_payment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+        ]);
+
+        $packingList = PackingList::with('shipment')->findOrFail($validated['packing_list_id']);
+
+        if ($packingList->invoice) {
+            return back()->withInput()->withErrors(['packing_list_id' => 'Packing List ini sudah memiliki invoice.']);
+        }
+
+        $shipment = $packingList->shipment;
+        $invoiceNumber = $shipment->invoice_number ?: Shipment::generateInvoiceNumber();
+        $receiptNumber = $shipment->receipt_number ?: Shipment::generateReceiptNumber();
+        $customerName = $shipment->sender_name ?: $shipment->receiver_name ?: 'Pelanggan';
+
+        $deliveryFee = $validated['delivery_fee'] ?? 0;
+        $transportPricePerKg = $shipment->price_per_kg ?? 0;
+        $baseTransport = round($transportPricePerKg * $packingList->total_weight, 2);
+        $baseTotal = round($baseTransport + $deliveryFee, 2);
+        $ppnAmount = round($baseTotal * 0.011, 2);
+        $pphAmount = round($baseTotal * 0.02, 2);
+        $grandTotal = round($baseTotal + $ppnAmount - $pphAmount, 2);
+
+        $data = [
+            'packing_list_id' => $packingList->id,
+            'invoice_number' => $invoiceNumber,
+            'receipt_number' => $receiptNumber,
+            'invoice_date' => $validated['invoice_date'],
+            'customer_name' => $customerName,
+            'transportation_type' => $shipment->transportation_type,
+            'payment_status' => $validated['payment_status'],
+            'payment_method' => $validated['payment_method'],
+            'notes' => $validated['notes'],
+            'total_qty' => $packingList->total_qty,
+            'total_weight' => $packingList->total_weight,
+            'total_value' => $packingList->total_value,
+            'delivery_fee' => $deliveryFee,
+            'ppn_amount' => $ppnAmount,
+            'pph_amount' => $pphAmount,
+            'grand_total' => $grandTotal,
+        ];
+
+        if ($request->hasFile('proof_of_payment')) {
+            $data['proof_of_payment'] = $request->file('proof_of_payment')->store('invoice-proofs', 'public');
+        }
+
+        $invoice = Invoice::create($data);
+
+        return redirect()->route('invoices.show', $invoice)->with('success', 'Invoice berhasil dibuat.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function show(Invoice $invoice)
     {
-        //
+        $invoice->load('packingList.items');
+
+        return view('invoices.show', compact('invoice'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function edit(Invoice $invoice)
     {
-        //
+        $invoice->load('packingList.items');
+
+        return view('invoices.edit', compact('invoice'));
     }
 
-    /**
-     * Export invoice to PDF
-     */
-    public function exportPDF(string $id)
+    public function update(Request $request, Invoice $invoice)
     {
-        // Implementasi export PDF menggunakan DomPDF
-        // Nanti akan ditambahkan
+        $validated = $request->validate([
+            'invoice_date' => 'required|date',
+            'payment_status' => 'required|in:' . implode(',', Invoice::PAYMENT_STATUSES),
+            'payment_method' => 'nullable|string|max:255',
+            'notes' => 'nullable|string',
+            'delivery_fee' => 'nullable|numeric|min:0',
+            'proof_of_payment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+        ]);
+
+        $deliveryFee = $validated['delivery_fee'] ?? 0;
+
+        $invoice->load('packingList.shipment');
+        $shipment = $invoice->packingList->shipment;
+        $transportPricePerKg = $shipment->price_per_kg ?? 0;
+        $baseTransport = round($transportPricePerKg * $invoice->total_weight, 2);
+        $baseTotal = round($baseTransport + $deliveryFee, 2);
+        $ppnAmount = round($baseTotal * 0.011, 2);
+        $pphAmount = round($baseTotal * 0.02, 2);
+        $grandTotal = round($baseTotal + $ppnAmount - $pphAmount, 2);
+
+        $data = [
+            'invoice_date' => $validated['invoice_date'],
+            'payment_status' => $validated['payment_status'],
+            'payment_method' => $validated['payment_method'],
+            'notes' => $validated['notes'],
+            'delivery_fee' => $deliveryFee,
+            'ppn_amount' => $ppnAmount,
+            'pph_amount' => $pphAmount,
+            'grand_total' => $grandTotal,
+        ];
+
+        if ($request->hasFile('proof_of_payment')) {
+            if ($invoice->proof_of_payment) {
+                Storage::disk('public')->delete($invoice->proof_of_payment);
+            }
+            $data['proof_of_payment'] = $request->file('proof_of_payment')->store('invoice-proofs', 'public');
+        }
+
+        $invoice->update($data);
+
+        return redirect()->route('invoices.show', $invoice)->with('success', 'Invoice berhasil diperbarui.');
     }
 
-    /**
-     * Print invoice
-     */
-    public function print(string $id)
+    public function destroy(Invoice $invoice)
     {
-        // Redirect ke show dengan print mode
-        return redirect()->route('invoices.show', $id);
+        if ($invoice->proof_of_payment) {
+            Storage::disk('public')->delete($invoice->proof_of_payment);
+        }
+
+        $invoice->delete();
+
+        return redirect()->route('invoices.index')->with('success', 'Invoice berhasil dihapus.');
+    }
+
+    public function printPdf(Invoice $invoice)
+    {
+        $invoice->load('packingList.items');
+
+        $pdf = Pdf::loadView('invoices.pdf', compact('invoice'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('invoice-' . $invoice->invoice_number . '.pdf');
     }
 }

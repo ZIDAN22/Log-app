@@ -8,6 +8,7 @@ class Shipment extends Model
 {
     public const STATUS_PENDING = 'Pending Pickup';
     public const STATUS_PROCESSED = 'Diproses';
+    public const STATUS_INBOUND_COMPLETED = 'Inbound Completed'; 
     public const STATUS_SENT = 'Dikirim';
     public const STATUS_IN_TRANSIT = 'Dalam Perjalanan';
     public const STATUS_PACKING_COMPLETED = 'Packing Completed';
@@ -16,6 +17,7 @@ class Shipment extends Model
     public const STATUSES = [
         self::STATUS_PENDING,
         self::STATUS_PROCESSED,
+        self::STATUS_INBOUND_COMPLETED,
         self::STATUS_SENT,
         self::STATUS_IN_TRANSIT,
         self::STATUS_PACKING_COMPLETED,
@@ -30,7 +32,24 @@ class Shipment extends Model
         'sender_name',
         'receiver_name',
         'pickup_address',
+        'pickup_province',
+        'pickup_province_code',
+        'pickup_city_code',
+        'pickup_district',
+        'pickup_district_code',
+        'pickup_village',
+        'pickup_village_code',
+        'pickup_postal_code',
         'destination_city',
+        'destination_province',
+        'destination_province_code',
+        'destination_city_code',
+        'destination_district',
+        'destination_district_code',
+        'destination_village',
+        'destination_village_code',
+        'destination_postal_code',
+        'destination_address',
         'item_type',
         'total_weight',
         'price_per_kg',
@@ -128,6 +147,7 @@ class Shipment extends Model
             self::STATUS_PROCESSED => ['bg' => 'bg-blue-100', 'text' => 'text-blue-800'],
             self::STATUS_SENT => ['bg' => 'bg-orange-100', 'text' => 'text-orange-800'],
             self::STATUS_IN_TRANSIT => ['bg' => 'bg-cyan-100', 'text' => 'text-cyan-800'],
+            self::STATUS_INBOUND_COMPLETED => ['bg' => 'bg-purple-100', 'text' => 'text-purple-800'],
             self::STATUS_PACKING_COMPLETED => ['bg' => 'bg-sky-100', 'text' => 'text-sky-800'],
             self::STATUS_DELIVERED => ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-800'],
         ];
@@ -148,5 +168,10 @@ class Shipment extends Model
     public function packingList()
     {
         return $this->hasOne(PackingList::class);
+    }
+
+    public function inbound()
+    {
+        return $this->hasOne(Inbound::class);
     }
 }

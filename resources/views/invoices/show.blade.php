@@ -1,264 +1,149 @@
 @extends('layouts.app')
 
+@section('title', 'Detail Invoice')
+
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto">
-        <!-- Header with Back Button -->
-        <div class="flex items-center gap-4 mb-8">
-            <a href="{{ route('invoices.index') }}" class="p-2 hover:bg-white rounded-lg transition">
-                <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-            </a>
+<div class="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-                <h1 class="text-3xl font-bold text-slate-900">Invoice Detail</h1>
-                <p class="text-slate-600 mt-1">INV-2026-0001</p>
+                <h1 class="text-3xl font-bold text-slate-900">Detail Invoice</h1>
+                <p class="text-slate-600">Lihat ringkasan invoice yang diambil dari Packing List.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('invoices.print-pdf', $invoice) }}" class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition">Print PDF</a>
+                <a href="{{ route('invoices.edit', $invoice) }}" class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">Edit</a>
+                <a href="{{ route('invoices.index') }}" class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">Kembali</a>
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="flex flex-wrap gap-3 mb-6">
-            <button onclick="window.print()" class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                </svg>
-                Cetak
-            </button>
-            <button class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Export PDF
-            </button>
-            <button class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Email
-            </button>
-        </div>
-
-        <!-- Main Invoice Container -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <!-- Invoice Header -->
-            <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-8">
-                <div class="flex justify-between items-start mb-6">
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <img src="{{ asset('images/bll.png') }}" alt="LogistikPro" class="h-12 w-auto">
-                            <div>
-                                <h2 class="text-2xl font-bold">LogistikPro</h2>
-                                <p class="text-blue-100">Invoice Management System</p>
-                            </div>
+        <div class="grid gap-6 xl:grid-cols-[1.7fr_1fr]">
+            <div class="space-y-6">
+                <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <p class="text-sm text-slate-500">No Invoice</p>
+                            <p class="mt-2 text-2xl font-semibold text-slate-900">{{ $invoice->invoice_number }}</p>
                         </div>
-                        <p class="text-blue-100">Jl. Raya Logistik No. 123</p>
-                        <p class="text-blue-100">Jakarta Selatan, 12310</p>
-                        <p class="text-blue-100">Tel: +62-21-1234567</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-4xl font-bold mb-2">INVOICE</p>
-                        <p class="text-blue-100">INV-2026-0001</p>
-                        <p class="text-blue-100 text-sm mt-2">Issued: 05 May 2026</p>
-                        <p class="text-blue-100 text-sm">Due: 19 May 2026</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-8">
-                <!-- Invoice Details Grid -->
-                <div class="grid grid-cols-2 gap-8 mb-8">
-                    <!-- From Section -->
-                    <div>
-                        <h3 class="text-sm font-semibold text-slate-600 uppercase mb-3">Dari</h3>
-                        <p class="font-semibold text-slate-900">LogistikPro Indonesia</p>
-                        <p class="text-slate-600 text-sm mt-2">PT Logistik Indonesia Raya</p>
-                        <p class="text-slate-600 text-sm">Jl. Raya Logistik No. 123</p>
-                        <p class="text-slate-600 text-sm">Jakarta Selatan, 12310</p>
-                        <p class="text-slate-600 text-sm">Indonesia</p>
-                    </div>
-
-                    <!-- To Section -->
-                    <div>
-                        <h3 class="text-sm font-semibold text-slate-600 uppercase mb-3">Kepada</h3>
-                        <p class="font-semibold text-slate-900">PT Mitra Logistik</p>
-                        <p class="text-slate-600 text-sm mt-2">Attn: Ahmad Santoso</p>
-                        <p class="text-slate-600 text-sm">Jl. Gatot Subroto No. 456</p>
-                        <p class="text-slate-600 text-sm">Jakarta Pusat, 12140</p>
-                        <p class="text-slate-600 text-sm">Indonesia</p>
-                        <p class="text-slate-600 text-sm mt-3">Email: ahmad.santoso@mitralogistik.com</p>
-                        <p class="text-slate-600 text-sm">Phone: +62-21-9876543</p>
+                        <div>
+                            <p class="text-sm text-slate-500">Tanggal Invoice</p>
+                            <p class="mt-2 text-2xl font-semibold text-slate-900">{{ $invoice->invoice_date->format('d M Y') }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-500">No Resi</p>
+                            <p class="mt-2 text-2xl font-semibold text-slate-900">{{ $invoice->receipt_number }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-500">Status Pembayaran</p>
+                            <span class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold {{ $invoice->paymentStatusBadge() }}">{{ $invoice->payment_status }}</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Invoice Info Grid -->
-                <div class="grid grid-cols-4 gap-4 mb-8 bg-slate-50 p-6 rounded-lg">
-                    <div>
-                        <p class="text-xs font-semibold text-slate-600 uppercase mb-1">Nomor Invoice</p>
-                        <p class="text-lg font-bold text-slate-900">INV-2026-0001</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-semibold text-slate-600 uppercase mb-1">Tanggal Invoice</p>
-                        <p class="text-lg font-bold text-slate-900">05 May 2026</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-semibold text-slate-600 uppercase mb-1">Tanggal Jatuh Tempo</p>
-                        <p class="text-lg font-bold text-slate-900">19 May 2026</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-semibold text-slate-600 uppercase mb-1">Status</p>
-                        <p class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">Belum Dibayar</p>
+                <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                            <p class="text-sm text-slate-500">Customer</p>
+                            <p class="mt-2 text-base font-semibold text-slate-900">{{ $invoice->customer_name }}</p>
+                            <p class="mt-3 text-sm text-slate-600">Packing List #{{ $invoice->packing_list_id }}</p>
+                        </div>
+                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                            <p class="text-sm text-slate-500">Transportasi</p>
+                            <p class="mt-2 text-base font-semibold text-slate-900">{{ ucfirst($invoice->transportation_type ?? '-') }}</p>
+                            <p class="mt-3 text-sm text-slate-600">Metode: {{ $invoice->payment_method ?: 'Belum diisi' }}</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Items Table -->
-                <div class="mb-8">
-                    <h3 class="text-sm font-semibold text-slate-900 mb-4 uppercase">Detail Pengiriman</h3>
+                <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Detail Barang</h2>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-100 border-b-2 border-slate-300">
+                        <table class="min-w-full divide-y divide-slate-200 text-sm">
+                            <thead class="bg-slate-50 text-slate-700">
                                 <tr>
-                                    <th class="px-4 py-3 text-left font-semibold text-slate-700">Deskripsi</th>
-                                    <th class="px-4 py-3 text-left font-semibold text-slate-700">No Resi</th>
-                                    <th class="px-4 py-3 text-left font-semibold text-slate-700">Tujuan</th>
-                                    <th class="px-4 py-3 text-center font-semibold text-slate-700">Qty</th>
-                                    <th class="px-4 py-3 text-right font-semibold text-slate-700">Harga Satuan</th>
-                                    <th class="px-4 py-3 text-right font-semibold text-slate-700">Total</th>
+                                    <th class="px-4 py-3 text-left">Nama Barang</th>
+                                    <th class="px-4 py-3 text-center">Qty</th>
+                                    <th class="px-4 py-3 text-center">Packaging</th>
+                                    <th class="px-4 py-3 text-center">Total Packaging</th>
+                                    <th class="px-4 py-3 text-right">Berat</th>
+                                    <th class="px-4 py-3 text-right">Harga Unit</th>
+                                    <th class="px-4 py-3 text-right">Subtotal</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-200">
-                                <tr>
-                                    <td class="px-4 py-3">Pengiriman ke Jakarta</td>
-                                    <td class="px-4 py-3">RES-20260505-00123</td>
-                                    <td class="px-4 py-3">Jakarta</td>
-                                    <td class="px-4 py-3 text-center">1</td>
-                                    <td class="px-4 py-3 text-right">Rp 150,000</td>
-                                    <td class="px-4 py-3 text-right font-semibold">Rp 150,000</td>
-                                </tr>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                @foreach($invoice->packingList->items as $item)
+                                    <tr class="hover:bg-slate-50 transition">
+                                        <td class="px-4 py-4 text-slate-700">{{ $item->item_name }}</td>
+                                        <td class="px-4 py-4 text-center text-slate-700">{{ $item->qty }}</td>
+                                        <td class="px-4 py-4 text-center text-slate-700">{{ $item->packaging_type }}</td>
+                                        <td class="px-4 py-4 text-center text-slate-700">{{ $item->total_packaging }}</td>
+                                        <td class="px-4 py-4 text-right text-slate-700">{{ number_format($item->weight, 2, ',', '.') }}</td>
+                                        <td class="px-4 py-4 text-right text-slate-700">Rp {{ number_format($item->unit_price, 0, ',', '.') }}</td>
+                                        <td class="px-4 py-4 text-right text-slate-900 font-semibold">Rp {{ number_format($item->subtotal_price, 0, ',', '.') }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
 
-                <!-- Summary Section -->
-                <div class="flex justify-end mb-8">
-                    <div class="w-96">
-                        <div class="space-y-2 mb-4 pb-4 border-b-2 border-slate-300">
-                            <div class="flex justify-between text-slate-700">
-                                <span>Subtotal</span>
-                                <span>Rp 150,000</span>
-                            </div>
-                            <div class="flex justify-between text-slate-700">
-                                <span>Diskon (0%)</span>
-                                <span>Rp 0</span>
-                            </div>
-                            <div class="flex justify-between text-slate-700">
-                                <span>Pajak (10%)</span>
-                                <span>Rp 15,000</span>
-                            </div>
-                            <div class="flex justify-between text-slate-700">
-                                <span>Biaya Admin</span>
-                                <span>Rp 0</span>
-                            </div>
+            <aside class="space-y-6">
+                <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Ringkasan Pembayaran</h2>
+                    <div class="space-y-4 text-slate-700">
+                        <div class="flex justify-between gap-4">
+                            <span>Total Qty</span>
+                            <strong>{{ $invoice->total_qty }}</strong>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg border-2 border-blue-500 mb-4">
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-slate-900 text-lg">TOTAL</span>
-                                <span class="font-bold text-blue-600 text-2xl">Rp 165,000</span>
-                            </div>
+                        <div class="flex justify-between gap-4">
+                            <span>Total Berat</span>
+                            <strong>{{ number_format($invoice->total_weight, 2, ',', '.') }} kg</strong>
                         </div>
-                        <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
-                            <p class="text-sm font-semibold text-slate-900">Belum Dibayar</p>
-                            <p class="text-2xl font-bold text-yellow-600">Rp 165,000</p>
+                        <div class="flex justify-between gap-4">
+                            <span>Total Nilai</span>
+                            <strong>Rp {{ number_format($invoice->total_value, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="flex justify-between gap-4">
+                            <span>Tarif / kg</span>
+                            <strong>Rp {{ number_format($invoice->packingList->shipment->price_per_kg ?? 0, 0, ',', '.') }} / kg</strong>
+                        </div>
+                        <div class="flex justify-between gap-4">
+                            <span>Biaya Transport (Tarif × Berat)</span>
+                            <strong>Rp {{ number_format(($invoice->packingList->shipment->price_per_kg ?? 0) * $invoice->total_weight, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="flex justify-between gap-4">
+                            <span>Biaya Tambahan</span>
+                            <strong>Rp {{ number_format($invoice->delivery_fee, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="flex justify-between gap-4">
+                            <span>PPN 1.1%</span>
+                            <strong>Rp {{ number_format($invoice->ppn_amount, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="flex justify-between gap-4">
+                            <span>PPH 2%</span>
+                            <strong>Rp {{ number_format($invoice->pph_amount, 0, ',', '.') }}</strong>
+                        </div>
+                        <div class="flex justify-between gap-4 border-t border-slate-200 pt-4">
+                            <span class="text-slate-700">Grand Total</span>
+                            <strong class="text-emerald-700">Rp {{ number_format($invoice->grand_total, 0, ',', '.') }}</strong>
                         </div>
                     </div>
                 </div>
 
-                <!-- Payment Information -->
-                <div class="bg-slate-50 p-6 rounded-lg mb-8">
-                    <h3 class="text-sm font-semibold text-slate-900 mb-4 uppercase">Informasi Pembayaran</h3>
-                    <div class="grid grid-cols-2 gap-6">
-                        <div>
-                            <p class="text-xs font-semibold text-slate-600 mb-1">METODE PEMBAYARAN</p>
-                            <p class="text-slate-900 font-semibold">Transfer Bank</p>
-                            <p class="text-slate-600 text-sm mt-2">Bank: BCA</p>
-                            <p class="text-slate-600 text-sm">No Rek: 1234567890</p>
-                            <p class="text-slate-600 text-sm">A/N: PT Logistik Indonesia Raya</p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-semibold text-slate-600 mb-1">RIWAYAT PEMBAYARAN</p>
-                            <div class="space-y-2">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="text-slate-900 font-semibold text-sm">Belum ada pembayaran</p>
-                                        <p class="text-slate-600 text-xs">-</p>
-                                    </div>
-                                    <span class="text-red-600 font-semibold">Rp 0</span>
-                                </div>
-                            </div>
-                        </div>
+                <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+                    <h3 class="text-lg font-semibold text-slate-900">Catatan</h3>
+                    <p class="mt-3 text-sm text-slate-600 leading-relaxed">{{ $invoice->notes ?: 'Tidak ada catatan tambahan.' }}</p>
+                </div>
+
+                @if($invoice->proof_of_payment)
+                    <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-4">Bukti Pembayaran</h3>
+                        <a href="{{ asset('storage/' . $invoice->proof_of_payment) }}" target="_blank" class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 transition">Lihat Bukti</a>
                     </div>
-                </div>
-
-                <!-- Notes Section -->
-                <div class="border-t-2 border-slate-300 pt-6">
-                    <h3 class="text-sm font-semibold text-slate-900 mb-3 uppercase">Catatan</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Terima kasih telah menggunakan layanan LogistikPro. Pembayaran diharapkan sesuai dengan tanggal jatuh tempo yang tertera di atas. Untuk pertanyaan mengenai invoice ini, silakan hubungi customer service kami di +62-21-1234567 atau email support@logistikpro.com
-                    </p>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="bg-slate-50 px-8 py-4 border-t border-slate-200 flex justify-between items-center">
-                <p class="text-xs text-slate-600">Generated on {{ date('d M Y H:i:s') }}</p>
-                <p class="text-xs text-slate-600">LogistikPro © 2026 - Confidential</p>
-            </div>
-        </div>
-
-        <!-- Additional Actions -->
-        <div class="mt-8 bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-slate-900 mb-4">Tindakan Lanjutan</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button class="p-4 border-2 border-blue-300 rounded-lg hover:bg-blue-50 transition text-left">
-                    <p class="font-semibold text-slate-900 mb-1">Catat Pembayaran</p>
-                    <p class="text-sm text-slate-600">Catat pembayaran untuk invoice ini</p>
-                </button>
-                <button class="p-4 border-2 border-green-300 rounded-lg hover:bg-green-50 transition text-left">
-                    <p class="font-semibold text-slate-900 mb-1">Kirim Reminder</p>
-                    <p class="text-sm text-slate-600">Kirim pengingat pembayaran ke customer</p>
-                </button>
-                <button class="p-4 border-2 border-red-300 rounded-lg hover:bg-red-50 transition text-left">
-                    <p class="font-semibold text-slate-900 mb-1">Batalkan Invoice</p>
-                    <p class="text-sm text-slate-600">Batalkan atau hapus invoice ini</p>
-                </button>
-            </div>
+                @endif
+            </aside>
         </div>
     </div>
 </div>
-
-<!-- Print Styles -->
-<style media="print">
-    @page {
-        size: A4;
-        margin: 0.5cm;
-    }
-    
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    
-    .min-h-screen {
-        min-height: auto;
-    }
-    
-    .mt-8, .flex.flex-wrap, .flex.items-center.gap-4 {
-        display: none;
-    }
-    
-    .bg-white {
-        box-shadow: none;
-        border: 1px solid #ccc;
-    }
-</style>
 @endsection

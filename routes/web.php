@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\PackingListController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\DeliveryOrderController;
+use App\Http\Controllers\InboundController;
+use App\Http\Controllers\InboundPackageLabelController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,11 +21,13 @@ Route::get('delivery-orders/{deliveryOrder}/print-pdf', [DeliveryOrderController
 
 // Warehouse Routes
 Route::view('warehouse', 'warehouse.index')->name('warehouse.index');
-// Inbound Routes (View routes for now, will be replaced with controller routes later)
-Route::view('warehouse/inbound', 'warehouse.inbound.index')->name('warehouse.inbound.index');
-Route::view('warehouse/inbound/create', 'warehouse.inbound.create')->name('warehouse.inbound.create');
-Route::view('warehouse/inbound/{id}/edit', 'warehouse.inbound.edit')->name('warehouse.inbound.edit');
-Route::view('warehouse/inbound/{id}/delete', 'warehouse.inbound.delete')->name('warehouse.inbound.delete');
+// Inbound Routes
+Route::resource('inbound', InboundController::class);
+
+// Package Label (Inbound)
+Route::get('inbound/{inbound}/package-label', [InboundPackageLabelController::class, 'show'])->name('inbound.package-label.show');
+Route::get('inbound/{inbound}/package-label/preview', [InboundPackageLabelController::class, 'preview'])->name('inbound.package-label.preview');
+Route::get('inbound/{inbound}/package-label/pdf', [InboundPackageLabelController::class, 'pdf'])->name('inbound.package-label.pdf');
 // Outbound Routes (View routes for now, will be replaced with controller routes later)
 Route::view('warehouse/outbound', 'warehouse.outbound.index')->name('warehouse.outbound.index');
 Route::view('warehouse/outbound/create', 'warehouse.outbound.create')->name('warehouse.outbound.create');
@@ -35,7 +38,8 @@ Route::view('warehouse/history', 'warehouse.history')->name('warehouse.history')
 
 // Packing List Routes
 Route::get('packing-list/{packing_list}/print-pdf', [PackingListController::class, 'printPdf'])->name('packing-list.print-pdf');
-Route::resource('packing-list', PackingListController::class);
+Route::resource('packing-list', PackingListController::class)->only(['index', 'show']);
 
 // Invoice Routes
+Route::get('invoices/{invoice}/print-pdf', [InvoiceController::class, 'printPdf'])->name('invoices.print-pdf');
 Route::resource('invoices', InvoiceController::class);

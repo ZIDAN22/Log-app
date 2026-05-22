@@ -44,11 +44,33 @@
                             <p class="text-sm text-slate-500">Pengirim</p>
                             <p class="mt-2 text-base font-semibold text-slate-900">{{ $shipment->sender_name }}</p>
                             <p class="mt-3 text-sm text-slate-600">{{ $shipment->pickup_address }}</p>
+                            <p class="mt-2 text-sm text-slate-500">
+                                {{ collect([
+                                    $shipment->pickup_village,
+                                    $shipment->pickup_district,
+                                    $shipment->pickup_city,
+                                    $shipment->pickup_province
+                                ])->filter()->implode(', ') }}
+                            </p>
+                            @if($shipment->pickup_postal_code)
+                                <p class="mt-2 text-sm text-slate-500">Kode Pos: {{ $shipment->pickup_postal_code }}</p>
+                            @endif
                         </div>
                         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                             <p class="text-sm text-slate-500">Penerima</p>
                             <p class="mt-2 text-base font-semibold text-slate-900">{{ $shipment->receiver_name }}</p>
-                            <p class="mt-3 text-sm text-slate-600">{{ $shipment->destination_city }}</p>
+                            <p class="mt-3 text-sm text-slate-600">{{ $shipment->destination_address }}</p>
+                            <p class="mt-2 text-sm text-slate-500">
+                                {{ collect([
+                                    $shipment->destination_village,
+                                    $shipment->destination_district,
+                                    $shipment->destination_city,
+                                    $shipment->destination_province
+                                ])->filter()->implode(', ') }}
+                            </p>
+                            @if($shipment->destination_postal_code)
+                                <p class="mt-2 text-sm text-slate-500">Kode Pos: {{ $shipment->destination_postal_code }}</p>
+                            @endif
                         </div>
                         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                             <p class="text-sm text-slate-500">Tipe Barang</p>
