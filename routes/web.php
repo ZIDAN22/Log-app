@@ -6,6 +6,9 @@ use App\Http\Controllers\PackingListController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InboundController;
 use App\Http\Controllers\InboundPackageLabelController;
+use App\Http\Controllers\DeliveryOrderController;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\VehicleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +26,12 @@ Route::get('delivery-orders/{deliveryOrder}/print-pdf', [DeliveryOrderController
 Route::view('warehouse', 'warehouse.index')->name('warehouse.index');
 // Inbound Routes
 Route::resource('inbound', InboundController::class);
+
+// Driver Routes
+Route::resource('drivers', DriverController::class);
+
+// Vehicle Routes
+Route::resource('vehicles', VehicleController::class);
 
 // Package Label (Inbound)
 Route::get('inbound/{inbound}/package-label', [InboundPackageLabelController::class, 'show'])->name('inbound.package-label.show');

@@ -48,6 +48,13 @@ class StoreShipmentRequest extends FormRequest
             'total_weight' => 'required|numeric|min:0',
             'price_per_kg' => 'required|numeric|min:0',
             'transportation_type' => 'required|in:darat,laut,udara',
+            'vehicle_id' => 'nullable|exists:vehicles,id',
+            'shipping_day' => 'nullable|string|max:255',
+            'sea_shipping' => 'nullable|string|max:255',
+            'air_shipping' => 'nullable|string|max:255',
+            'land_departure_date' => 'nullable|date',
+            'sea_departure_date' => 'nullable|date',
+            'air_departure_date' => 'nullable|date',
             'pickup_date' => 'required|date|after_or_equal:today',
             'notes' => 'nullable|string|max:1000',
         ];

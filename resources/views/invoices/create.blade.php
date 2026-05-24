@@ -168,6 +168,21 @@
                                 <textarea name="notes" rows="4" class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100">{{ old('notes') }}</textarea>
                             </div>
                             <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-slate-700">Nama Bank</label>
+                                <input name="bank_name" type="text" value="{{ old('bank_name') }}" class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100" />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700">No Rek</label>
+                                <input name="bank_account_number" type="text" value="{{ old('bank_account_number') }}" class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100" />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700">Atas Nama (AN)</label>
+                                <input name="bank_account_name" type="text" value="{{ old('bank_account_name') }}" class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100" />
+                            </div>
+
+                            <div class="md:col-span-2">
                                 <label class="block text-sm font-medium text-slate-700">Upload Bukti Pembayaran</label>
                                 <input name="proof_of_payment" type="file" accept="image/*,.pdf" class="mt-2 w-full text-slate-900" />
                             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreShipmentRequest;
 use App\Http\Requests\UpdateShipmentRequest;
 use App\Models\Shipment;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,7 +49,9 @@ class ShipmentController extends Controller
 
     public function create()
     {
-        return view('pengiriman.create');
+        $vehicles = Vehicle::orderBy('name')->get();
+
+        return view('pengiriman.create', compact('vehicles'));
     }
 
     public function store(StoreShipmentRequest $request)
@@ -70,7 +73,12 @@ class ShipmentController extends Controller
 
     public function edit(Shipment $pengiriman)
     {
-        return view('pengiriman.edit', ['shipment' => $pengiriman]);
+        $vehicles = Vehicle::orderBy('name')->get();
+
+        return view('pengiriman.edit', [
+            'shipment' => $pengiriman,
+            'vehicles' => $vehicles,
+        ]);
     }
 
     public function update(UpdateShipmentRequest $request, Shipment $pengiriman)

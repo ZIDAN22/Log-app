@@ -2,20 +2,23 @@
 
 @section('content')
 <div class="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-6xl mx-auto">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <div>
                 <h1 class="text-3xl font-bold text-slate-900 mb-2">Detail Surat Jalan</h1>
                 <p class="text-slate-600">{{ $deliveryOrder->delivery_order_number }}</p>
             </div>
-            <div class="flex gap-3">
-                <a href="{{ route('delivery-orders.print-pdf', $deliveryOrder) }}" class="inline-flex items-center justify-center rounded-xl bg-red-600 px-6 py-3 text-white shadow-sm transition hover:bg-red-700">
-                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('delivery-orders.print-pdf', $deliveryOrder) }}" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3M6 9h12v8H6V9zm3 7h6" />
                     </svg>
                     Print PDF
                 </a>
-                <a href="{{ route('pengiriman.index') }}" class="inline-flex items-center justify-center rounded-xl bg-slate-600 px-6 py-3 text-white shadow-sm transition hover:bg-slate-700">
+                <a href="{{ route('pengiriman.index') }}" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-100">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
                     Kembali
                 </a>
             </div>

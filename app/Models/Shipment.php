@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Shipment extends Model
 {
@@ -58,6 +60,13 @@ class Shipment extends Model
         'pph',
         'grand_total',
         'transportation_type',
+        'vehicle_id',
+        'shipping_day',
+        'sea_shipping',
+        'air_shipping',
+        'land_departure_date',
+        'sea_departure_date',
+        'air_departure_date',
         'pickup_date',
         'shipment_status',
         'notes',
@@ -72,6 +81,9 @@ class Shipment extends Model
         'pph' => 'decimal:2',
         'grand_total' => 'decimal:2',
         'pickup_date' => 'date',
+        'land_departure_date' => 'date',
+        'sea_departure_date' => 'date',
+        'air_departure_date' => 'date',
     ];
 
     protected static function boot()
@@ -168,6 +180,11 @@ class Shipment extends Model
     public function packingList()
     {
         return $this->hasOne(PackingList::class);
+    }
+
+    public function vehicle(): BelongsTo
+    {
+        return $this->belongsTo(Vehicle::class);
     }
 
     public function inbound()

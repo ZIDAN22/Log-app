@@ -256,6 +256,149 @@
                             @enderror
                         </div>
 
+                        <!-- Shipping Day -->
+                        <div>
+                            <label for="shipping_day" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Hari Pengiriman
+                            </label>
+
+                            <input
+                                id="shipping_day"
+                                name="shipping_day"
+                                value="{{ old('shipping_day') }}"
+                                type="text"
+                                placeholder="Contoh: 3"
+                                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                            />
+
+                            @error('shipping_day')
+                                <p class="mt-2 text-sm text-rose-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
+                        <div id="transport-detail-darat" style="display: none;">
+                            <label for="vehicle_id" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Kendaraan Darat
+                            </label>
+
+                            <select
+                                id="vehicle_id"
+                                name="vehicle_id"
+                                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                            >
+                                <option value="">Pilih kendaraan</option>
+                                @foreach($vehicles as $vehicle)
+                                    <option value="{{ $vehicle->id }}" {{ old('vehicle_id') == $vehicle->id ? 'selected' : '' }}>
+                                        {{ $vehicle->name }} - {{ $vehicle->license_plate }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('vehicle_id')
+                                <p class="mt-2 text-sm text-rose-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+
+                            <label for="land_departure_date" class="mb-2 block text-sm font-semibold text-slate-700 mt-4">
+                                Tgl Berangkat (Darat)
+                            </label>
+
+                            <input
+                                id="land_departure_date"
+                                name="land_departure_date"
+                                value="{{ old('land_departure_date') }}"
+                                type="date"
+                                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                            />
+
+                            @error('land_departure_date')
+                                <p class="mt-2 text-sm text-rose-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
+                        <div id="transport-detail-laut" style="display: none;">
+                            <label for="sea_shipping" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Pelayaran Laut
+                            </label>
+
+                            <input
+                                id="sea_shipping"
+                                name="sea_shipping"
+                                value="{{ old('sea_shipping') }}"
+                                type="text"
+                                placeholder="Contoh: Dharma Kartika 8"
+                                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                            />
+
+                            @error('sea_shipping')
+                                <p class="mt-2 text-sm text-rose-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+
+                            <label for="sea_departure_date" class="mb-2 block text-sm font-semibold text-slate-700 mt-4">
+                                Tgl Berangkat (Laut)
+                            </label>
+
+                            <input
+                                id="sea_departure_date"
+                                name="sea_departure_date"
+                                value="{{ old('sea_departure_date') }}"
+                                type="date"
+                                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                            />
+
+                            @error('sea_departure_date')
+                                <p class="mt-2 text-sm text-rose-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
+                        <div id="transport-detail-udara" style="display: none;">
+                            <label for="air_shipping" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Pengiriman Udara
+                            </label>
+
+                            <input
+                                id="air_shipping"
+                                name="air_shipping"
+                                value="{{ old('air_shipping') }}"
+                                type="text"
+                                placeholder="Contoh: Lion Air Cargo"
+                                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                            />
+
+                            @error('air_shipping')
+                                <p class="mt-2 text-sm text-rose-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+
+                            <label for="air_departure_date" class="mb-2 block text-sm font-semibold text-slate-700 mt-4">
+                                Tgl Berangkat (Udara)
+                            </label>
+
+                            <input
+                                id="air_departure_date"
+                                name="air_departure_date"
+                                value="{{ old('air_departure_date') }}"
+                                type="date"
+                                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                            />
+
+                            @error('air_departure_date')
+                                <p class="mt-2 text-sm text-rose-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
                         <!-- Pickup Date -->
                         <div>
                             <label for="pickup_date" class="mb-2 block text-sm font-semibold text-slate-700">
@@ -338,4 +481,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    function updateTransportDetails() {
+        const type = document.getElementById('transportation_type').value;
+        const sections = {
+            darat: document.getElementById('transport-detail-darat'),
+            laut: document.getElementById('transport-detail-laut'),
+            udara: document.getElementById('transport-detail-udara'),
+        };
+
+        Object.keys(sections).forEach(key => {
+            sections[key].style.display = key === type ? 'block' : 'none';
+        });
+    }
+
+    document.getElementById('transportation_type').addEventListener('change', updateTransportDetails);
+    document.addEventListener('DOMContentLoaded', updateTransportDetails);
+</script>
 @endsection

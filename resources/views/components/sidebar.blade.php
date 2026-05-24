@@ -110,7 +110,7 @@
             <div class="md:inline hidden px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
                 Armada
             </div>
-            <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+            <a href="{{ route('vehicles.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-violet-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -119,7 +119,7 @@
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Kendaraan</span>
             </a>
-            <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+            <a href="{{ route('drivers.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-violet-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

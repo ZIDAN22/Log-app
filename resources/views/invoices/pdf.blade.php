@@ -214,42 +214,24 @@
     <div class="header">
         <table class="header-table">
             <tr>
-                <td width="60%">
-                    <div class="company-name">LogistikPro Indonesia</div>
-
-                    <div class="company-info">
-                        Jl. Raya Logistik No. 123, Jakarta Selatan 12310 <br>
-                        Tel: +62 21 1234567 • support@logistikpro.com
-                    </div>
+                <td width="20%">
+                    <img src="{{ public_path('images/bll.png') }}" alt="Logo" style="max-height: 72px; width: auto;" />
                 </td>
-
-                <td width="40%" class="text-right">
-                    <div class="invoice-title">INVOICE</div>
-
-                    <div style="margin-top:10px;">
-                        <div>{{ $invoice->invoice_number }}</div>
-                        <div style="margin-top:4px;">
-                            Tanggal: {{ $invoice->invoice_date->format('d M Y') }}
-                        </div>
-                        <div style="margin-top:4px;">
-                            No Resi: {{ $invoice->receipt_number }}
+                <td width="80%">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div class="company-name">PT. BERLIAN LINTAS LOGISTIK</div>
+                            <div class="company-info">
+                                Ruko Karang Anyar Permai 55 Blok B 18-19<br>
+                                Jl. Karang Anyar Raya Jakarta Pusat 10750<br>
+                                Email : https://berlianlintaslogistik.com
+                            </div>
                         </div>
 
-                        @php
-                            $badgeClass = 'unpaid';
-
-                            if ($invoice->payment_status === \App\Models\Invoice::STATUS_DP) {
-                                $badgeClass = 'dp';
-                            }
-
-                            if ($invoice->payment_status === \App\Models\Invoice::STATUS_PAID) {
-                                $badgeClass = 'paid';
-                            }
-                        @endphp
-
-                        <span class="status-badge {{ $badgeClass }}">
-                            {{ $invoice->payment_status }}
-                        </span>
+                        <div class="text-right">
+                            <div class="invoice-title">INVOICE</div>
+   
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -273,15 +255,9 @@
         </tr>
 
         <tr>
-            <td class="label">PACKING LIST</td>
+            <td class="label">ALAMAT KIRIM</td>
             <td class="colon">:</td>
-            <td>{{ $invoice->packing_list_id }}</td>
-        </tr>
-
-        <tr>
-            <td class="label">TRANSPORTASI</td>
-            <td class="colon">:</td>
-            <td>{{ ucfirst($invoice->transportation_type ?? '-') }}</td>
+            <td>{{ $invoice->packingList->shipment->destination_address ?? '-' }}</td>
         </tr>
 
         <tr>
@@ -299,9 +275,9 @@
             <th>NAMA BARANG</th>
             <th>QTY</th>
             <th>PACKAGING</th>
-            <th>TOTAL PACK</th>
             <th>BERAT/KG</th>
-            <th>HARGA UNIT</th>
+            <th>NO RESI</th>
+            <th>HARGA /KG</th>
             <th>SUBTOTAL</th>
         </tr>
         </thead>
@@ -313,15 +289,15 @@
                 <td>{{ $item->item_name }}</td>
                 <td class="text-center">{{ $item->qty }}</td>
                 <td class="text-center">{{ $item->packaging_type }}</td>
-                <td class="text-center">{{ $item->total_packaging }}</td>
                 <td class="text-right">
                     {{ number_format($item->weight, 2, ',', '.') }}
                 </td>
+                <td class="text-center">{{ $invoice->receipt_number }}</td>
                 <td class="text-right">
-                    Rp {{ number_format($item->unit_price, 0, ',', '.') }}
+                    Rp {{ number_format($invoice->packingList->shipment->price_per_kg ?? 0, 0, ',', '.') }}
                 </td>
                 <td class="text-right">
-                    Rp {{ number_format($item->subtotal_price, 0, ',', '.') }}
+                    Rp {{ number_format(($invoice->packingList->shipment->price_per_kg ?? 0) * $item->weight, 0, ',', '.') }}
                 </td>
             </tr>
         @endforeach
@@ -330,32 +306,6 @@
 
     {{-- SUMMARY --}}
     <table class="summary">
-        <tr>
-            <td>Total Qty</td>
-            <td class="text-right">{{ $invoice->total_qty }}</td>
-        </tr>
-
-        <tr>
-            <td>Total Berat</td>
-            <td class="text-right">
-                {{ number_format($invoice->total_weight, 2, ',', '.') }} kg
-            </td>
-        </tr>
-
-        <tr>
-            <td>Total Nilai</td>
-            <td class="text-right">
-                Rp {{ number_format($invoice->total_value, 0, ',', '.') }}
-            </td>
-        </tr>
-
-        <tr>
-            <td>Biaya Pengiriman</td>
-            <td class="text-right">
-                Rp {{ number_format($invoice->delivery_fee, 0, ',', '.') }}
-            </td>
-        </tr>
-
         <tr>
             <td>PPN 1.1%</td>
             <td class="text-right">
@@ -394,19 +344,19 @@
             <tr>
                 <td width="70">BANK</td>
                 <td width="10">:</td>
-                <td>BNI</td>
+                <td>{{ $invoice->bank_name ?? '-' }}</td>
             </tr>
 
             <tr>
                 <td>REK</td>
                 <td>:</td>
-                <td>1234567890</td>
+                <td>{{ $invoice->bank_account_number ?? '-' }}</td>
             </tr>
 
             <tr>
                 <td>AN</td>
                 <td>:</td>
-                <td>PT LogistikPro Indonesia</td>
+                <td>{{ $invoice->bank_account_name ?? '-' }}</td>
             </tr>
         </table>
     </div>

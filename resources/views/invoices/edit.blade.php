@@ -10,7 +10,12 @@
                 <h1 class="text-3xl font-bold text-slate-900">Edit Invoice</h1>
                 <p class="text-slate-600">Perbarui informasi pembayaran dan biaya invoice.</p>
             </div>
-            <a href="{{ route('invoices.show', $invoice) }}" class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">Kembali ke Detail</a>
+            <a href="{{ route('invoices.index') }}" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-100">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4.5 w-4.5 text-slate-700" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6"></path>
+                </svg>
+                Kembali
+            </a>
         </div>
 
         @if ($errors->any())
@@ -174,10 +179,11 @@
                         </div>
                     </section>
 
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <a href="{{ route('invoices.show', $invoice) }}" class="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">Batal</a>
-                        <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition">Perbarui Invoice</button>
-                    </div>
+                    @include('components.form-action-buttons', [
+                        'backUrl' => route('invoices.index'),
+                        'backLabel' => 'Batal',
+                        'submitLabel' => 'Perbarui Invoice',
+                    ])
                 </form>
             </div>
 

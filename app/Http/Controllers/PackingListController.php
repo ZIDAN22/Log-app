@@ -49,7 +49,7 @@ class PackingListController extends Controller
 
     public function printPdf(PackingList $packingList)
     {
-        $packingList->load('shipment', 'items');
+        $packingList->load('shipment.vehicle', 'items', 'invoice');
 
         $pdf = Pdf::loadView('packing-list.pdf', compact('packingList'))
             ->setPaper('a4', 'portrait');
