@@ -58,7 +58,7 @@ class ShipmentController extends Controller
     {
         $data = $request->validated();
         $data['shipment_status'] = Shipment::STATUS_PENDING;
-        $data['created_by'] = Auth::id() ?? 1;
+        $data['created_by'] = Auth::id();
 
         Shipment::create($data);
 

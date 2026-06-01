@@ -253,7 +253,9 @@
                             <td class="label">ALAMAT</td>
                             <td class="colon">:</td>
                             <td class="address-box">
-                                {{ $packingList->shipment->destination_address ?? '-' }}
+                                {{ $packingList->shipment->destination_address ?? '-' }}<br>
+                                {{ $packingList->shipment->destination_village ?? '' }}, {{ $packingList->shipment->destination_district ?? '' }}, {{ $packingList->shipment->destination_province ?? '' }}<br>
+                                Kode Pos: {{ $packingList->shipment->destination_postal_code ?? '-' }}
                             </td>
                         </tr>
                         <tr>
@@ -266,12 +268,14 @@
 
                 <td width="45%">
                     <div style="font-weight:bold; margin-bottom:8px;">
-                        Alamat Pengiriman :
-                    </div>
+                            Alamat Pengirim :
+                        </div>
 
-                    <div class="address-box">
-                        {{ $packingList->shipment->destination_address ?? '-' }}
-                    </div>
+                        <div class="address-box">
+                            {{ $packingList->shipment->pickup_address ?? '-' }}<br>
+                            {{ $packingList->shipment->pickup_village ?? '' }}, {{ $packingList->shipment->pickup_district ?? '' }}, {{ $packingList->shipment->pickup_province ?? '' }}<br>
+                            Kode Pos: {{ $packingList->shipment->pickup_postal_code ?? '-' }}
+                        </div>
                 </td>
             </tr>
         </table>

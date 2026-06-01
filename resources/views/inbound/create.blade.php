@@ -268,6 +268,12 @@
     });
 
     updateSummary();
+
+    // Prevent double submit
+    document.querySelector('form').addEventListener('submit', function () {
+        const submitButtons = this.querySelectorAll('button[type="submit"], input[type="submit"]');
+        submitButtons.forEach(btn => btn.disabled = true);
+    });
 </script>
 @endpush
 @endsection

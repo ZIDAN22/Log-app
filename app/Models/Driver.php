@@ -83,4 +83,9 @@ class Driver extends Model
 
         return 'DRV0001';
     }
+
+    public function outbounds()
+    {
+        return $this->hasMany(Outbound::class);
+    }
 }

@@ -60,6 +60,7 @@ class Shipment extends Model
         'pph',
         'grand_total',
         'transportation_type',
+        'driver_id',
         'vehicle_id',
         'shipping_day',
         'sea_shipping',

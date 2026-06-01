@@ -47,4 +47,9 @@ class PackingList extends Model
     {
         return $this->hasOne(Invoice::class);
     }
+
+    public function outbound(): HasOne
+    {
+        return $this->hasOne(Outbound::class);
+    }
 }

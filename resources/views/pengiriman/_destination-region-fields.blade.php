@@ -220,7 +220,15 @@
                 syncPostalCode();
             });
 
-            document.addEventListener('DOMContentLoaded', async function () {
+            function onDocumentReady(callback) {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', callback);
+                } else {
+                    callback();
+                }
+            }
+
+            onDocumentReady(async function () {
                 if (initial.villageCode) {
                     await reloadCascade(initial.villageCode);
                 } else {

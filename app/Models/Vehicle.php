@@ -92,4 +92,9 @@ class Vehicle extends Model
 
         return 'VEH0001';
     }
+
+    public function outbounds()
+    {
+        return $this->hasMany(Outbound::class);
+    }
 }

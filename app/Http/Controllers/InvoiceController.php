@@ -204,7 +204,7 @@ class InvoiceController extends Controller
 
     public function printPdf(Invoice $invoice)
     {
-        $invoice->load('packingList.items');
+        $invoice->load('packingList.items', 'packingList.shipment');
 
         $pdf = Pdf::loadView('invoices.pdf', compact('invoice'))
             ->setPaper('a4', 'portrait');

@@ -8,6 +8,7 @@ use App\Http\Controllers\InboundController;
 use App\Http\Controllers\InboundPackageLabelController;
 use App\Http\Controllers\DeliveryOrderController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\OutboundController;
 use App\Http\Controllers\VehicleController;
 
 Route::get('/', function () {
@@ -37,13 +38,14 @@ Route::resource('vehicles', VehicleController::class);
 Route::get('inbound/{inbound}/package-label', [InboundPackageLabelController::class, 'show'])->name('inbound.package-label.show');
 Route::get('inbound/{inbound}/package-label/preview', [InboundPackageLabelController::class, 'preview'])->name('inbound.package-label.preview');
 Route::get('inbound/{inbound}/package-label/pdf', [InboundPackageLabelController::class, 'pdf'])->name('inbound.package-label.pdf');
-// Outbound Routes (View routes for now, will be replaced with controller routes later)
-Route::view('warehouse/outbound', 'warehouse.outbound.index')->name('warehouse.outbound.index');
-Route::view('warehouse/outbound/create', 'warehouse.outbound.create')->name('warehouse.outbound.create');
-Route::view('warehouse/outbound/{id}/edit', 'warehouse.outbound.edit')->name('warehouse.outbound.edit');
-Route::view('warehouse/outbound/{id}/delete', 'warehouse.outbound.delete')->name('warehouse.outbound.delete');
-Route::view('warehouse/history', 'warehouse.history')->name('warehouse.history');
 
+Route::prefix('warehouse')->name('warehouse.')->group(function () {
+    Route::view('/', 'warehouse.index')->name('index');
+    Route::resource('outbound', OutboundController::class);
+    Route::post('outbound/{outbound}/status', [OutboundController::class, 'updateStatus'])->name('outbound.update-status');
+    Route::get('outbound/{outbound}/print-pdf', [OutboundController::class, 'printPdf'])->name('outbound.print-pdf');
+    Route::view('history', 'warehouse.history')->name('history');
+});
 
 // Packing List Routes
 Route::get('packing-list/{packing_list}/print-pdf', [PackingListController::class, 'printPdf'])->name('packing-list.print-pdf');

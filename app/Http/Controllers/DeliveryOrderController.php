@@ -63,7 +63,7 @@ class DeliveryOrderController extends Controller
             'receiver_name' => $shipment->receiver_name,
             'transportation_type' => $shipment->transportation_type,
             'notes' => $shipment->notes,
-            'created_by' => auth()->id() ?? 1,
+            'created_by' => auth()->id(),
         ]);
 
         return redirect()->route('delivery-orders.show', $deliveryOrder)->with('success', 'Surat jalan berhasil dibuat.');

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Invoice {{ $invoice->invoice_number }}</title>
@@ -57,6 +58,20 @@
 
         .text-right {
             text-align: right;
+        }
+
+        .logo {
+            width: 90px;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .header-right p {
+            margin: 4px 0;
+            font-size: 12px;
+            color: #334155;
         }
 
         .divider {
@@ -206,179 +221,201 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
+    <div class="container">
 
-    {{-- HEADER --}}
-    <div class="header">
-        <table class="header-table">
-            <tr>
-                <td width="20%">
-                    <img src="{{ public_path('images/bll.png') }}" alt="Logo" style="max-height: 72px; width: auto;" />
-                </td>
-                <td width="80%">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div>
-                            <div class="company-name">PT. BERLIAN LINTAS LOGISTIK</div>
-                            <div class="company-info">
-                                Ruko Karang Anyar Permai 55 Blok B 18-19<br>
-                                Jl. Karang Anyar Raya Jakarta Pusat 10750<br>
-                                Email : https://berlianlintaslogistik.com
-                            </div>
+        {{-- HEADER --}}
+        <div class="header">
+            <table class="header-table">
+                <tr>
+                    <td width="12%">
+                        <img src="{{ public_path('images/bll.png') }}" alt="Logo" class="logo">
+                    </td>
+
+                    <td width="58%">
+                        <div class="company-name">
+                            PT. BERLIAN LINTAS LOGISTIK
                         </div>
 
-                        <div class="text-right">
-                            <div class="invoice-title">INVOICE</div>
-   
+                        <div class="company-info">
+                            Ruko Karang Anyar Permai 55 Blok B 18-19 <br>
+                            Jl. Karang Anyar Raya Jakarta Pusat 10750 <br>
+                            Email : https://berlianlintaslogistik.com
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                    </td>
 
-        <div class="divider"></div>
-    </div>
+                    <td width="30%" class="header-right">
+                        <div class="invoice-title">
+                            INVOICE
+                        </div>
 
-    {{-- INFORMASI --}}
-    <table class="info-table">
-        <tr>
-            <td class="label">NO INVOICE</td>
-            <td class="colon">:</td>
-            <td>{{ $invoice->invoice_number }}</td>
-        </tr>
+                        <p>No Resi: {{ $invoice->receipt_number }}</p>
+                        <p>Tanggal: {{ $invoice->invoice_date->format('d F Y') }}</p>
+                    </td>
+                </tr>
+            </table>
 
-        <tr>
-            <td class="label">KEPADA</td>
-            <td class="colon">:</td>
-            <td>{{ $invoice->customer_name }}</td>
-        </tr>
-
-        <tr>
-            <td class="label">ALAMAT KIRIM</td>
-            <td class="colon">:</td>
-            <td>{{ $invoice->packingList->shipment->destination_address ?? '-' }}</td>
-        </tr>
-
-        <tr>
-            <td class="label">TGL INVOICE</td>
-            <td class="colon">:</td>
-            <td>{{ $invoice->invoice_date->format('d M Y') }}</td>
-        </tr>
-    </table>
-
-    {{-- TABLE BARANG --}}
-    <table class="items">
-        <thead>
-        <tr>
-            <th>NO</th>
-            <th>NAMA BARANG</th>
-            <th>QTY</th>
-            <th>PACKAGING</th>
-            <th>BERAT/KG</th>
-            <th>NO RESI</th>
-            <th>HARGA /KG</th>
-            <th>SUBTOTAL</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        @foreach($invoice->packingList->items as $index => $item)
-            <tr>
-                <td class="text-center">{{ $index + 1 }}</td>
-                <td>{{ $item->item_name }}</td>
-                <td class="text-center">{{ $item->qty }}</td>
-                <td class="text-center">{{ $item->packaging_type }}</td>
-                <td class="text-right">
-                    {{ number_format($item->weight, 2, ',', '.') }}
-                </td>
-                <td class="text-center">{{ $invoice->receipt_number }}</td>
-                <td class="text-right">
-                    Rp {{ number_format($invoice->packingList->shipment->price_per_kg ?? 0, 0, ',', '.') }}
-                </td>
-                <td class="text-right">
-                    Rp {{ number_format(($invoice->packingList->shipment->price_per_kg ?? 0) * $item->weight, 0, ',', '.') }}
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-
-    {{-- SUMMARY --}}
-    <table class="summary">
-        <tr>
-            <td>PPN 1.1%</td>
-            <td class="text-right">
-                Rp {{ number_format($invoice->ppn_amount, 0, ',', '.') }}
-            </td>
-        </tr>
-
-        <tr>
-            <td>PPH 2%</td>
-            <td class="text-right">
-                Rp {{ number_format($invoice->pph_amount, 0, ',', '.') }}
-            </td>
-        </tr>
-
-        <tr class="grand-total">
-            <td>GRAND TOTAL</td>
-            <td class="text-right">
-                Rp {{ number_format($invoice->grand_total, 0, ',', '.') }}
-            </td>
-        </tr>
-    </table>
-
-    {{-- TERBILANG --}}
-    <div class="terbilang">
-        <strong>TERBILANG :</strong>
-        {{ $invoice->terbilang ?? '-' }}
-    </div>
-
-    {{-- NOTE --}}
-    <div class="note-box">
-        <div class="note-title">
-            NOTE : PEMBAYARAN MELALUI REKENING
+            <div class="divider"></div>
         </div>
 
-        <table class="note-table">
+        {{-- INFORMASI --}}
+        <table class="info-table">
             <tr>
-                <td width="70">BANK</td>
-                <td width="10">:</td>
-                <td>{{ $invoice->bank_name ?? '-' }}</td>
+                <td class="label">NO INVOICE</td>
+                <td class="colon">:</td>
+                <td>{{ $invoice->invoice_number }}</td>
             </tr>
 
             <tr>
-                <td>REK</td>
-                <td>:</td>
-                <td>{{ $invoice->bank_account_number ?? '-' }}</td>
+                <td class="label">KEPADA</td>
+                <td class="colon">:</td>
+                <td>{{ $invoice->customer_name }}</td>
             </tr>
 
             <tr>
-                <td>AN</td>
-                <td>:</td>
-                <td>{{ $invoice->bank_account_name ?? '-' }}</td>
+                <td class="label">ALAMAT KIRIM</td>
+                <td class="colon">:</td>
+                <td>
+                    {{ $invoice->packingList->shipment->destination_address ?? '-' }}<br>
+                    {{ $invoice->packingList->shipment->destination_village ?? '' }}, {{
+                    $invoice->packingList->shipment->destination_district ?? '' }}, {{
+                    $invoice->packingList->shipment->destination_province ?? '' }}<br>
+                    Kode Pos: {{ $invoice->packingList->shipment->destination_postal_code ?? '-' }}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">TGL INVOICE</td>
+                <td class="colon">:</td>
+                <td>{{ $invoice->invoice_date->format('d M Y') }}</td>
             </tr>
         </table>
+
+        {{-- TABLE BARANG --}}
+        <table class="items">
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th>NAMA BARANG</th>
+                    <th>QTY</th>
+                    <th>PACKAGING</th>
+                    <th>BERAT/KG</th>
+                    <th>NO RESI</th>
+                    <th>HARGA /KG</th>
+                    <th>SUBTOTAL</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach($invoice->packingList->items as $index => $item)
+                <tr>
+                    <td class="text-center">{{ $index + 1 }}</td>
+                    <td>{{ $item->item_name }}</td>
+                    <td class="text-center">{{ $item->qty }}</td>
+                    <td class="text-center">{{ $item->packaging_type }}</td>
+                    <td class="text-right">
+                        {{ number_format($item->weight, 2, ',', '.') }}
+                    </td>
+                    <td class="text-center">{{ $invoice->receipt_number }}</td>
+                    <td class="text-right">
+                        Rp {{ number_format($invoice->packingList->shipment->price_per_kg ?? 0, 0, ',', '.') }}
+                    </td>
+                    <td class="text-right">
+                        Rp {{ number_format(($invoice->packingList->shipment->price_per_kg ?? 0) * $item->weight, 0,
+                        ',', '.') }}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        {{-- SUMMARY --}}
+        <table class="summary">
+            <tr>
+                <td>PPN 1.1%</td>
+                <td class="text-right">
+                    Rp {{ number_format($invoice->ppn_amount, 0, ',', '.') }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>PPH 2%</td>
+                <td class="text-right">
+                    Rp {{ number_format($invoice->pph_amount, 0, ',', '.') }}
+                </td>
+            </tr>
+
+            <tr class="grand-total">
+                <td>GRAND TOTAL</td>
+                <td class="text-right">
+                    Rp {{ number_format($invoice->grand_total, 0, ',', '.') }}
+                </td>
+            </tr>
+        </table>
+
+        {{-- TERBILANG --}}
+        <div class="terbilang">
+            <strong>TERBILANG :</strong>
+            {{ $invoice->terbilang ?? '-' }}
+        </div>
+
+        {{-- NOTE --}}
+        <div class="note-box">
+            <div class="note-title">
+                NOTE : {{ $invoice->payment_method ? strtoupper($invoice->payment_method) : 'PEMBAYARAN MELALUI
+                REKENING' }}
+            </div>
+
+            <table class="note-table">
+                @if($invoice->bank_name || $invoice->bank_account_number || $invoice->bank_account_name)
+                <tr>
+                    <td width="70">BANK</td>
+                    <td width="10">:</td>
+                    <td>{{ $invoice->bank_name ?? '-' }}</td>
+                </tr>
+
+                <tr>
+                    <td>REK</td>
+                    <td>:</td>
+                    <td>{{ $invoice->bank_account_number ?? '-' }}</td>
+                </tr>
+
+                <tr>
+                    <td>AN</td>
+                    <td>:</td>
+                    <td>{{ $invoice->bank_account_name ?? '-' }}</td>
+                </tr>
+                @else
+                <tr>
+                    <td colspan="3">
+                        Silakan hubungi tim kami untuk informasi pembayaran lebih lanjut.
+                    </td>
+                </tr>
+                @endif
+            </table>
+        </div>
+
+        {{-- TTD --}}
+        <table class="signature">
+            <tr>
+                <td>
+                    Mengetahui
+                    <div class="sign-space"></div>
+                    <div class="sign-line">(__________________)</div>
+                </td>
+
+                <td>
+                    Diterima Oleh
+                    <div class="sign-space"></div>
+                    <div class="sign-line">(__________________)</div>
+                </td>
+            </tr>
+        </table>
+
     </div>
 
-    {{-- TTD --}}
-    <table class="signature">
-        <tr>
-            <td>
-                Mengetahui
-                <div class="sign-space"></div>
-                <div class="sign-line">(__________________)</div>
-            </td>
-
-            <td>
-                Diterima Oleh
-                <div class="sign-space"></div>
-                <div class="sign-line">(__________________)</div>
-            </td>
-        </tr>
-    </table>
-
-</div>
-
 </body>
+
 </html>
