@@ -15,44 +15,49 @@
     ];
 @endphp
 
-<div class="rounded-3xl border border-slate-200 bg-white p-6">
-    <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ $title }}</h2>
+<div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <div class="mb-5 border-b border-slate-200 pb-4">
+        <h2 class="text-base font-bold text-slate-950">{{ $title }}</h2>
+        <p class="mt-1 text-sm text-slate-500">
+            {{ $prefix === 'pickup' ? 'Lokasi pengambilan barang.' : 'Lokasi akhir pengiriman barang.' }}
+        </p>
+    </div>
 
-    <div class="grid gap-6 lg:grid-cols-4">
+    <div class="grid gap-5 lg:grid-cols-2">
         <div>
-            <label for="{{ $prefix }}_province_code" class="block text-sm font-medium text-slate-700 mb-2">Provinsi <span class="text-red-500">*</span></label>
-            <select id="{{ $prefix }}_province_code" name="{{ $prefix }}_province_code" required class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100">
+            <label for="{{ $prefix }}_province_code" class="mb-2 block text-sm font-semibold text-slate-700">Provinsi <span class="text-rose-500">*</span></label>
+            <select id="{{ $prefix }}_province_code" name="{{ $prefix }}_province_code" required class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100">
                 <option value="">Pilih provinsi</option>
             </select>
             @error("{$prefix}_province_code")<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
         </div>
         <div>
-            <label for="{{ $prefix }}_city_code" class="block text-sm font-medium text-slate-700 mb-2">Kabupaten / Kota <span class="text-red-500">*</span></label>
-            <select id="{{ $prefix }}_city_code" name="{{ $prefix }}_city_code" required class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" disabled>
+            <label for="{{ $prefix }}_city_code" class="mb-2 block text-sm font-semibold text-slate-700">Kabupaten / Kota <span class="text-rose-500">*</span></label>
+            <select id="{{ $prefix }}_city_code" name="{{ $prefix }}_city_code" required class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" disabled>
                 <option value="">Pilih kabupaten / kota</option>
             </select>
             @error("{$prefix}_city_code")<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
         </div>
         <div>
-            <label for="{{ $prefix }}_district_code" class="block text-sm font-medium text-slate-700 mb-2">Kecamatan <span class="text-red-500">*</span></label>
-            <select id="{{ $prefix }}_district_code" name="{{ $prefix }}_district_code" required class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" disabled>
+            <label for="{{ $prefix }}_district_code" class="mb-2 block text-sm font-semibold text-slate-700">Kecamatan <span class="text-rose-500">*</span></label>
+            <select id="{{ $prefix }}_district_code" name="{{ $prefix }}_district_code" required class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" disabled>
                 <option value="">Pilih kecamatan</option>
             </select>
             @error("{$prefix}_district_code")<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
         </div>
         <div>
-            <label for="{{ $prefix }}_village_code" class="block text-sm font-medium text-slate-700 mb-2">Desa / Kelurahan <span class="text-red-500">*</span></label>
-            <select id="{{ $prefix }}_village_code" name="{{ $prefix }}_village_code" required class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" disabled>
+            <label for="{{ $prefix }}_village_code" class="mb-2 block text-sm font-semibold text-slate-700">Desa / Kelurahan <span class="text-rose-500">*</span></label>
+            <select id="{{ $prefix }}_village_code" name="{{ $prefix }}_village_code" required class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" disabled>
                 <option value="">Pilih desa / kelurahan</option>
             </select>
             @error("{$prefix}_village_code")<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
         </div>
     </div>
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-2">
+    <div class="mt-5 grid gap-5 lg:grid-cols-2">
         <div class="lg:col-span-2">
-            <label for="{{ $prefix }}_address" class="block text-sm font-medium text-slate-700 mb-2">Detail Alamat {{ $prefix === 'pickup' ? 'Pickup' : 'Tujuan' }} <span class="text-red-500">*</span></label>
-            <textarea id="{{ $prefix }}_address" name="{{ $prefix }}_address" rows="3" required class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" placeholder="Masukkan alamat lengkap seperti nama gedung, jalan, nomor rumah, RT / RW">{{ $initialLocation['address'] }}</textarea>
+            <label for="{{ $prefix }}_address" class="mb-2 block text-sm font-semibold text-slate-700">Detail Alamat {{ $prefix === 'pickup' ? 'Pickup' : 'Tujuan' }} <span class="text-rose-500">*</span></label>
+            <textarea id="{{ $prefix }}_address" name="{{ $prefix }}_address" rows="3" required class="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" placeholder="Nama gedung, jalan, nomor rumah, RT / RW">{{ $initialLocation['address'] }}</textarea>
             @error("{$prefix}_address")<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
         </div>
     </div>
@@ -143,12 +148,20 @@
 
             function syncHiddenFields(select, hiddenInput) {
                 const option = select.selectedOptions[0];
-                hiddenInput.value = option ? option.textContent : '';
+                hiddenInput.value = option && select.value ? option.textContent : '';
             }
 
             function syncPostalCode() {
                 const option = villageSelect.selectedOptions[0];
                 hiddenPostalCode.value = option ? option.dataset.postalCode || '' : '';
+            }
+
+            function syncAllHiddenFields() {
+                syncHiddenFields(provinceSelect, hiddenProvince);
+                syncHiddenFields(citySelect, hiddenCity);
+                syncHiddenFields(districtSelect, hiddenDistrict);
+                syncHiddenFields(villageSelect, hiddenVillage);
+                syncPostalCode();
             }
 
             async function reloadCascade(regionCode) {
@@ -219,6 +232,11 @@
                 syncHiddenFields(this, hiddenVillage);
                 syncPostalCode();
             });
+
+            const form = provinceSelect.closest('form');
+            if (form) {
+                form.addEventListener('submit', syncAllHiddenFields);
+            }
 
             function onDocumentReady(callback) {
                 if (document.readyState === 'loading') {

@@ -271,7 +271,13 @@
             <tr>
                 <td class="label">KEPADA</td>
                 <td class="colon">:</td>
-                <td>{{ $invoice->customer_name }}</td>
+                <td>{{ $invoice->packingList->shipment->receiver_name ?? $invoice->customer_name }}</td>
+            </tr>
+
+            <tr>
+                <td class="label">NPWP</td>
+                <td class="colon">:</td>
+                <td>70.597.358.4-754.002</td>
             </tr>
 
             <tr>

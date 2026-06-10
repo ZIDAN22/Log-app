@@ -286,9 +286,9 @@
         <thead>
             <tr>
                 <th width="8%">NO</th>
-                <th>DESCRIPTION</th>
+                <th>DESKRIPSI</th>
                 <th width="12%">QTY</th>
-                <th width="10%">COLI</th>
+                <th width="10%">KEMASAN</th>
                 <th width="18%">HARGA</th>
                 <th width="22%">JUMLAH</th>
             </tr>
@@ -301,13 +301,13 @@
                     <td>{{ $item->item_name }}</td>
                     <td class="text-center">{{ $item->qty }} UNIT</td>
                     <td class="text-center">{{ $item->total_packaging ?? '-' }}</td>
-                    <td class="text-right">{{ number_format($item->unit_price, 2, ',', '.') }}</td>
+                    <td class="text-right">Rp{{ number_format($item->unit_price, 0, ',', '.') }}</td>
                     <td class="text-right">Rp{{ number_format($item->subtotal_price, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
             <tr class="total-row">
                 <td colspan="5" class="text-center">TOTAL</td>
-                <td class="text-right">Rp{{ number_format(optional($packingList->invoice)->grand_total ?? $packingList->total_value, 0, ',', '.') }}</td>
+                <td class="text-right">Rp{{ number_format($item->subtotal_price, 0, ',', '.') }}</td>
             </tr>
         </tbody>
     </table>
@@ -335,7 +335,7 @@
             <tr>
                 <td width="18%">Pengiriman</td>
                 <td width="3%">:</td>
-                <td width="29%">Hari {{ $packingList->shipment->shipping_day ?? '-' }}</td>
+                <td width="29%">{{ $packingList->shipment->shipping_day ?? '-' }} Hari </td>
                 <td width="20%"></td>
                 <td width="3%"></td>
                 <td></td>

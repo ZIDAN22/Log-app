@@ -6,7 +6,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <div>
                 <h1 class="text-3xl font-bold text-slate-900 mb-2">Detail Surat Jalan</h1>
-                <p class="text-slate-600">{{ $deliveryOrder->delivery_order_number }}</p>
+                <p class="text-slate-600">{{ $deliveryOrder->delivery_order_number }}   </p>
             </div>
             <div class="flex flex-wrap gap-3">
                 <a href="{{ route('delivery-orders.print-pdf', $deliveryOrder) }}" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">

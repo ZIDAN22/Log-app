@@ -85,7 +85,7 @@ class InvoiceController extends Controller
         $shipment = $packingList->shipment;
         $invoiceNumber = $shipment->invoice_number ?: Shipment::generateInvoiceNumber();
         $receiptNumber = $shipment->receipt_number ?: Shipment::generateReceiptNumber();
-        $customerName = $shipment->sender_name ?: $shipment->receiver_name ?: 'Pelanggan';
+        $customerName = $shipment->receiver_name ?: $shipment->sender_name ?: 'Pelanggan';
 
         $deliveryFee = $validated['delivery_fee'] ?? 0;
         $transportPricePerKg = $shipment->price_per_kg ?? 0;
@@ -209,6 +209,6 @@ class InvoiceController extends Controller
         $pdf = Pdf::loadView('invoices.pdf', compact('invoice'))
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('invoice-' . $invoice->invoice_number . '.pdf');
+        return $pdf->stream($invoice->receipt_number . '.pdf');
     }
 }

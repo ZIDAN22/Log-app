@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Shipment extends Model
 {
@@ -113,36 +114,61 @@ class Shipment extends Model
 
     public static function generateInvoiceNumber(): string
     {
-        $year = date('Y');
-        $lastShipment = static::where('invoice_number', 'like', "INV-{$year}-%")
-            ->orderBy('id', 'desc')
-            ->first();
+        $date = now();
+        $month = static::romanMonth((int) $date->format('n'));
+        $year = $date->format('y');
+        $suffix = "INV/{$month}/{$year}";
+        $patternSuffix = preg_quote($suffix, '/');
 
-        if ($lastShipment) {
-            $lastNumber = (int) substr($lastShipment->invoice_number, -4);
-            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
-        } else {
-            $newNumber = '0001';
-        }
+        $lastNumber = static::where('invoice_number', 'like', "%/{$suffix}")
+            ->pluck('invoice_number')
+            ->map(function (string $invoiceNumber) use ($patternSuffix) {
+                if (preg_match("/^(\\d+)\\/{$patternSuffix}$/", $invoiceNumber, $matches)) {
+                    return (int) $matches[1];
+                }
 
-        return "INV-{$year}-{$newNumber}";
+                return 0;
+            })
+            ->max() ?? 0;
+
+        do {
+            $lastNumber++;
+            $invoiceNumber = str_pad($lastNumber, 3, '0', STR_PAD_LEFT) . "/{$suffix}";
+        } while (static::where('invoice_number', $invoiceNumber)->exists());
+
+        return $invoiceNumber;
     }
 
     public static function generateReceiptNumber(): string
     {
-        $year = date('Y');
-        $lastShipment = static::where('receipt_number', 'like', "RESI-{$year}-%")
-            ->orderBy('id', 'desc')
-            ->first();
+        return static::generateUniqueNumber('receipt_number');
+    }
 
-        if ($lastShipment) {
-            $lastNumber = (int) substr($lastShipment->receipt_number, -4);
-            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
-        } else {
-            $newNumber = '0001';
-        }
+    protected static function generateUniqueNumber(string $column): string
+    {
+        do {
+            $number = now()->format('YmdHis') . Str::upper(Str::random(4));
+        } while (static::where($column, $number)->exists());
 
-        return "RESI-{$year}-{$newNumber}";
+        return $number;
+    }
+
+    protected static function romanMonth(int $month): string
+    {
+        return [
+            1 => 'I',
+            2 => 'II',
+            3 => 'III',
+            4 => 'IV',
+            5 => 'V',
+            6 => 'VI',
+            7 => 'VII',
+            8 => 'VIII',
+            9 => 'IX',
+            10 => 'X',
+            11 => 'XI',
+            12 => 'XII',
+        ][$month];
     }
 
     public function calculateTotals(): void

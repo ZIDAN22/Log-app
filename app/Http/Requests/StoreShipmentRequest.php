@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Aliziodev\IndonesiaRegions\Models\IndonesiaRegion;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,6 +14,56 @@ class StoreShipmentRequest extends FormRequest
     public function authorize(): bool
     {
         return true; // Adjust based on your authorization logic
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->mergeRegionData('pickup');
+        $this->mergeRegionData('destination');
+    }
+
+    private function mergeRegionData(string $prefix): void
+    {
+        $fields = [
+            'province' => $this->input("{$prefix}_province_code"),
+            'city' => $this->input("{$prefix}_city_code"),
+            'district' => $this->input("{$prefix}_district_code"),
+            'village' => $this->input("{$prefix}_village_code"),
+        ];
+
+        $regions = IndonesiaRegion::query()
+            ->whereIn('code', array_filter($fields))
+            ->get()
+            ->keyBy('code');
+
+        $data = [];
+
+        foreach ($fields as $field => $code) {
+            if (! $code || $this->hasRegionValue("{$prefix}_{$field}")) {
+                continue;
+            }
+
+            $region = $regions->get($code);
+            if ($region) {
+                $data["{$prefix}_{$field}"] = $region->name;
+            }
+        }
+
+        $village = $regions->get($fields['village']);
+        if (! $this->hasRegionValue("{$prefix}_postal_code") && $village?->postal_code) {
+            $data["{$prefix}_postal_code"] = $village->postal_code;
+        }
+
+        if ($data) {
+            $this->merge($data);
+        }
+    }
+
+    private function hasRegionValue(string $field): bool
+    {
+        $value = trim((string) $this->input($field, ''));
+
+        return $value !== '' && ! str_starts_with($value, 'Pilih ');
     }
 
     /**

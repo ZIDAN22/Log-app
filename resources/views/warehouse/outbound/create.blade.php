@@ -25,9 +25,48 @@
             <div class="xl:col-span-4">
                 <div class="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm">
                     <h2 class="mb-4 text-xl font-bold text-slate-900">Pilih Packing List</h2>
-                    <form method="GET" action="{{ route('warehouse.outbound.create') }}">
-                        <label class="mb-2 block text-sm font-semibold text-slate-700">Packing List</label>
-                        <select name="packing_list_id" onchange="this.form.submit()" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
+                    <form method="GET" action="{{ route('warehouse.outbound.create') }}" id="packing-list-form">
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">Cari Packing List</label>
+                        <input
+                            id="packing-list-search"
+                            type="text"
+                            placeholder="Cari PL, No Resi, penerima, tujuan..."
+                            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                        />
+
+                        <div id="packing-list-cards" class="mt-4 grid gap-3 max-h-[420px] overflow-y-auto">
+                            @foreach($packingLists as $packingList)
+                            <button
+                                type="button"
+                                class="packing-list-card w-full rounded-[24px] border border-slate-200 bg-white p-4 text-left transition hover:border-blue-500 hover:bg-slate-50"
+                                data-id="{{ $packingList->id }}"
+                                data-search="{{ strtolower('PL-' . str_pad($packingList->id, 4, '0', STR_PAD_LEFT) . ' ' . $packingList->shipment->receipt_number . ' ' . $packingList->shipment->receiver_name . ' ' . $packingList->shipment->destination_city . ' ' . $packingList->shipment->destination_province) }}"
+                            >
+                                <div class="flex items-center justify-between gap-3">
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-900">PL-{{ str_pad($packingList->id, 4, '0', STR_PAD_LEFT) }}</p>
+                                        <p class="text-xs text-slate-500">No Resi: {{ $packingList->shipment->receipt_number }}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-semibold text-slate-900">{{ $packingList->shipment->receiver_name }}</p>
+                                        <p class="text-xs text-slate-500">{{ $packingList->packing_date->format('d M Y') }}</p>
+                                    </div>
+                                </div>
+                                <div class="mt-3 grid gap-2 sm:grid-cols-2 text-sm text-slate-600">
+                                    <div>
+                                        <p class="font-semibold text-slate-700">Tujuan</p>
+                                        <p>{{ $packingList->shipment->destination_city }}, {{ $packingList->shipment->destination_province }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-slate-700">Total Qty</p>
+                                        <p>{{ $packingList->total_qty }}</p>
+                                    </div>
+                                </div>
+                            </button>
+                            @endforeach
+                        </div>
+
+                        <select name="packing_list_id" id="packing_list_id" class="hidden">
                             <option value="">Pilih packing list</option>
                             @foreach($packingLists as $packingList)
                             <option value="{{ $packingList->id }}" @selected(optional($selectedPackingList)->id === $packingList->id)>
@@ -265,6 +304,44 @@
         const shippingSelect = document.getElementById('shipping-method');
         if (shippingSelect) {
             shippingSelect.addEventListener('change', updateOutboundTransportFields);
+        }
+
+        const packingListSearch = document.getElementById('packing-list-search');
+        const packingListCards = document.querySelectorAll('.packing-list-card');
+        const packingListForm = document.getElementById('packing-list-form');
+        const packingListSelect = document.getElementById('packing_list_id');
+
+        function highlightSelectedCard(selectedId) {
+            packingListCards.forEach(card => {
+                card.classList.remove('border-blue-500', 'bg-sky-50');
+                card.classList.add('border-slate-200', 'bg-white');
+                if (card.dataset.id === selectedId) {
+                    card.classList.add('border-blue-500', 'bg-sky-50');
+                }
+            });
+        }
+
+        packingListCards.forEach(card => {
+            card.addEventListener('click', function () {
+                if (!packingListSelect) return;
+                packingListSelect.value = this.dataset.id;
+                highlightSelectedCard(this.dataset.id);
+                packingListForm.submit();
+            });
+        });
+
+        if (packingListSearch) {
+            packingListSearch.addEventListener('input', function () {
+                const keyword = this.value.toLowerCase();
+                packingListCards.forEach(card => {
+                    const text = card.dataset.search;
+                    card.style.display = text.includes(keyword) ? 'block' : 'none';
+                });
+            });
+        }
+
+        if (packingListSelect && packingListSelect.value) {
+            highlightSelectedCard(packingListSelect.value);
         }
     });
 </script>
