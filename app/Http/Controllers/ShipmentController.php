@@ -38,13 +38,19 @@ class ShipmentController extends Controller
             $query->whereDate('pickup_date', '<=', $to);
         }
 
-        $shipments = $query->with('deliveryOrder')
+        // Eager-load relasi deliveryManagement agar status bisa ditampilkan (ready_to_ship → in_transit → delivered/completed)
+        $shipments = $query->with(['deliveryOrder', 'deliveryManagement'])
             ->orderBy('pickup_date', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
 
         return view('pengiriman.index', compact('shipments'));
+    }
+
+    public function management()
+    {
+        return view('pengiriman.manage');
     }
 
     public function create()

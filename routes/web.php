@@ -7,6 +7,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InboundController;
 use App\Http\Controllers\InboundPackageLabelController;
 use App\Http\Controllers\DeliveryOrderController;
+use App\Http\Controllers\DeliveryManagementController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\OutboundController;
 use App\Http\Controllers\VehicleController;
@@ -16,12 +17,20 @@ Route::get('/', function () {
 })->name('dashboard');
 
 // Pengiriman Routes
+Route::get('pengiriman/manage', [ShipmentController::class, 'management'])->name('pengiriman.management');
 Route::resource('pengiriman', ShipmentController::class);
 
 // Delivery Orders Routes
 Route::resource('delivery-orders', DeliveryOrderController::class);
 Route::post('pengiriman/{shipment}/generate-delivery-order', [DeliveryOrderController::class, 'generate'])->name('delivery-orders.generate');
 Route::get('delivery-orders/{deliveryOrder}/print-pdf', [DeliveryOrderController::class, 'printPdf'])->name('delivery-orders.print-pdf');
+
+// Delivery Management Routes
+Route::resource('delivery-management', DeliveryManagementController::class);
+Route::post('delivery-management/{deliveryManagement}/status', [DeliveryManagementController::class, 'updateStatus'])->name('delivery-management.update-status');
+Route::post('delivery-management/{deliveryManagement}/upload-pod', [DeliveryManagementController::class, 'uploadPOD'])->name('delivery-management.upload-pod');
+Route::get('delivery-management/{deliveryManagement}/print-surat-jalan', [DeliveryManagementController::class, 'printSuratJalan'])->name('delivery-management.print-surat-jalan');
+Route::get('delivery-management/{deliveryManagement}/print-pod', [DeliveryManagementController::class, 'printPOD'])->name('delivery-management.print-pod');
 
 // Warehouse Routes
 Route::view('warehouse', 'warehouse.index')->name('warehouse.index');

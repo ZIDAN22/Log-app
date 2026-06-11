@@ -152,10 +152,10 @@
                     <h2 class="text-xl font-semibold text-slate-900 mb-5">Timeline Status</h2>
                     @php
                         $statusSteps = [
-                            ['label' => 'Pending Pickup', 'statusKey' => 'Pending Pickup'],
-                            ['label' => 'Pickup Process', 'statusKey' => 'Diproses'],
+                            ['label' => 'Menunggu Pickup', 'statusKey' => 'Menunggu Pickup'],
+                            ['label' => 'Proses Picukup', 'statusKey' => 'Proses Pickup'],
                             ['label' => 'Barang Diterima Gudang', 'statusKey' => 'Barang Diterima Gudang'],
-                            ['label' => 'Packing Completed', 'statusKey' => 'Packing Completed'],
+                            ['label' => 'Pengemasan Selesai', 'statusKey' => 'Pengemasan Selesai'],
                             ['label' => 'Dikirim', 'statusKey' => 'Dikirim'],
                             ['label' => 'Dalam Perjalanan', 'statusKey' => 'Dalam Perjalanan'],
                             ['label' => 'Sampai', 'statusKey' => 'Sampai'],

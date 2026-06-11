@@ -12,9 +12,9 @@ class Outbound extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public const STATUS_READY_TO_SHIP = 'Ready to Ship';
-    public const STATUS_IN_TRANSIT = 'In Transit';
-    public const STATUS_DELIVERED = 'Delivered';
+    public const STATUS_READY_TO_SHIP = 'Siap Dikirim';
+    public const STATUS_IN_TRANSIT = 'Dalam Perjalanan';
+    public const STATUS_DELIVERED = 'Sampai';
 
     public const SHIPPING_METHOD_LAND = 'Darat';
     public const SHIPPING_METHOD_SEA = 'Laut';
@@ -82,5 +82,10 @@ class Outbound extends Model
         $styles = self::statusStyles();
 
         return $styles[$this->status]['bg'] . ' ' . $styles[$this->status]['text'];
+    }
+
+    public function deliveryManagement()
+    {
+        return $this->hasOne(DeliveryManagement::class);
     }
 }

@@ -39,4 +39,11 @@ class Inbound extends Model
     {
         return $this->hasMany(InboundItem::class);
     }
+
+    protected static function booted()
+    {
+        static::deleted(function (Inbound $inbound) {
+            $inbound->shipment?->deliveryManagement?->delete();
+        });
+    }
 }

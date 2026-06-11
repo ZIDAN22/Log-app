@@ -95,9 +95,7 @@ class InboundController extends Controller
 
             $inbound->items()->createMany($items->toArray());
 
-            // Update shipment status
-            $shipment->shipment_status = Shipment::STATUS_INBOUND_COMPLETED;
-            $shipment->save();
+        
 
             // Auto create packing list from inbound items
             $totalValue = $items->sum('subtotal_price');
@@ -116,7 +114,7 @@ class InboundController extends Controller
             $packingList->items()->createMany($items->toArray());
 
             // Update shipment status to packing completed
-            $shipment->shipment_status = Shipment::STATUS_PACKING_COMPLETED;
+            $shipment->shipment_status = Shipment::STATUS_PENGEMASAN_SELESAI;
             $shipment->save();
         });
 
@@ -196,6 +194,10 @@ class InboundController extends Controller
 
     public function destroy(Inbound $inbound)
     {
+        if ($delivery = $inbound->shipment?->deliveryManagement) {
+            $delivery->delete();
+        }
+
         $inbound->delete();
 
         return redirect()->route('inbound.index')

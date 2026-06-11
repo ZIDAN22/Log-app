@@ -97,4 +97,9 @@ class Vehicle extends Model
     {
         return $this->hasMany(Outbound::class);
     }
+
+    public function deliveryManagements()
+    {
+        return $this->hasMany(DeliveryManagement::class);
+    }
 }

@@ -56,19 +56,19 @@
         <!-- Stats (tetap ada) -->
         <div class="grid gap-5 lg:grid-cols-4 mb-6">
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">Total Outbound</p>
+                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">Total Barang Keluar</p>
                 <p class="mt-4 text-3xl font-semibold text-slate-900">{{ $stats['total'] }}</p>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">Ready to Ship</p>
+                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">Siap Dikirim</p>
                 <p class="mt-4 text-3xl font-semibold text-slate-900">{{ $stats['ready'] }}</p>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">In Transit</p>
+                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">dalam perjalanan</p>
                 <p class="mt-4 text-3xl font-semibold text-slate-900">{{ $stats['inTransit'] }}</p>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">Delivered</p>
+                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">sampai</p>
                 <p class="mt-4 text-3xl font-semibold text-slate-900">{{ $stats['delivered'] }}</p>
             </div>
         </div>
@@ -80,7 +80,7 @@
             <div
                 class="mb-5 flex flex-col gap-3 border-b border-slate-200 pb-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <h2 class="text-base font-bold text-slate-950">Filter Outbound</h2>
+                    <h2 class="text-base font-bold text-slate-950">Filter Barang Keluar</h2>
                     <p class="mt-1 text-sm text-slate-500">Cari dan saring outbound berdasarkan status, metode, atau
                         nomor resi.</p>
                 </div>
@@ -214,26 +214,8 @@
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
                                     </a>
-                                    <a href="{{ route('warehouse.outbound.print-pdf', $outbound) }}" target="_blank"
-                                        class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-50 text-cyan-700 transition hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-100"
-                                        title="Cetak Surat Jalan">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                            aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2m-8 0h8v4H10v-4z" />
-                                        </svg>
-                                    </a>
-                                    <form action="{{ route('warehouse.outbound.update-status', $outbound) }}"
-                                        method="POST" class="inline-flex">
-                                        @csrf
-                                        <input type="hidden" name="status"
-                                            value="{{ $outbound->status === App\Models\Outbound::STATUS_READY_TO_SHIP ? App\Models\Outbound::STATUS_IN_TRANSIT : App\Models\Outbound::STATUS_DELIVERED }}">
-                                        <button type="submit"
-                                            class="inline-flex h-10 items-center justify-center rounded-xl bg-cyan-100 px-4 text-sm font-semibold text-cyan-700 transition hover:bg-cyan-200"
-                                            title="Update Status">
-                                            Update
-                                        </button>
-                                    </form>
+
+
                                     <button type="button"
                                         class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-rose-100 text-rose-700 transition hover:bg-rose-200"
                                         title="Hapus Outbound" aria-label="Hapus Outbound" data-open-delete-modal

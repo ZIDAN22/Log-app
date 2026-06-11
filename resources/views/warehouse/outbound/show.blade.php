@@ -11,9 +11,7 @@
                 <p class="mt-2 text-slate-600">Lihat informasi shipment, packing list, dan status pengiriman.</p>
             </div>
             <div class="flex flex-wrap items-center gap-3">
-                <a href="{{ route('warehouse.outbound.index') }}" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Kembali ke Outbound</a>
-                <a href="{{ route('warehouse.outbound.print-pdf', $outbound) }}" target="_blank" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Cetak Surat Jalan</a>
-                <a href="{{ route('warehouse.outbound.edit', $outbound) }}" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-amber-100 px-5 py-3 text-sm font-semibold text-amber-700 transition hover:bg-amber-200">Edit Outbound</a>
+                <a href="{{ route('warehouse.outbound.index') }}" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Kembali</a>
             </div>
         </div>
 
@@ -126,21 +124,7 @@
             </div>
         </div>
 
-        <div class="mt-6 rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-4 text-xl font-bold text-slate-900">Update Status</h2>
-            <form method="POST" action="{{ route('warehouse.outbound.update-status', $outbound) }}" class="space-y-5">
-                @csrf
-                <div>
-                    <label class="mb-2 block text-sm font-semibold text-slate-700">Pilih Status Baru</label>
-                    <select name="status" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
-                        @foreach(App\Models\Outbound::statuses() as $status)
-                        <option value="{{ $status }}" @selected($outbound->status === $status)>{{ $status }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">Perbarui Status</button>
-            </form>
-        </div>
+      
     </div>
 </div>
 @endsection

@@ -9,7 +9,6 @@ use App\Models\PackingList;
 use App\Models\Outbound;
 use App\Models\Shipment;
 use App\Models\Vehicle;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -126,7 +125,11 @@ class OutboundController extends Controller
             }
         }
 
-        Outbound::create($data);
+        $outbound = Outbound::create($data);
+
+        if ($packingList && $packingList->shipment) {
+            $packingList->shipment->update(['shipment_status' => Shipment::STATUS_SENT]);
+        }
 
         return redirect()->route('warehouse.outbound.index')
             ->with('success', 'Outbound berhasil dibuat. Surat jalan sudah tersedia.');
@@ -171,40 +174,21 @@ class OutboundController extends Controller
 
     public function destroy(Outbound $outbound)
     {
-        $outbound->delete();
+        // Saat outbound dihapus, delivery management yang terkait juga harus terhapus.
+        // delivery_managements.outbound_id memakai onDelete('set null'), jadi kita hapus manual agar data delivery management ikut hilang.
+        // Hapus relasi terkait agar benar-benar bersih (termasuk SoftDeletes).
+        // 1) Hapus delivery management (force delete karena user ingin hilang total dari database)
+        $outbound->deliveryManagement()->forceDelete();
+
+
+        // 2) Hapus outbound sendiri (force delete karena user ingin benar-benar hilang)
+        $outbound->forceDelete();
+
 
         return redirect()->route('warehouse.outbound.index')
             ->with('success', 'Outbound berhasil dihapus.');
     }
 
-    public function updateStatus(Request $request, Outbound $outbound)
-    {
-        $request->validate([
-            'status' => 'required|in:' . implode(',', Outbound::statuses()),
-        ]);
 
-        $outbound->update(['status' => $request->input('status')]);
 
-        if ($outbound->packingList && $outbound->packingList->shipment) {
-            if ($outbound->status === Outbound::STATUS_IN_TRANSIT) {
-                $outbound->packingList->shipment->update(['shipment_status' => Shipment::STATUS_IN_TRANSIT]);
-            }
-
-            if ($outbound->status === Outbound::STATUS_DELIVERED) {
-                $outbound->packingList->shipment->update(['shipment_status' => Shipment::STATUS_DELIVERED]);
-            }
-        }
-
-        return redirect()->back()->with('success', 'Status outbound berhasil diperbarui.');
-    }
-
-    public function printPdf(Outbound $outbound)
-    {
-        $outbound->load(['packingList.shipment', 'packingList.items', 'driver', 'vehicle']);
-
-        $pdf = Pdf::loadView('warehouse.outbound.pdf', compact('outbound'))
-            ->setPaper('a4', 'portrait');
-
-        return $pdf->stream('surat-jalan-outbound-' . $outbound->id . '.pdf');
-    }
 }

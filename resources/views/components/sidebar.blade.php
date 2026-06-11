@@ -33,19 +33,20 @@
             <a href="{{ route('pengiriman.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-emerald-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h5l2 5h6l2-5h5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7v12h14V7" />
                     </svg>
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Daftar Pengiriman</span>
             </a>
-
-            <a href="{{ route('packing-list.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
-                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-emerald-400">
+            <a href="{{ route('delivery-management.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-sky-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6v12" />
                     </svg>
                 </span>
-                <span class="sidebar-label hidden md:inline font-medium text-sm">Packing List</span>
+                <span class="sidebar-label hidden md:inline font-medium text-sm">Manajemen Pengiriman</span>
             </a>
             <a href="#" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-emerald-400">
@@ -86,6 +87,14 @@
                     </svg>
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Barang Masuk</span>
+            </a>
+            <a href="{{ route('packing-list.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-amber-400">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 16V8a2 2 0 00-2-2h-3.5a2 2 0 00-1.789 1.106l-1.105 2.211a2 2 0 01-1.789 1.106H9.5a2 2 0 00-1.789 1.106L6.606 13.11A2 2 0 015 14.216V18a2 2 0 002 2h12a2 2 0 002-2v-2z" />
+                    </svg>
+                </span>
+                <span class="sidebar-label hidden md:inline font-medium text-sm">Packing List</span>
             </a>
             <a href="{{ route('warehouse.outbound.index') }}" class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-orange-400">

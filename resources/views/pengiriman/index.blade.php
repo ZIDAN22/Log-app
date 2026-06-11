@@ -214,8 +214,15 @@
                                 <td class="px-5 py-4 text-sm font-bold text-slate-950">{{ $formatRp($shipment->grand_total) }}</td>
 
                                 <td class="px-5 py-4">
+                                    @php
+                                        $deliveryStatus = optional($shipment->deliveryManagement)->delivery_status;
+                                        $displayStatus = $deliveryStatus ?? $shipment->shipment_status;
+                                        $statusStyles = \App\Models\Shipment::statusStyles();
+                                        $style = $statusStyles[$displayStatus] ?? $style;
+                                    @endphp
+
                                     <span class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold {{ $style['bg'] }} {{ $style['text'] }}">
-                                        {{ $shipment->shipment_status }}
+                                        {{ $displayStatus }}
                                     </span>
                                 </td>
 
