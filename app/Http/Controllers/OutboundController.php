@@ -90,45 +90,20 @@ class OutboundController extends Controller
         $data['created_by'] = Auth::id();
         $data['status'] = Outbound::STATUS_READY_TO_SHIP;
 
-        // If packing list has a shipment, apply shipment transport updates from the form
         $packingList = PackingList::with('shipment')->find($data['packing_list_id'] ?? null);
-
-        $shipmentInput = $request->input('shipment', []);
-        if ($request->has('driver_id')) {
-            $shipmentInput['driver_id'] = $request->input('driver_id');
-        }
-        if ($request->has('vehicle_id')) {
-            $shipmentInput['vehicle_id'] = $request->input('vehicle_id');
-        }
-
-        if ($packingList && $packingList->shipment && is_array($shipmentInput) && count($shipmentInput)) {
-            $allowed = [
-                'transportation_type', 'driver_id', 'vehicle_id', 'shipping_day', 'sea_shipping', 'air_shipping',
-                'land_departure_date', 'sea_departure_date', 'air_departure_date',
-            ];
-
-            $toUpdate = [];
-            foreach ($allowed as $key) {
-                if (array_key_exists($key, $shipmentInput)) {
-                    $toUpdate[$key] = $shipmentInput[$key];
-                }
-            }
-
-            // If outbound method is sea/air we ensure shipment driver/vehicle are nullified
-            if (in_array($data['shipping_method'], [Outbound::SHIPPING_METHOD_SEA, Outbound::SHIPPING_METHOD_AIR], true)) {
-                $toUpdate['driver_id'] = null;
-                $toUpdate['vehicle_id'] = null;
-            }
-
-            if (count($toUpdate)) {
-                $packingList->shipment->update($toUpdate);
-            }
-        }
 
         $outbound = Outbound::create($data);
 
+        // Update shipment dengan data transportasi jika ada
         if ($packingList && $packingList->shipment) {
-            $packingList->shipment->update(['shipment_status' => Shipment::STATUS_SENT]);
+            $shipmentData = ['shipment_status' => Shipment::STATUS_SENT];
+            
+            // Update transportation data dari request
+            if (isset($data['shipment'])) {
+                $shipmentData = array_merge($shipmentData, $data['shipment']);
+            }
+            
+            $packingList->shipment->update($shipmentData);
         }
 
         return redirect()->route('warehouse.outbound.index')
@@ -167,6 +142,32 @@ class OutboundController extends Controller
         }
 
         $outbound->update($data);
+
+        // Update shipment dengan data transportasi yang baru
+        if ($outbound->packingList && $outbound->packingList->shipment) {
+            $shipmentData = [];
+            
+            // Update transportation fields dari request
+            if ($request->filled('sea_shipping')) {
+                $shipmentData['sea_shipping'] = $data['sea_shipping'];
+            }
+            if ($request->filled('sea_departure_date')) {
+                $shipmentData['sea_departure_date'] = $data['sea_departure_date'];
+            }
+            if ($request->filled('air_shipping')) {
+                $shipmentData['air_shipping'] = $data['air_shipping'];
+            }
+            if ($request->filled('air_departure_date')) {
+                $shipmentData['air_departure_date'] = $data['air_departure_date'];
+            }
+            if ($request->filled('land_departure_date')) {
+                $shipmentData['land_departure_date'] = $data['land_departure_date'];
+            }
+
+            if (!empty($shipmentData)) {
+                $outbound->packingList->shipment->update($shipmentData);
+            }
+        }
 
         return redirect()->route('warehouse.outbound.show', $outbound)
             ->with('success', 'Outbound berhasil diperbarui.');

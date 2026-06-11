@@ -214,16 +214,29 @@
                                 <td class="px-5 py-4 text-sm font-bold text-slate-950">{{ $formatRp($shipment->grand_total) }}</td>
 
                                 <td class="px-5 py-4">
-                                    @php
-                                        $deliveryStatus = optional($shipment->deliveryManagement)->delivery_status;
-                                        $displayStatus = $deliveryStatus ?? $shipment->shipment_status;
-                                        $statusStyles = \App\Models\Shipment::statusStyles();
-                                        $style = $statusStyles[$displayStatus] ?? $style;
-                                    @endphp
+                                    @if($shipment->deliveryManagement)
+                                        @php
+                                            $deliveryStatus = $shipment->deliveryManagement->delivery_status;
+                                            $statusLabel = $shipment->deliveryManagement->statusLabel();
+                                            $deliveryStyles = [
+                                                'ready_to_ship' => ['bg' => 'bg-violet-100', 'text' => 'text-violet-800'],
+                                                'picked_up' => ['bg' => 'bg-amber-100', 'text' => 'text-amber-800'],
+                                                'in_transit' => ['bg' => 'bg-cyan-100', 'text' => 'text-cyan-800'],
+                                                'arrived_destination' => ['bg' => 'bg-sky-100', 'text' => 'text-sky-800'],
+                                                'delivered' => ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-800'],
+                                                'completed' => ['bg' => 'bg-slate-100', 'text' => 'text-slate-700'],
+                                            ];
+                                            $style = $deliveryStyles[$deliveryStatus] ?? ['bg' => 'bg-slate-100', 'text' => 'text-slate-800'];
+                                        @endphp
 
-                                    <span class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold {{ $style['bg'] }} {{ $style['text'] }}">
-                                        {{ $displayStatus }}
-                                    </span>
+                                        <span class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold {{ $style['bg'] }} {{ $style['text'] }}">
+                                            {{ $statusLabel }}
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold {{ $style['bg'] }} {{ $style['text'] }}">
+                                            {{ $shipment->shipment_status }}
+                                        </span>
+                                    @endif
                                 </td>
 
                                 <td class="px-5 py-4">

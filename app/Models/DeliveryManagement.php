@@ -36,7 +36,6 @@ class DeliveryManagement extends Model
     ];
 
     const STATUS_READY_TO_SHIP = 'ready_to_ship';
-    const STATUS_PICKED_UP = 'picked_up';
     const STATUS_IN_TRANSIT = 'in_transit';
     const STATUS_ARRIVED_DESTINATION = 'arrived_destination';
     const STATUS_DELIVERED = 'delivered';
@@ -44,7 +43,6 @@ class DeliveryManagement extends Model
 
     const STATUSES = [
         self::STATUS_READY_TO_SHIP => 'Siap Dikirim',
-        self::STATUS_PICKED_UP => 'Picked Up',
         self::STATUS_IN_TRANSIT => 'Dalam Perjalanan',
         self::STATUS_DELIVERED => 'Sampai',
         self::STATUS_COMPLETED => 'Selesai',
@@ -122,7 +120,6 @@ class DeliveryManagement extends Model
     {
         return match ($this->delivery_status) {
             self::STATUS_READY_TO_SHIP => 'inline-flex rounded-full bg-violet-50 px-2.5 py-1 text-xs font-semibold text-violet-700',
-            self::STATUS_PICKED_UP => 'inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700',
             self::STATUS_IN_TRANSIT => 'inline-flex rounded-full bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-700',
             self::STATUS_ARRIVED_DESTINATION => 'inline-flex rounded-full bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700',
             self::STATUS_DELIVERED => 'inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700',

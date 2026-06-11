@@ -15,7 +15,6 @@ class UpdateOutboundRequest extends FormRequest
     public function rules()
     {
         $methods = implode(',', array_map(fn($value) => addslashes($value), Outbound::shippingMethods()));
-        $statuses = implode(',', array_map(fn($value) => addslashes($value), Outbound::statuses()));
 
         $rules = [
             'shipping_method' => "required|in:{$methods}",
@@ -23,7 +22,11 @@ class UpdateOutboundRequest extends FormRequest
             'vehicle_id' => 'nullable|exists:vehicles,id',
             'outbound_date' => 'required|date',
             'delivery_notes' => 'nullable|string|max:1000',
-            'status' => "required|in:{$statuses}",
+            'sea_shipping' => 'nullable|string|max:255',
+            'sea_departure_date' => 'nullable|date',
+            'air_shipping' => 'nullable|string|max:255',
+            'air_departure_date' => 'nullable|date',
+            'land_departure_date' => 'nullable|date',
         ];
 
         if ($this->input('shipping_method') === Outbound::SHIPPING_METHOD_LAND) {

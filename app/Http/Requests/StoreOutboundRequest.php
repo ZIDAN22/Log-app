@@ -15,7 +15,6 @@ class StoreOutboundRequest extends FormRequest
     public function rules()
     {
         $methods = implode(',', array_map(fn($value) => addslashes($value), Outbound::shippingMethods()));
-        $statuses = implode(',', array_map(fn($value) => addslashes($value), Outbound::statuses()));
 
         $rules = [
             'packing_list_id' => 'required|exists:packing_lists,id',
@@ -24,7 +23,12 @@ class StoreOutboundRequest extends FormRequest
             'vehicle_id' => 'nullable|exists:vehicles,id',
             'outbound_date' => 'required|date',
             'delivery_notes' => 'nullable|string|max:1000',
-            'status' => "required|in:{$statuses}",
+            'shipment.sea_shipping' => 'nullable|string|max:255',
+            'shipment.sea_departure_date' => 'nullable|date',
+            'shipment.air_shipping' => 'nullable|string|max:255',
+            'shipment.air_departure_date' => 'nullable|date',
+            'shipment.land_departure_date' => 'nullable|date',
+            'shipment.transportation_type' => 'nullable|string',
         ];
 
         if ($this->input('shipping_method') === Outbound::SHIPPING_METHOD_LAND) {
@@ -35,3 +39,4 @@ class StoreOutboundRequest extends FormRequest
         return $rules;
     }
 }
+

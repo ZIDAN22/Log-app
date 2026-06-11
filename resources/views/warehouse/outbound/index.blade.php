@@ -158,10 +158,9 @@
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">No Resi</th>
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Customer</th>
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Tujuan</th>
-                            <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Metode</th>
-                            <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Driver</th>
-                            <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Kendaraan</th>
+                            <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Transportasi</th>
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Total Package</th>
+
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Total Berat</th>
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Status</th>
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Tanggal Outbound
@@ -179,11 +178,46 @@
                             <td class="px-5 py-4 text-sm text-slate-700">{{
                                 $outbound->packingList->shipment->destination_city }}, {{
                                 $outbound->packingList->shipment->destination_province }}</td>
-                            <td class="px-5 py-4 text-sm text-slate-700">{{ $outbound->shipping_method }}</td>
-                            <td class="px-5 py-4 text-sm text-slate-700">{{ $outbound->driver?->name ?? '-' }}</td>
-                            <td class="px-5 py-4 text-sm text-slate-700">{{ $outbound->vehicle?->name ?? '-' }}</td>
+                            <td class="px-5 py-4 text-sm text-slate-700">
+                                @php
+                                    $method = $outbound->shipping_method;
+                                @endphp
+
+                                @if($method === App\Models\Outbound::SHIPPING_METHOD_LAND)
+                                    <div class="font-medium text-slate-900">
+                                        {{ $method }}
+                                    </div>
+                                    <div class="mt-1 text-xs text-slate-500">
+                                        {{ $outbound->driver?->name ?? '-' }} · {{ $outbound->vehicle?->license_plate ?? $outbound->vehicle?->name ?? '-' }}
+                                    </div>
+                                @elseif($method === App\Models\Outbound::SHIPPING_METHOD_SEA)
+                                    <div class="font-medium text-slate-900">
+                                        {{ $method }}
+                                    </div>
+                                    <div class="mt-1 text-xs text-slate-500">
+                                        {{ $outbound->packingList?->shipment?->sea_shipping ?? '-' }}
+                                        @if(!empty($outbound->packingList?->shipment?->sea_departure_date))
+                                            · {{ optional($outbound->packingList?->shipment?->sea_departure_date)->format('d M Y') }}
+                                        @endif
+                                    </div>
+                                @elseif($method === App\Models\Outbound::SHIPPING_METHOD_AIR)
+                                    <div class="font-medium text-slate-900">
+                                        {{ $method }}
+                                    </div>
+                                    <div class="mt-1 text-xs text-slate-500">
+                                        {{ $outbound->packingList?->shipment?->air_shipping ?? '-' }}
+                                        @if(!empty($outbound->packingList?->shipment?->air_departure_date))
+                                            · {{ optional($outbound->packingList?->shipment?->air_departure_date)->format('d M Y') }}
+                                        @endif
+                                    </div>
+                                @else
+                                    -
+                                @endif
+                            </td>
+
                             <td class="px-5 py-4 text-sm text-slate-700">{{ $outbound->packingList->total_package }}
                             </td>
+
                             <td class="px-5 py-4 text-sm text-slate-700">{{
                                 number_format($outbound->packingList->total_weight, 2, ',', '.') }} kg</td>
                             <td class="px-5 py-4">
