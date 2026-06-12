@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\PackingList;
 use App\Models\Shipment;
+use App\Models\PaymentMethod;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -57,16 +58,22 @@ class InvoiceController extends Controller
             ->orderBy('packing_date', 'desc')
             ->get();
 
-        return view('invoices.create', compact('packingLists'));
+        $paymentMethods = PaymentMethod::where('status', PaymentMethod::STATUS_ACTIVE)
+            ->orderBy('method_name')
+            ->get();
+
+        return view('invoices.create', compact('packingLists', 'paymentMethods'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'packing_list_id' => 'required|exists:packing_lists,id|unique:invoices,packing_list_id',
-            'invoice_number' => 'required|string|max:255',
+            'invoice_number' => 'nullable|string|max:255',
+
             'invoice_date' => 'required|date',
             'payment_status' => 'required|in:' . implode(',', Invoice::PAYMENT_STATUSES),
+            'payment_method_id' => 'nullable|exists:payment_methods,id',
             'payment_method' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
             'bank_name' => 'nullable|string|max:255',
@@ -91,9 +98,28 @@ class InvoiceController extends Controller
         $transportPricePerKg = $shipment->price_per_kg ?? 0;
         $baseTransport = round($transportPricePerKg * $packingList->total_weight, 2);
         $baseTotal = round($baseTransport + $deliveryFee, 2);
-        $ppnAmount = round($baseTotal * 0.011, 2);
-        $pphAmount = round($baseTotal * 0.02, 2);
+
+        // Ambil nominal PPN/PPH dari shipment jika tersedia (nominal),
+        // jika tidak, fallback ke persentase dari baseTransport.
+        $ppnAmount = round($shipment->ppn ?? ($baseTransport * 0.011), 2);
+        $pphAmount = round($shipment->pph ?? ($baseTransport * 0.02), 2);
         $grandTotal = round($baseTotal + $ppnAmount - $pphAmount, 2);
+
+        // Resolve payment method / bank details: prefer selected payment method record
+        $paymentMethodText = $validated['payment_method'] ?? null;
+        $bankName = $validated['bank_name'] ?? null;
+        $bankAccountNumber = $validated['bank_account_number'] ?? null;
+        $bankAccountName = $validated['bank_account_name'] ?? null;
+
+        if (!empty($validated['payment_method_id'])) {
+            $pm = PaymentMethod::find($validated['payment_method_id']);
+            if ($pm) {
+                $paymentMethodText = $pm->method_name;
+                $bankName = $pm->bank_name;
+                $bankAccountNumber = $pm->account_number;
+                $bankAccountName = $pm->account_name;
+            }
+        }
 
         $data = [
             'packing_list_id' => $packingList->id,
@@ -103,11 +129,11 @@ class InvoiceController extends Controller
             'customer_name' => $customerName,
             'transportation_type' => $shipment->transportation_type,
             'payment_status' => $validated['payment_status'],
-            'payment_method' => $validated['payment_method'],
+            'payment_method' => $paymentMethodText,
             'notes' => $validated['notes'],
-            'bank_name' => $validated['bank_name'] ?? null,
-            'bank_account_number' => $validated['bank_account_number'] ?? null,
-            'bank_account_name' => $validated['bank_account_name'] ?? null,
+            'bank_name' => $bankName ?? null,
+            'bank_account_number' => $bankAccountNumber ?? null,
+            'bank_account_name' => $bankAccountName ?? null,
             'total_qty' => $packingList->total_qty,
             'total_weight' => $packingList->total_weight,
             'total_value' => $packingList->total_value,
@@ -161,8 +187,11 @@ class InvoiceController extends Controller
         $transportPricePerKg = $shipment->price_per_kg ?? 0;
         $baseTransport = round($transportPricePerKg * $invoice->total_weight, 2);
         $baseTotal = round($baseTransport + $deliveryFee, 2);
-        $ppnAmount = round($baseTotal * 0.011, 2);
-        $pphAmount = round($baseTotal * 0.02, 2);
+
+        // Ambil nominal PPN/PPH dari shipment jika tersedia (nominal),
+        // jika tidak, fallback ke persentase dari baseTransport.
+        $ppnAmount = round($shipment->ppn ?? ($baseTransport * 0.011), 2);
+        $pphAmount = round($shipment->pph ?? ($baseTransport * 0.02), 2);
         $grandTotal = round($baseTotal + $ppnAmount - $pphAmount, 2);
 
         $data = [

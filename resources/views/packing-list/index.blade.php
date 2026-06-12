@@ -12,7 +12,7 @@
                     Riwayat Packing List
                 </h1>
                 <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Pantau seluruh packing list yang terbentuk otomatis dari inbound shipment.
+                    Pantau seluruh packing list yang terbentuk otomatis dari barang masuk pengiriman.
                 </p>
             </div>
         </div>
@@ -135,7 +135,7 @@
                 <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <div>
                         <h2 class="text-base font-bold text-slate-950">Data Packing List</h2>
-                        <p class="mt-1 text-sm text-slate-500">Seluruh data packing list shipment yang telah dibuat.</p>
+                        <p class="mt-1 text-sm text-slate-500">Seluruh data packing list Pengiriman yang telah dibuat.</p>
                     </div>
 
                     <div class="inline-flex w-fit items-center rounded-md bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">

@@ -15,10 +15,10 @@
             <div>
                 <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Inbound</p>
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-                    Riwayat Inbound
+                    Barang Masuk
                 </h1>
                 <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Pantau seluruh data inbound shipment dan detail barang masuk.
+                    Pantau seluruh data barang masuk pengiriman dan detail barang masuk.
                 </p>
             </div>
 
@@ -29,7 +29,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
 
-                Buat Inbound
+                Buat Barang Masuk
             </a>
 
         </div>
@@ -65,8 +65,8 @@
             <div
                 class="mb-5 flex flex-col gap-3 border-b border-slate-200 pb-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <h2 class="text-base font-bold text-slate-950">Filter Inbound</h2>
-                    <p class="mt-1 text-sm text-slate-500">Cari inbound berdasarkan invoice, resi, atau tanggal inbound.
+                    <h2 class="text-base font-bold text-slate-950">Filter Barang Masuk</h2>
+                    <p class="mt-1 text-sm text-slate-500">Cari barang masuk berdasarkan invoice, resi, atau tanggal barang masuk.
                     </p>
                 </div>
             </div>
@@ -132,16 +132,16 @@
                 <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
                     <div>
-                        <h2 class="text-base font-bold text-slate-950">Data Inbound</h2>
+                        <h2 class="text-base font-bold text-slate-950">Barang Masuk</h2>
 
                         <p class="mt-1 text-sm text-slate-500">
-                            Seluruh data inbound shipment yang telah tercatat.
+                            Seluruh data barang masuk pengiriman yang telah tercatat.
                         </p>
                     </div>
 
                     <div
                         class="inline-flex w-fit items-center rounded-md bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                        Total Inbound: {{ $inbounds->total() }}
+                        Total Barang Masuk: {{ $inbounds->total() }}
                     </div>
 
                 </div>
@@ -163,7 +163,7 @@
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Total Qty</th>
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Berat</th>
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Package</th>
-                            <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Tanggal Inbound
+                            <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Tanggal Barang Masuk
                             </th>
                             <th class="px-5 py-3 text-center text-xs font-bold uppercase tracking-wide">Action</th>
 

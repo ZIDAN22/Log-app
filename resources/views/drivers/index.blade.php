@@ -3,21 +3,17 @@
 @section('title', 'Daftar Driver')
 
 @section('content')
-<div class="min-h-screen bg-slate-100 py-6 px-3 sm:px-5 lg:px-6">
+<div class="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
 
-    <div class="mx-auto max-w-[1700px]">
+    <div class="mx-auto w-full max-w-screen-2xl">
 
         <!-- Header -->
-        <div class="mb-8 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+        <div class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
 
             <div>
-                <h1 class="text-3xl font-bold tracking-tight text-slate-900">
-                    Daftar Driver
-                </h1>
-
-                <p class="mt-2 text-slate-600">
-                    Kelola semua driver armada dengan cepat, lengkap, dan responsif.
-                </p>
+                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Driver</p>
+                <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Daftar Pengemudi</h1>
+                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">Kelola semua driver armada dengan cepat, lengkap, dan responsif.</p>
             </div>
 
             <a href="{{ route('drivers.create') }}"
@@ -47,7 +43,7 @@
 
         <!-- Filter -->
         <form method="GET" action="{{ route('drivers.index') }}"
-            class="mb-7 rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+            class="mb-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
 
             <div class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
 
@@ -107,7 +103,7 @@
             </div>
 
             <!-- Action -->
-            <div class="mt-6 flex flex-wrap justify-end gap-3">
+            <div class="mt-4 flex flex-wrap justify-end gap-3">
 
                 <a href="{{ route('drivers.index') }}"
                     class="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">
@@ -128,7 +124,7 @@
         </form>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-sm">
+        <div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
 
             <div class="border-b border-slate-200 px-6 py-5">
 
@@ -141,7 +137,7 @@
                         </h2>
 
                         <p class="mt-1 text-sm text-slate-500">
-                            Tabel driver dengan status, lisensi, dan aksi CRUD.
+                            Tabel driver dengan status
                         </p>
 
                     </div>
@@ -160,7 +156,7 @@
 
                 <table class="w-full min-w-[1000px] border-collapse">
 
-                    <thead class="bg-slate-900 text-white">
+                    <thead class="border-b border-slate-200 bg-slate-50 text-slate-600">
 
                         <tr>
 

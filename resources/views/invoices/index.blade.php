@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-slate-100 px-4 py-5 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
     <div class="mx-auto w-full max-w-screen-2xl">
         <div
             class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
@@ -80,73 +80,71 @@
 
         <!-- Summary -->
         @if(isset($summary))
-        <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
+        <section class="mb-6 grid gap-5 xl:grid-cols-4">
 
             <!-- Total Invoice -->
-            <div class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+            <article class="rounded-none border border-slate-200 bg-white p-4 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-slate-500">Total Invoice</p>
-                        <p class="mt-3 text-3xl font-bold text-slate-900">{{ number_format($summary['total'] ?? 0) }}
-                        </p>
+                        <h2 class="text-sm font-medium text-slate-500">Total Invoice</h2>
+                        <p class="mt-3 text-2xl font-semibold text-slate-950">{{ number_format($summary['total'] ?? 0) }}</p>
                     </div>
-                    <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-600">
-                        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-blue-50 text-blue-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
                 </div>
-            </div>
+            </article>
 
             <!-- Belum Bayar -->
-            <div class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+            <article class="rounded-none border border-slate-200 bg-white p-4 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-slate-500">Belum Bayar</p>
-                        <p class="mt-3 text-3xl font-bold text-red-600">{{ number_format($summary['unpaid'] ?? 0) }}</p>
+                        <h2 class="text-sm font-medium text-slate-500">Belum Bayar</h2>
+                        <p class="mt-3 text-2xl font-semibold text-rose-600">{{ number_format($summary['unpaid'] ?? 0) }}</p>
                     </div>
-                    <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100 text-red-600">
-                        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-rose-50 text-rose-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728" />
                         </svg>
                     </div>
                 </div>
-            </div>
+            </article>
 
             <!-- DP -->
-            <div class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+            <article class="rounded-none border border-slate-200 bg-white p-4 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-slate-500">DP</p>
-                        <p class="mt-3 text-3xl font-bold text-amber-600">{{ number_format($summary['dp'] ?? 0) }}</p>
+                        <h2 class="text-sm font-medium text-slate-500">DP</h2>
+                        <p class="mt-3 text-2xl font-semibold text-amber-600">{{ number_format($summary['dp'] ?? 0) }}</p>
                     </div>
-                    <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
-                        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3m0-12V4m0 4v4m0 4v4" />
                         </svg>
                     </div>
                 </div>
-            </div>
+            </article>
 
             <!-- Lunas -->
-            <div class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
+            <article class="rounded-none border border-slate-200 bg-white p-4 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-slate-500">Lunas</p>
-                        <p class="mt-3 text-3xl font-bold text-emerald-600">{{ number_format($summary['paid'] ?? 0) }}
-                        </p>
+                        <h2 class="text-sm font-medium text-slate-500">Lunas</h2>
+                        <p class="mt-3 text-2xl font-semibold text-emerald-600">{{ number_format($summary['paid'] ?? 0) }}</p>
                     </div>
-                    <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
-                        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
                 </div>
-            </div>
-        </div>
+            </article>
+        </section>
         @endif
 
 

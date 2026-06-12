@@ -8,7 +8,7 @@
         <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
                 <h1 class="text-3xl font-bold text-slate-900">Detail Packing List</h1>
-                <p class="text-slate-600">Ringkasan isi barang shipment, status, dan detail verifikasi.</p>
+                <p class="text-slate-600">Ringkasan isi barang pengiriman, status, dan detail verifikasi.</p>
             </div>
             <div class="flex flex-wrap gap-3">
                 <a href="{{ route('packing-list.print-pdf', $packingList) }}" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="rounded-3xl border border-slate-200 bg-white p-6">
-                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Informasi Shipment</h2>
+                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Informasi pengiriman</h2>
                     <div class="grid gap-6 md:grid-cols-2">
                         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                             <p class="text-sm text-slate-500">Pengirim</p>

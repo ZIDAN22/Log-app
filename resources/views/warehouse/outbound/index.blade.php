@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Outbound')
+@section('title', 'Barang Keluar')
 
 @section('content')
 
-<div class="min-h-screen bg-slate-100 px-4 py-5 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
 
     <div class="mx-auto w-full max-w-screen-2xl">
 
@@ -13,9 +13,9 @@
             class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
 
             <div>
-                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Outbound</p>
-                <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Riwayat Outbound</h1>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">Kelola outbound yang dibuat dari packing list
+                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">OUTBOUND</p>
+                <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Barang Keluar</h1>
+                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">Kelola barang keluar yang dibuat dari packing list
                     dan cetak surat jalan.</p>
             </div>
 
@@ -24,7 +24,7 @@
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
-                Buat Outbound
+                Buat barang keluar
             </a>
 
         </div>
@@ -54,24 +54,63 @@
         @endif
 
         <!-- Stats (tetap ada) -->
-        <div class="grid gap-5 lg:grid-cols-4 mb-6">
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">Total Barang Keluar</p>
-                <p class="mt-4 text-3xl font-semibold text-slate-900">{{ $stats['total'] }}</p>
-            </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">Siap Dikirim</p>
-                <p class="mt-4 text-3xl font-semibold text-slate-900">{{ $stats['ready'] }}</p>
-            </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">dalam perjalanan</p>
-                <p class="mt-4 text-3xl font-semibold text-slate-900">{{ $stats['inTransit'] }}</p>
-            </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p class="text-sm uppercase tracking-[0.18em] text-slate-400">sampai</p>
-                <p class="mt-4 text-3xl font-semibold text-slate-900">{{ $stats['delivered'] }}</p>
-            </div>
-        </div>
+        <section class="mb-6 grid gap-5 xl:grid-cols-4">
+            <article class="rounded-none border border-slate-200 bg-white p-4 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-sm font-medium text-slate-500">Total Barang Keluar</h2>
+                        <p class="mt-3 text-2xl font-semibold text-slate-950">{{ $stats['total'] }}</p>
+                    </div>
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-sky-50 text-sky-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </div>
+                </div>
+            </article>
+
+            <article class="rounded-none border border-slate-200 bg-white p-4 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-sm font-medium text-slate-500">Siap Dikirim</h2>
+                        <p class="mt-3 text-2xl font-semibold text-slate-950">{{ $stats['ready'] }}</p>
+                    </div>
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-violet-50 text-violet-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8" />
+                        </svg>
+                    </div>
+                </div>
+            </article>
+
+            <article class="rounded-none border border-slate-200 bg-white p-4 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-sm font-medium text-slate-500">Dalam Perjalanan</h2>
+                        <p class="mt-3 text-2xl font-semibold text-slate-950">{{ $stats['inTransit'] }}</p>
+                    </div>
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                </div>
+            </article>
+
+            <article class="rounded-none border border-slate-200 bg-white p-4 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-sm font-medium text-slate-500">Sampai</h2>
+                        <p class="mt-3 text-2xl font-semibold text-slate-950">{{ $stats['delivered'] }}</p>
+                    </div>
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </article>
+        </section>
 
         <!-- Filter -->
         <form id="outbound-filter-form" method="GET" action="{{ route('warehouse.outbound.index') }}"
@@ -81,7 +120,7 @@
                 class="mb-5 flex flex-col gap-3 border-b border-slate-200 pb-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                     <h2 class="text-base font-bold text-slate-950">Filter Barang Keluar</h2>
-                    <p class="mt-1 text-sm text-slate-500">Cari dan saring outbound berdasarkan status, metode, atau
+                    <p class="mt-1 text-sm text-slate-500">Cari dan saring barang keluar berdasarkan status, metode, atau
                         nomor resi.</p>
                 </div>
             </div>
@@ -139,13 +178,13 @@
 
                 <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <div>
-                        <h2 class="text-base font-bold text-slate-950">Data Outbound</h2>
-                        <p class="mt-1 text-sm text-slate-500">Tabel outbound menyajikan status, resi, tujuan, dan total
+                        <h2 class="text-base font-bold text-slate-950">Data Barang Keluar</h2>
+                        <p class="mt-1 text-sm text-slate-500">Tabel Barang Keluar menyajikan status, resi, tujuan, dan total
                             paket.</p>
                     </div>
                     <div
                         class="inline-flex w-fit items-center rounded-md bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                        Total Outbound: {{ $outbounds->total() }}
+                        Total Barang Keluar: {{ $outbounds->total() }}
                     </div>
                 </div>
 
@@ -163,7 +202,7 @@
 
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Total Berat</th>
                             <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Status</th>
-                            <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Tanggal Outbound
+                            <th class="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide">Tanggal <br>  Barang Keluar
                             </th>
                             <th class="px-5 py-3 text-center text-xs font-bold uppercase tracking-wide">Action</th>
                         </tr>
@@ -276,8 +315,8 @@
                                                 d="M20 13V7a2 2 0 00-2-2h-3V3H9v2H6a2 2 0 00-2 2v6m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0H4" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-lg font-semibold text-slate-900">Belum Ada Data Outbound</h3>
-                                    <p class="mt-2 text-sm text-slate-500">Mulai dengan membuat outbound dari packing
+                                    <h3 class="text-lg font-semibold text-slate-900">Belum Ada Data Barang Keluar</h3>
+                                    <p class="mt-2 text-sm text-slate-500">Mulai dengan membuat Barang keluar dari packing
                                         list.</p>
                                 </div>
                             </td>

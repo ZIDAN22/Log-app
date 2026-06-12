@@ -5,7 +5,7 @@
 @section('content')
 <div class="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
 
-    <div class="max-w-[1800px] mx-auto">
+        <div class="max-w-[1800px] mx-auto">
         <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
                 <h1 class="text-3xl font-bold text-slate-900 mb-2">Ubah Inbound</h1>

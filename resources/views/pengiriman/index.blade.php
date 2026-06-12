@@ -5,12 +5,12 @@
     <div class="mx-auto w-full max-w-screen-2xl">
         <div class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Pengiriman</p>
+                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">SHIPMENT</p>
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                     Daftar Pengiriman
                 </h1>
                 <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Kelola, saring, dan pantau shipment pengiriman dari satu halaman operasional.
+                    Kelola, saring, dan pantau pengiriman pengiriman dari satu halaman operasional.
                 </p>
             </div>
 
@@ -75,7 +75,7 @@
 
                 <div class="grid gap-4 xl:grid-cols-5">
                     <div class="xl:col-span-2">
-                        <label for="search" class="mb-2 block text-sm font-semibold text-slate-700">Cari Shipment</label>
+                        <label for="search" class="mb-2 block text-sm font-semibold text-slate-700">Cari Pengiriman</label>
                         <input
                             id="search"
                             type="text"
@@ -159,12 +159,12 @@
             <div class="border-b border-slate-200 px-5 py-4">
                 <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <div>
-                        <h2 class="text-base font-bold text-slate-950">Data Shipment</h2>
+                        <h2 class="text-base font-bold text-slate-950">Data Pengiriman</h2>
                         <p class="mt-1 text-sm text-slate-500">Seluruh data pengiriman yang telah dibuat.</p>
                     </div>
 
                     <div class="inline-flex w-fit items-center rounded-md bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                        {{ $shipments->total() }} shipment
+                        {{ $shipments->total() }} Pengiriman
                     </div>
                 </div>
             </div>
@@ -371,7 +371,7 @@
             <div class="min-w-0 flex-1">
                 <h2 id="delete-modal-title" class="text-base font-bold text-slate-950">Konfirmasi Hapus Pengiriman</h2>
                 <p class="mt-1 text-sm leading-6 text-slate-600">
-                    Data shipment akan dihapus permanen dari daftar pengiriman. Periksa detailnya sebelum melanjutkan.
+                    Data Pengiriman akan dihapus permanen dari daftar pengiriman. Periksa detailnya sebelum melanjutkan.
                 </p>
             </div>
             <button

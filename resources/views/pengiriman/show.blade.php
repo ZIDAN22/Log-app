@@ -1,8 +1,8 @@
 ﻿@extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-6xl mx-auto">
+<div class="min-h-screen bg-slate-100 px-4 py-5 sm:px-6 lg:px-8">
+    <div class="mx-auto w-full max-w-screen-2xl">
         <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
                 <h1 class="text-3xl font-bold text-slate-900 mb-2">Detail Pengiriman</h1>
@@ -30,10 +30,12 @@
             function formatRp($value) { return 'Rp ' . number_format($value, 0, ',', '.'); }
         @endphp
 
-        <div class="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
+<div class="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
             <div class="space-y-6">
-                <div class="rounded-3xl border border-slate-200 bg-white p-6">
+
+                <div class="rounded-lg border border-slate-200 bg-white p-6">
                     <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+
                         <div>
                             <p class="text-sm text-slate-500">Invoice</p>
                             <p class="text-xl font-semibold text-slate-900">{{ $shipment->invoice_number }}</p>

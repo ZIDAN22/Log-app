@@ -191,7 +191,7 @@
 
                     <input type="hidden" id="shipment_transportation_type" name="shipment[transportation_type]" value="{{ old('shipment.transportation_type', optional($selectedPackingList->shipment)->transportation_type ?? 'darat') }}">
 
-                    <div id="transport-detail-land" class="hidden">
+                <div id="transport-detail-land" class="hidden">
                         <label class="mb-2 block text-sm font-semibold text-slate-700">Driver</label>
                         <select name="driver_id" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900">
                             <option value="">Pilih driver</option>
@@ -210,6 +210,10 @@
                             @endforeach
                         </select>
                     </div>
+
+                    {{-- Hidden untuk kirim detail laut/udara ke Shipment (bisa diubah oleh Gudang) --}}
+                    <input type="hidden" name="sea_shipping" value="{{ old('sea_shipping', optional($selectedPackingList->shipment)->sea_shipping) }}">
+                    <input type="hidden" name="air_shipping" value="{{ old('air_shipping', optional($selectedPackingList->shipment)->air_shipping) }}">
                 </div>
 
                 <div id="transport-detail-land-extra" class="mt-6 hidden">

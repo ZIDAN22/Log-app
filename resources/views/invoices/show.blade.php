@@ -116,16 +116,16 @@
                             <span>Total Berat</span>
                             <strong>{{ number_format($invoice->total_weight, 2, ',', '.') }} kg</strong>
                         </div>
-                        <div class="flex justify-between gap-4">
+                        {{-- <div class="flex justify-between gap-4">
                             <span>Total Nilai</span>
                             <strong>Rp {{ number_format($invoice->total_value, 0, ',', '.') }}</strong>
-                        </div>
+                        </div> --}}
                         <div class="flex justify-between gap-4">
                             <span>Tarif / kg</span>
                             <strong>Rp {{ number_format($invoice->packingList->shipment->price_per_kg ?? 0, 0, ',', '.') }} / kg</strong>
                         </div>
                         <div class="flex justify-between gap-4">
-                            <span>Biaya Transport (Tarif × Berat)</span>
+                            <span>Transportasi (Tarif × Berat)</span>
                             <strong>Rp {{ number_format(($invoice->packingList->shipment->price_per_kg ?? 0) * $invoice->total_weight, 0, ',', '.') }}</strong>
                         </div>
                         <div class="flex justify-between gap-4">

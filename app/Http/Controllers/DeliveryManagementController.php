@@ -119,35 +119,41 @@ class DeliveryManagementController extends Controller
 
     public function uploadPOD(Request $request, DeliveryManagement $deliveryManagement)
     {
-        if ($deliveryManagement->delivery_status !== 'delivered') {
+        $allowedStatuses = [
+            DeliveryManagement::STATUS_IN_TRANSIT,
+            DeliveryManagement::STATUS_ARRIVED_DESTINATION,
+            DeliveryManagement::STATUS_DELIVERED,
+        ];
+
+        if (! in_array($deliveryManagement->delivery_status, $allowedStatuses, true)) {
             return redirect()->back()
-                ->with('error', 'POD hanya dapat diupload saat status Delivered.');
+                ->with('error', 'POD hanya dapat diupload saat status In Transit, Arrived Destination, atau Delivered.');
         }
 
         $validated = $request->validate([
             'receiver_name' => 'required|string',
-            'receiver_signature' => 'nullable|image|max:2048',
             'receiver_photo' => 'nullable|image|max:5120',
             'delivery_notes' => 'nullable|string|max:500',
         ]);
-
-        if ($request->hasFile('receiver_signature')) {
-            $path = $request->file('receiver_signature')->store('pod/signatures', 'public');
-            $validated['receiver_signature'] = $path;
-        }
 
         if ($request->hasFile('receiver_photo')) {
             $path = $request->file('receiver_photo')->store('pod/photos', 'public');
             $validated['receiver_photo'] = $path;
         }
 
-        $validated['pod_status'] = 'uploaded';
-        $validated['delivery_status'] = 'completed';
+        $validated['pod_status'] = DeliveryManagement::POD_STATUS_UPLOADED;
+
+        if ($deliveryManagement->delivery_status === DeliveryManagement::STATUS_DELIVERED) {
+            $validated['delivery_status'] = DeliveryManagement::STATUS_COMPLETED;
+        } else {
+            $validated['delivery_status'] = DeliveryManagement::STATUS_DELIVERED;
+            $validated['delivered_at'] = now();
+        }
 
         $deliveryManagement->update($validated);
 
         return redirect()->route('delivery-management.show', $deliveryManagement)
-            ->with('success', 'POD berhasil diupload. Status pengiriman diperbarui ke Completed.');
+            ->with('success', 'POD berhasil diupload. Status pengiriman diperbarui.');
     }
 
     public function printSuratJalan(DeliveryManagement $deliveryManagement)

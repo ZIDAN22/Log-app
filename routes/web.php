@@ -10,6 +10,7 @@ use App\Http\Controllers\DeliveryOrderController;
 use App\Http\Controllers\DeliveryManagementController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\OutboundController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\VehicleController;
 
 Route::get('/', function () {
@@ -60,6 +61,19 @@ Route::prefix('warehouse')->name('warehouse.')->group(function () {
 Route::get('packing-list/{packing_list}/print-pdf', [PackingListController::class, 'printPdf'])->name('packing-list.print-pdf');
 Route::resource('packing-list', PackingListController::class)->only(['index', 'show']);
 
+/*
+|--------------------------------------------------------------------------
+| Payments Routes
+|--------------------------------------------------------------------------
+*/
+Route::view('payments', 'payments.index')->name('payments.index');
+
 // Invoice Routes
 Route::get('invoices/{invoice}/print-pdf', [InvoiceController::class, 'printPdf'])->name('invoices.print-pdf');
 Route::resource('invoices', InvoiceController::class);
+
+
+Route::resource(
+    'payment-methods',
+    PaymentMethodController::class
+);

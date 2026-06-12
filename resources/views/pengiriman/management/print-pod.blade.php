@@ -103,11 +103,11 @@
             <table>
                 <tr>
                     <td>Jumlah Paket</td>
-                    <td>: {{ $delivery->outbound->total_quantity ?? 0 }} unit</td>
+                    <td>: {{ optional($delivery->outbound->packingList)->total_package ?? 0 }} unit</td>
                 </tr>
                 <tr>
                     <td>Berat Total</td>
-                    <td>: {{ $delivery->outbound->total_weight ?? 0 }} kg</td>
+                    <td>: {{ optional($delivery->outbound->packingList)->total_weight ?? 0 }} kg</td>
                 </tr>
                 <tr>
                     <td>Status Barang</td>

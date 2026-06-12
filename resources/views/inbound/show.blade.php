@@ -5,16 +5,16 @@
 @section('content')
 <div class="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto">
-        <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
                 <div class="mb-2 flex items-center gap-2 text-slate-900">
                     <svg class="h-6 w-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7l9-4 9 4v11a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18" />
                     </svg>
-                    <h1 class="text-3xl font-bold text-slate-900">Detail Inbound</h1>
+                    <h1 class="text-3xl font-bold text-slate-900">Detail Barang masuk</h1>
                 </div>
-                <p class="text-slate-600">Ringkasan penerimaan barang shipment.</p>
+                <p class="text-slate-600">Ringkasan penerimaan barang pengiriman.</p>
             </div>
             <div class="flex flex-wrap gap-3">
                 <a href="{{ route('inbound.edit', $inbound) }}" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="rounded-3xl border border-slate-200 bg-white p-6">
-                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Informasi Shipment</h2>
+                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Informasi pengiriman</h2>
                     <div class="grid gap-6 md:grid-cols-2">
                         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                             <p class="text-sm text-slate-500">Pengirim</p>
@@ -151,7 +151,7 @@
 
             <aside class="space-y-6">
                 <div class="rounded-3xl border border-slate-200 bg-white p-6">
-                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Ringkasan Inbound</h2>
+                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Ringkasan Pengiriman</h2>
                     <div class="space-y-4 text-slate-700">
                         <div class="flex justify-between gap-4">
                             <span>Total Qty</span>
@@ -169,7 +169,7 @@
                 </div>
 
                 <div class="rounded-3xl border border-slate-200 bg-white p-6">
-                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Catatan Inbound</h2>
+                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Catatan Pengiriman</h2>
                     <p class="text-slate-600 text-sm leading-relaxed">{{ $inbound->notes ?: 'Tidak ada catatan tambahan.' }}</p>
                 </div>
             </aside>

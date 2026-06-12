@@ -140,8 +140,8 @@
                     <tr>
                         <td>1</td>
                         <td>{{ $delivery->outbound->item_description ?? 'Pengiriman Barang' }}</td>
-                        <td>{{ $delivery->outbound->total_quantity ?? 0 }} unit</td>
-                        <td>{{ $delivery->outbound->total_weight ?? 0 }} kg</td>
+                        <td>{{ optional($delivery->outbound->packingList)->total_qty ?? 0 }} unit</td>
+                        <td>{{ optional($delivery->outbound->packingList)->total_weight ?? 0 }} kg</td>
                         <td>{{ $delivery->outbound->delivery_notes ?? '-' }}</td>
                     </tr>
                 </tbody>

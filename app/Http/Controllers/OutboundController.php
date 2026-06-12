@@ -143,9 +143,20 @@ class OutboundController extends Controller
 
         $outbound->update($data);
 
+        // Sinkronkan DeliveryManagement bila sudah ada relasi.
+        if ($delivery = $outbound->deliveryManagement) {
+            $delivery->update([
+                'driver_id' => $outbound->driver_id,
+                'vehicle_id' => $outbound->vehicle_id,
+                'delivery_method' => $this->mapDeliveryMethod($outbound->shipping_method),
+            ]);
+        }
+
         // Update shipment dengan data transportasi yang baru
         if ($outbound->packingList && $outbound->packingList->shipment) {
-            $shipmentData = [];
+            $shipmentData = [
+                'transportation_type' => $this->mapShipmentTransportationType($outbound->shipping_method),
+            ];
             
             // Update transportation fields dari request
             if ($request->filled('sea_shipping')) {
@@ -164,13 +175,29 @@ class OutboundController extends Controller
                 $shipmentData['land_departure_date'] = $data['land_departure_date'];
             }
 
-            if (!empty($shipmentData)) {
-                $outbound->packingList->shipment->update($shipmentData);
-            }
+            $outbound->packingList->shipment->update($shipmentData);
         }
 
         return redirect()->route('warehouse.outbound.show', $outbound)
             ->with('success', 'Outbound berhasil diperbarui.');
+    }
+
+    private function mapDeliveryMethod(string $shippingMethod): string
+    {
+        return match ($shippingMethod) {
+            Outbound::SHIPPING_METHOD_SEA => 'LAUT',
+            Outbound::SHIPPING_METHOD_AIR => 'UDARA',
+            default => 'DARAT',
+        };
+    }
+
+    private function mapShipmentTransportationType(string $shippingMethod): string
+    {
+        return match ($shippingMethod) {
+            Outbound::SHIPPING_METHOD_SEA => 'laut',
+            Outbound::SHIPPING_METHOD_AIR => 'udara',
+            default => 'darat',
+        };
     }
 
     public function destroy(Outbound $outbound)

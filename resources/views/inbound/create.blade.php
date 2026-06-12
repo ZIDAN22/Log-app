@@ -9,12 +9,11 @@
 
         <div class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-                <h1 class="mb-2 text-3xl font-bold text-slate-900">
-                    Buat Inbound
+<h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+                    BARANG MASUK
                 </h1>
-
-                <p class="text-slate-600">
-                    Isi detail inbound untuk penerimaan shipment.
+                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+                    Buat penerimaan barang masuk dari shipment dan isi detail barang yang diterima.
                 </p>
             </div>
 
@@ -43,7 +42,7 @@
         <form
             method="POST"
             action="{{ route('inbound.store') }}"
-            class="space-y-8 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm"
+            class="space-y-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm"
         >
             @csrf
 
