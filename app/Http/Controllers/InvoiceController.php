@@ -163,8 +163,13 @@ class InvoiceController extends Controller
     {
         $invoice->load('packingList.items');
 
-        return view('invoices.edit', compact('invoice'));
+        $paymentMethods = PaymentMethod::where('status', PaymentMethod::STATUS_ACTIVE)
+            ->orderBy('method_name')
+            ->get();
+
+        return view('invoices.edit', compact('invoice', 'paymentMethods'));
     }
+
 
     public function update(Request $request, Invoice $invoice)
     {

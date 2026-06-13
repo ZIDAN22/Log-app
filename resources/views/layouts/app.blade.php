@@ -7,15 +7,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-slate-100 text-slate-900">
+<body class="min-h-screen bg-slate-100 text-slate-900 overflow-x-hidden">
     <div id="app" class="min-h-screen flex">
         @include('components.sidebar')
 
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
             @include('components.topbar')
 
             <main class="p-4 sm:px-6 md:px-8">
-                @yield('content')
+                <div class="page-wrapper">
+                    @yield('content')
+                </div>
             </main>
         </div>
     </div>

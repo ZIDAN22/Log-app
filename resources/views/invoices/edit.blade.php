@@ -374,9 +374,21 @@
                                     Metode Pembayaran
                                 </label>
 
-                                <input type="text" name="payment_method"
+                                <select id="payment_method_id" name="payment_method_id"
+                                    class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100">
+                                    <option value="">Pilih metode (atau ketik manual)</option>
+                                    @foreach($paymentMethods as $method)
+                                        <option value="{{ $method->id }}"
+                                            {{ old('payment_method_id', optional($invoice->paymentMethod)->id) == $method->id ? 'selected' : '' }}>
+                                            {{ $method->method_name }}@if($method->bank_name) - {{ $method->bank_name }}@endif
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                <input name="payment_method" id="payment_method_input" type="text"
                                     value="{{ old('payment_method', $invoice->payment_method) }}"
-                                    class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
+                                    placeholder="Ketik metode pembayaran jika tidak ada dalam daftar"
+                                    class="mt-2 h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
                             </div>
 
                             <div>
@@ -385,7 +397,8 @@
                                 </label>
 
                                 <input type="text" name="bank_name" value="{{ old('bank_name', $invoice->bank_name) }}"
-                                    class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
+                                    readonly
+                                    class="h-11 w-full rounded-lg border border-slate-200 bg-slate-100 px-3 text-sm text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
                             </div>
 
                             <div>
@@ -395,7 +408,8 @@
 
                                 <input type="text" name="bank_account_number"
                                     value="{{ old('bank_account_number', $invoice->bank_account_number) }}"
-                                    class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
+                                    readonly
+                                    class="h-11 w-full rounded-lg border border-slate-200 bg-slate-100 px-3 text-sm text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
                             </div>
 
                             <div class="md:col-span-2">
@@ -405,7 +419,8 @@
 
                                 <input type="text" name="bank_account_name"
                                     value="{{ old('bank_account_name', $invoice->bank_account_name) }}"
-                                    class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
+                                    readonly
+                                    class="h-11 w-full rounded-lg border border-slate-200 bg-slate-100 px-3 text-sm text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
                             </div>
 
                             <div class="md:col-span-2">

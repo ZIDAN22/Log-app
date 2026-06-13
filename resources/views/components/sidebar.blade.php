@@ -67,6 +67,44 @@
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Tracking Status</span>
             </a>
         </div>
+        <!-- ARMADA SECTION -->
+        <div class="space-y-2">
+            <div class="md:inline hidden px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                Armada
+            </div>
+            <a href="{{ route('vehicles.index') }}"
+                class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-violet-400">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414A1 1 0 0121 12v4a1 1 0 01-1 1h-1" />
+                    </svg>
+                </span>
+                <span class="sidebar-label hidden md:inline font-medium text-sm">Kendaraan</span>
+            </a>
+            <a href="{{ route('drivers.index') }}"
+                class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-violet-400">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </span>
+                <span class="sidebar-label hidden md:inline font-medium text-sm">Driver</span>
+            </a>
+            <a href="#"
+                class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
+                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-violet-400">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                    </svg>
+                </span>
+                <span class="sidebar-label hidden md:inline font-medium text-sm">Transportasi</span>
+            </a>
+        </div>
 
         <!-- WAREHOUSE SECTION -->
         <div class="space-y-2">
@@ -124,45 +162,6 @@
             </a>
         </div>
 
-        <!-- ARMADA SECTION -->
-        <div class="space-y-2">
-            <div class="md:inline hidden px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                Armada
-            </div>
-            <a href="{{ route('vehicles.index') }}"
-                class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
-                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-violet-400">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414A1 1 0 0121 12v4a1 1 0 01-1 1h-1" />
-                    </svg>
-                </span>
-                <span class="sidebar-label hidden md:inline font-medium text-sm">Kendaraan</span>
-            </a>
-            <a href="{{ route('drivers.index') }}"
-                class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
-                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-violet-400">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                </span>
-                <span class="sidebar-label hidden md:inline font-medium text-sm">Driver</span>
-            </a>
-            <a href="#"
-                class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
-                <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-violet-400">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                    </svg>
-                </span>
-                <span class="sidebar-label hidden md:inline font-medium text-sm">Transportasi</span>
-            </a>
-        </div>
-
         <!-- KEUANGAN SECTION -->
         <div class="space-y-2">
             <div class="md:inline hidden px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
@@ -186,8 +185,7 @@
                             d="M12 5H5a2 2 0 00-2 2v10a2 2 0 002 2h7" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M19 5h-7a2 2 0 00-2 2v10a2 2 0 002 2h7a2 2 0 002-2V7a2 2 0 00-2-2z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 11h-5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 11h-5" />
                     </svg>
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Metode Pembayaran</span>
@@ -202,7 +200,7 @@
                 </span>
                 <span class="sidebar-label hidden md:inline font-medium text-sm">Pembayaran</span>
             </a>
-            <a href="#"
+            <a href="{{ route('finance.reports.index') }}"
                 class="sidebar-item flex items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition group">
                 <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-green-400">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

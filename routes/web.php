@@ -11,11 +11,16 @@ use App\Http\Controllers\DeliveryManagementController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\OutboundController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\FinanceReportController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('dashboard');
+});
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Pengiriman Routes
 Route::get('pengiriman/manage', [ShipmentController::class, 'management'])->name('pengiriman.management');
@@ -66,12 +71,17 @@ Route::resource('packing-list', PackingListController::class)->only(['index', 's
 | Payments Routes
 |--------------------------------------------------------------------------
 */
-Route::view('payments', 'payments.index')->name('payments.index');
+Route::resource('payments', PaymentController::class);
+Route::post('payments/{payment}/verify', [PaymentController::class, 'verify'])->name('payments.verify');
+Route::get('payments/{invoice}/get-invoice-data', [PaymentController::class, 'getInvoiceData'])->name('payments.get-invoice-data');
 
 // Invoice Routes
 Route::get('invoices/{invoice}/print-pdf', [InvoiceController::class, 'printPdf'])->name('invoices.print-pdf');
 Route::resource('invoices', InvoiceController::class);
 
+// Finance Report Routes
+Route::get('finance/reports', [FinanceReportController::class, 'index'])->name('finance.reports.index');
+Route::get('finance/reports/export-pdf', [FinanceReportController::class, 'exportPdf'])->name('finance.reports.export-pdf');
 
 Route::resource(
     'payment-methods',
