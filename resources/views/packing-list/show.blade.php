@@ -37,7 +37,7 @@
             $badge = \App\Models\Shipment::statusStyles()[$shipment->shipment_status] ?? ['bg' => 'bg-slate-100', 'text' => 'text-slate-800'];
         @endphp
 
-        <div class="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
+        <div class="grid gap-6 xl:grid-cols-[2fr_1fr]">
             <div class="space-y-6">
                 <div class="rounded-3xl border border-slate-200 bg-white p-6">
                     <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -120,7 +120,7 @@
                 </div>
             </div>
 
-            <aside class="space-y-6">
+            <aside class="space-y-6 w-full xl:max-w-md">
                 <div class="rounded-3xl border border-slate-200 bg-white p-6">
                     <h2 class="text-xl font-semibold text-slate-900 mb-5">Ringkasan Packing</h2>
                     <div class="space-y-4 text-slate-700">

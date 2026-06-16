@@ -11,7 +11,7 @@
             class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">
-                    KEUANGAN
+                    PAYMENT MANAGEMENT
                 </p>
 
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
@@ -259,7 +259,7 @@
                             <td class="px-6 py-5">
                                 <div class="flex items-center justify-center gap-2">
                                     <a href="{{ route('payments.show', $payment) }}"
-                                        class="inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-slate-100"
+                                        class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-200"
                                         title="Detail">
                                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -268,7 +268,7 @@
                                     </a>
 
                                     <a href="{{ route('payments.edit', $payment) }}"
-                                        class="inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-slate-100"
+                                        class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-700 transition hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-100"
                                         title="Edit">
                                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -276,10 +276,9 @@
                                     </a>
 
                                     @if($payment->status === 'pending')
-                                    <form action="{{ route('payments.verify', $payment) }}" method="POST" class="inline"
-                                        onsubmit="return confirm('Verifikasi pembayaran ini?')">
+                                    <form action="{{ route('payments.verify', $payment) }}" method="POST" class="inline">
                                         @csrf
-                                        <button type="submit" class="inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-emerald-100"
+                                        <button type="submit" class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-100"
                                             title="Verifikasi">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -288,17 +287,21 @@
                                     </form>
                                     @endif
 
-                                    <form action="{{ route('payments.destroy', $payment) }}" method="POST" class="inline"
-                                        onsubmit="return confirm('Hapus pembayaran ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-red-100"
-                                            title="Hapus">
-                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </button>
-                                    </form>
+                                    <button
+                                        type="button"
+                                        class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-rose-50 text-rose-700 transition hover:bg-rose-100 focus:outline-none focus:ring-2 focus:ring-rose-100"
+                                        title="Hapus"
+                                        aria-label="Hapus pembayaran"
+                                        data-open-delete-modal
+                                        data-delete-url="{{ route('payments.destroy', $payment) }}"
+                                        data-invoice="{{ $payment->invoice->invoice_number }}"
+                                        data-receipt="{{ $payment->invoice->receipt_number }}"
+                                        data-customer="{{ $payment->invoice->customer_name }}"
+                                    >
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </td>
 
@@ -331,5 +334,131 @@
 
     </div>
 </div>
+
+<div
+    id="delete-confirmation-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/50 px-4 py-6"
+    aria-hidden="true"
+>
+    <div class="w-full max-w-md rounded-lg border border-slate-200 bg-white shadow-xl" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+        <div class="flex items-start gap-3 border-b border-slate-200 p-5">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-rose-50 text-rose-700">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M5.07 19h13.86a2 2 0 001.74-3L13.74 4a2 2 0 00-3.48 0L3.33 16a2 2 0 001.74 3z" />
+                </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+                <h2 id="delete-modal-title" class="text-base font-bold text-slate-950">Konfirmasi Hapus Pembayaran</h2>
+                <p class="mt-1 text-sm leading-6 text-slate-600">
+                    Pembayaran ini akan dihapus permanen dari sistem. Pastikan data pembayaran sudah benar sebelum melanjutkan.
+                </p>
+            </div>
+            <button
+                type="button"
+                data-close-delete-modal
+                class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                aria-label="Tutup konfirmasi"
+            >
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="space-y-3 p-5 text-sm">
+            <div class="rounded-lg bg-slate-50 p-4">
+                <dl class="space-y-3">
+                    <div class="flex items-start justify-between gap-4">
+                        <dt class="text-slate-500">Invoice</dt>
+                        <dd id="delete-modal-invoice" class="text-right font-semibold text-slate-950">-</dd>
+                    </div>
+                    <div class="flex items-start justify-between gap-4">
+                        <dt class="text-slate-500">Resi</dt>
+                        <dd id="delete-modal-receipt" class="text-right font-semibold text-slate-950">-</dd>
+                    </div>
+                    <div class="flex items-start justify-between gap-4">
+                        <dt class="text-slate-500">Customer</dt>
+                        <dd id="delete-modal-customer" class="text-right font-semibold text-slate-950">-</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        <form id="delete-payment-form" method="POST" action="#" class="flex flex-col-reverse gap-3 border-t border-slate-200 p-5 sm:flex-row sm:justify-end">
+            @csrf
+            @method('DELETE')
+
+            <button
+                type="button"
+                data-close-delete-modal
+                class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+                Batal
+            </button>
+
+            <button
+                type="submit"
+                class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-200"
+            >
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Hapus Pembayaran
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteModal = document.getElementById('delete-confirmation-modal');
+        const deleteForm = document.getElementById('delete-payment-form');
+        const deleteInvoice = document.getElementById('delete-modal-invoice');
+        const deleteReceipt = document.getElementById('delete-modal-receipt');
+        const deleteCustomer = document.getElementById('delete-modal-customer');
+
+        function openDeleteModal(button) {
+            deleteForm.action = button.dataset.deleteUrl;
+            deleteInvoice.textContent = button.dataset.invoice || '-';
+            deleteReceipt.textContent = button.dataset.receipt || '-';
+            deleteCustomer.textContent = button.dataset.customer || '-';
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex');
+            deleteModal.setAttribute('aria-hidden', 'false');
+            deleteModal.querySelector('[data-close-delete-modal]').focus();
+        }
+
+        function closeDeleteModal() {
+            deleteModal.classList.add('hidden');
+            deleteModal.classList.remove('flex');
+            deleteModal.setAttribute('aria-hidden', 'true');
+            deleteForm.action = '#';
+        }
+
+        document.querySelectorAll('[data-open-delete-modal]').forEach(function (button) {
+            button.addEventListener('click', function () {
+                openDeleteModal(button);
+            });
+        });
+
+        document.querySelectorAll('[data-close-delete-modal]').forEach(function (button) {
+            button.addEventListener('click', closeDeleteModal);
+        });
+
+        if (deleteModal) {
+            deleteModal.addEventListener('click', function (event) {
+                if (event.target === deleteModal) {
+                    closeDeleteModal();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && deleteModal && !deleteModal.classList.contains('hidden')) {
+                closeDeleteModal();
+            }
+        });
+    });
+</script>
 
 @endsection

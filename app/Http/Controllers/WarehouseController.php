@@ -1,0 +1,195 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Inbound;
+use App\Models\Outbound;
+use App\Models\PackingList;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+class WarehouseController extends Controller
+{
+    public function index(Request $request)
+    {
+        $activityType = $request->query('activity_type');
+        $activitySearch = $request->query('activity_search');
+        $chartTimeframe = $request->query('chart_timeframe', 'monthly');
+
+        $totalInbounds = Inbound::count();
+        $totalPackingLists = PackingList::count();
+        $totalOutbounds = Outbound::count();
+        $warehouseStock = PackingList::doesntHave('outbound')->count();
+
+        $lowStockThreshold = 10;
+        $lowStockAlert = $warehouseStock > 0 && $warehouseStock <= $lowStockThreshold;
+
+        $readyToShipOutbounds = Outbound::where('status', Outbound::STATUS_READY_TO_SHIP)->count();
+        $inTransitOutbounds = Outbound::where('status', Outbound::STATUS_IN_TRANSIT)->count();
+        $deliveredOutbounds = Outbound::where('status', Outbound::STATUS_DELIVERED)->count();
+        $packingConversionRate = $totalPackingLists > 0 ? round(($totalOutbounds / $totalPackingLists) * 100) : 0;
+
+        $weeklyPeriods = collect(range(5, 0, -1))->map(fn ($weeksAgo) => now()->subWeeks($weeksAgo)->startOfWeek());
+        $weeklyLabels = $weeklyPeriods->map(fn ($week) => 'Minggu ' . $week->format('d M'))->toArray();
+        $weeklyKeys = $weeklyPeriods->map(fn ($week) => $week->format('o-W'))->toArray();
+
+        $months = collect(range(5, 0, -1))->map(fn ($monthsAgo) => now()->subMonths($monthsAgo)->startOfMonth());
+        $monthLabels = $months->map(fn ($month) => $month->format('M Y'))->toArray();
+        $monthKeys = $months->map(fn ($month) => $month->format('Y-m'))->toArray();
+
+        $quarterPeriods = collect(range(3, 0, -1))->map(fn ($quartersAgo) => now()->subMonths($quartersAgo * 3)->startOfQuarter());
+        $quarterLabels = $quarterPeriods->map(fn ($quarter) => 'Q' . ceil($quarter->month / 3) . ' ' . $quarter->format('Y'))->toArray();
+        $quarterKeys = $quarterPeriods->map(fn ($quarter) => $quarter->format('Y') . '-Q' . ceil($quarter->month / 3))->toArray();
+
+        $inboundWeekly = Inbound::whereDate('inbound_date', '>=', $weeklyPeriods->first())
+            ->get(['inbound_date'])
+            ->groupBy(fn ($item) => $item->inbound_date->copy()->startOfWeek()->format('o-W'))
+            ->map->count()
+            ->toArray();
+
+        $packingWeekly = PackingList::whereDate('packing_date', '>=', $weeklyPeriods->first())
+            ->get(['packing_date'])
+            ->groupBy(fn ($item) => $item->packing_date->copy()->startOfWeek()->format('o-W'))
+            ->map->count()
+            ->toArray();
+
+        $outboundWeekly = Outbound::whereDate('outbound_date', '>=', $weeklyPeriods->first())
+            ->get(['outbound_date'])
+            ->groupBy(fn ($item) => $item->outbound_date->copy()->startOfWeek()->format('o-W'))
+            ->map->count()
+            ->toArray();
+
+        $inboundMonthly = Inbound::whereDate('inbound_date', '>=', $months->first())
+            ->get(['inbound_date'])
+            ->groupBy(fn ($item) => $item->inbound_date->copy()->format('Y-m'))
+            ->map->count()
+            ->toArray();
+
+        $packingMonthly = PackingList::whereDate('packing_date', '>=', $months->first())
+            ->get(['packing_date'])
+            ->groupBy(fn ($item) => $item->packing_date->copy()->format('Y-m'))
+            ->map->count()
+            ->toArray();
+
+        $outboundMonthly = Outbound::whereDate('outbound_date', '>=', $months->first())
+            ->get(['outbound_date'])
+            ->groupBy(fn ($item) => $item->outbound_date->copy()->format('Y-m'))
+            ->map->count()
+            ->toArray();
+
+        $inboundQuarterly = Inbound::whereDate('inbound_date', '>=', $quarterPeriods->first())
+            ->get(['inbound_date'])
+            ->groupBy(fn ($item) => $item->inbound_date->copy()->startOfQuarter()->format('Y') . '-Q' . ceil($item->inbound_date->copy()->startOfQuarter()->month / 3))
+            ->map->count()
+            ->toArray();
+
+        $packingQuarterly = PackingList::whereDate('packing_date', '>=', $quarterPeriods->first())
+            ->get(['packing_date'])
+            ->groupBy(fn ($item) => $item->packing_date->copy()->startOfQuarter()->format('Y') . '-Q' . ceil($item->packing_date->copy()->startOfQuarter()->month / 3))
+            ->map->count()
+            ->toArray();
+
+        $outboundQuarterly = Outbound::whereDate('outbound_date', '>=', $quarterPeriods->first())
+            ->get(['outbound_date'])
+            ->groupBy(fn ($item) => $item->outbound_date->copy()->startOfQuarter()->format('Y') . '-Q' . ceil($item->outbound_date->copy()->startOfQuarter()->month / 3))
+            ->map->count()
+            ->toArray();
+
+        $inboundWeeklyData = collect($weeklyKeys)->map(fn ($key) => $inboundWeekly[$key] ?? 0)->toArray();
+        $packingWeeklyData = collect($weeklyKeys)->map(fn ($key) => $packingWeekly[$key] ?? 0)->toArray();
+        $outboundWeeklyData = collect($weeklyKeys)->map(fn ($key) => $outboundWeekly[$key] ?? 0)->toArray();
+
+        $inboundMonthlyData = collect($monthKeys)->map(fn ($key) => $inboundMonthly[$key] ?? 0)->toArray();
+        $packingMonthlyData = collect($monthKeys)->map(fn ($key) => $packingMonthly[$key] ?? 0)->toArray();
+        $outboundMonthlyData = collect($monthKeys)->map(fn ($key) => $outboundMonthly[$key] ?? 0)->toArray();
+
+        $inboundQuarterlyData = collect($quarterKeys)->map(fn ($key) => $inboundQuarterly[$key] ?? 0)->toArray();
+        $packingQuarterlyData = collect($quarterKeys)->map(fn ($key) => $packingQuarterly[$key] ?? 0)->toArray();
+        $outboundQuarterlyData = collect($quarterKeys)->map(fn ($key) => $outboundQuarterly[$key] ?? 0)->toArray();
+
+        $recentInbounds = Inbound::with('shipment')
+            ->latest('inbound_date')
+            ->limit(5)
+            ->get();
+
+        $recentPackingLists = PackingList::with('shipment')
+            ->latest('packing_date')
+            ->limit(5)
+            ->get();
+
+        $recentOutbounds = Outbound::with('packingList.shipment')
+            ->latest('outbound_date')
+            ->limit(5)
+            ->get();
+
+        $recentActivities = collect()
+            ->concat($recentInbounds->map(fn ($inbound) => [
+                'type' => 'Inbound',
+                'reference' => $inbound->shipment->receipt_number,
+                'description' => 'Barang masuk ' . $inbound->total_qty . ' pcs dari ' . $inbound->shipment->sender_name,
+                'date' => $inbound->inbound_date,
+                'status' => 'Selesai',
+            ]))
+            ->concat($recentPackingLists->map(fn ($packingList) => [
+                'type' => 'Packing List',
+                'reference' => $packingList->shipment->receipt_number,
+                'description' => 'Packing list siap cek, paket ' . $packingList->total_package,
+                'date' => $packingList->packing_date,
+                'status' => 'Tersedia',
+            ]))
+            ->concat($recentOutbounds->map(fn ($outbound) => [
+                'type' => 'Outbound',
+                'reference' => $outbound->packingList->shipment->receipt_number,
+                'description' => 'Barang keluar ke ' . $outbound->packingList->shipment->receiver_name,
+                'date' => $outbound->outbound_date,
+                'status' => $outbound->status,
+            ]));
+
+        if ($activityType) {
+            $recentActivities = $recentActivities->filter(fn ($activity) => $activity['type'] === $activityType);
+        }
+
+        if ($activitySearch) {
+            $search = Str::lower($activitySearch);
+            $recentActivities = $recentActivities->filter(fn ($activity) =>
+                Str::contains(Str::lower($activity['reference'] . ' ' . $activity['description']), $search)
+            );
+        }
+
+        $recentActivities = $recentActivities->sortByDesc('date')->values()->take(8);
+        $activityTypes = ['Inbound', 'Packing List', 'Outbound'];
+
+        return view('warehouse.index', compact(
+            'totalInbounds',
+            'totalPackingLists',
+            'totalOutbounds',
+            'warehouseStock',
+            'lowStockAlert',
+            'lowStockThreshold',
+            'readyToShipOutbounds',
+            'inTransitOutbounds',
+            'deliveredOutbounds',
+            'packingConversionRate',
+            'chartTimeframe',
+            'weeklyLabels',
+            'monthLabels',
+            'quarterLabels',
+            'inboundWeeklyData',
+            'packingWeeklyData',
+            'outboundWeeklyData',
+            'inboundMonthlyData',
+            'packingMonthlyData',
+            'outboundMonthlyData',
+            'inboundQuarterlyData',
+            'packingQuarterlyData',
+            'outboundQuarterlyData',
+            'recentInbounds',
+            'recentPackingLists',
+            'recentOutbounds',
+            'recentActivities',
+            'activityTypes',
+            'activityType',
+            'activitySearch'
+        ));
+    }
+}

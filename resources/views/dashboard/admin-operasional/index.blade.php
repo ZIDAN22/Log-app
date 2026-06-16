@@ -79,9 +79,9 @@
                         <a href="{{ route('inbound.index') }}"
                             class="inline-flex items-center gap-2 rounded-none bg-cyan-700 px-5 py-3 text-sm font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950">
 
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M20 13V7a2 2 0 00-2-2H6a2 2 0 00-2 2v6m16 0l-8 8-8-8m8 8V3" />
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
 
                             Barang Masuk
@@ -91,9 +91,9 @@
                         <a href="{{ route('warehouse.outbound.index') }}"
                             class="inline-flex items-center gap-2 rounded-none bg-cyan-700 px-5 py-3 text-sm font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950">
 
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 12v-5a2 2 0 012-2h12a2 2 0 012 2v5m-8 8V7m-4 4l4-4 4 4" />
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4">
+                                </path>
                             </svg>
 
                             Barang Keluar
@@ -102,10 +102,12 @@
                         {{-- Kendaraan --}}
                         <a href="{{ route('vehicles.index') }}"
                             class="inline-flex items-center gap-2 rounded-none bg-cyan-700 px-5 py-3 text-sm font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950">
-
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 13l1-5h16l1 5M5 13V8a1 1 0 011-1h12a1 1 0 011 1v5M7 13a2 2 0 100 4 2 2 0 000-4m10 0a2 2 0 100 4 2 2 0 000-4" />
+                                    d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414A1 1 0 0121 12v4a1 1 0 01-1 1h-1">
+                                </path>
                             </svg>
 
                             Kendaraan

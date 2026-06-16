@@ -12,7 +12,7 @@
 
             <div>
                 <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">
-                    Keuangan
+                    PAYMENT METHOD
                 </p>
 
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">

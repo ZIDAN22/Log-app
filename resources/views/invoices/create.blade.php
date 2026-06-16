@@ -312,10 +312,6 @@
                                     class="h-11 w-full rounded-lg border border-slate-200 bg-slate-100 px-3 text-sm text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
                             </div>
 
-                            <div class="md:col-span-2">
-                                <label class="mb-2 block text-sm font-semibold text-slate-700">Upload Bukti Pembayaran</label>
-                                <input name="proof_of_payment" type="file" accept="image/*,.pdf" class="mt-0 w-full text-slate-900" />
-                            </div>
 
                         </div>
                     </section>
@@ -352,11 +348,7 @@
                                 <dd id="summary-weight" class="font-semibold text-slate-900">0 KG</dd>
                             </div>
 
-                            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                                <dt class="text-slate-500">Status</dt>
 
-                                <dd id="summary-status" class="font-semibold text-slate-900">Belum Bayar</dd>
-                            </div>
 
                             <div class="flex items-center justify-between">
                                 <dt class="text-slate-500">Grand Total</dt>

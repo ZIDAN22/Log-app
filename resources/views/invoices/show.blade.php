@@ -61,7 +61,6 @@
                         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                             <p class="text-sm text-slate-500">Customer</p>
                             <p class="mt-2 text-base font-semibold text-slate-900">{{ $invoice->customer_name }}</p>
-                            <p class="mt-3 text-sm text-slate-600">Packing List #{{ $invoice->packing_list_id }}</p>
                         </div>
                         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
                             <p class="text-sm text-slate-500">Transportasi</p>
@@ -128,10 +127,7 @@
                             <span>Transportasi (Tarif × Berat)</span>
                             <strong>Rp {{ number_format(($invoice->packingList->shipment->price_per_kg ?? 0) * $invoice->total_weight, 0, ',', '.') }}</strong>
                         </div>
-                        <div class="flex justify-between gap-4">
-                            <span>Biaya Tambahan</span>
-                            <strong>Rp {{ number_format($invoice->delivery_fee, 0, ',', '.') }}</strong>
-                        </div>
+
                         <div class="flex justify-between gap-4">
                             <span>PPN 1.1%</span>
                             <strong>Rp {{ number_format($invoice->ppn_amount, 0, ',', '.') }}</strong>

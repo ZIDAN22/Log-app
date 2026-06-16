@@ -153,7 +153,7 @@
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Pengirim</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Total Qty</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Total Berat</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Total Value</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Total Harga</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Tanggal Packing</th>
                             <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wide whitespace-nowrap">Aksi</th>
                         </tr>

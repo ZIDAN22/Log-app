@@ -8,7 +8,7 @@
 
         <div class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Finance</p>
+                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Finance STATEMENTS</p>
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Laporan Keuangan</h1>
                 <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
                     Pantau status invoice, pembayaran customer, dan arus kas operasional logistik.

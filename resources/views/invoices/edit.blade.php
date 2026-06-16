@@ -269,23 +269,6 @@
 
                             <div>
                                 <label class="mb-2 block text-sm font-semibold text-slate-700">
-                                    Biaya Tambahan
-                                </label>
-
-                                <div class="relative">
-                                    <span
-                                        class="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">
-                                        Rp
-                                    </span>
-
-                                    <input type="number" id="delivery_fee" name="delivery_fee" min="0" step="0.01"
-                                        value="{{ old('delivery_fee', $invoice->delivery_fee ?? 0) }}"
-                                        class="h-11 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="mb-2 block text-sm font-semibold text-slate-700">
                                     Biaya Transport
                                 </label>
 
@@ -565,7 +548,7 @@
             parseFloat(document.getElementById('price_per_kg').value) || 0;
 
         const deliveryFee =
-            parseFloat(document.getElementById('delivery_fee').value) || 0;
+            parseFloat(@json($invoice->delivery_fee ?? 0)) || 0;
 
         const baseTransport =
             totalWeight * pricePerKg;
@@ -608,12 +591,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-
         recalculateInvoice();
-
-        document.getElementById('delivery_fee')
-            .addEventListener('input', recalculateInvoice);
-
     });
 </script>
 @endpush
