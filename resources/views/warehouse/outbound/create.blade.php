@@ -3,42 +3,49 @@
 @section('title', 'Buat Outbound')
 
 @section('content')
-<div class="min-h-screen bg-slate-100 py-6 px-3 sm:px-5 lg:px-6">
-    <div class="mx-auto max-w-[1700px]">
-        <div class="mb-8 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+<div class="min-h-screen bg-slate-100 px-4 py-5 sm:px-6 lg:px-8">
+    <div class="mx-auto w-full max-w-screen-2xl">
+        <div class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-                <h1 class="text-3xl font-bold tracking-tight text-slate-900">Buat Outbound</h1>
-                <p class="mt-2 text-slate-600">Pilih packing list dan lengkapi detail pengiriman outbound.</p>
+                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Outbound</p>
+                <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Buat Outbound</h1>
             </div>
-            <a href="{{ route('warehouse.outbound.index') }}" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">
+            <a href="{{ route('warehouse.outbound.index') }}" class="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">
                 Kembali ke Outbound
             </a>
         </div>
 
         @if($errors->any())
-        <div class="mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm font-medium text-rose-800 shadow-sm">
-            Silakan perbaiki data berikut.
+        <div class="mb-5 flex items-start gap-3 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 shadow-sm">
+            <div class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-700">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <div>
+                <p class="font-semibold">Silakan perbaiki data berikut.</p>
+            </div>
         </div>
         @endif
 
         <div class="grid gap-6 xl:grid-cols-12">
             <div class="xl:col-span-4">
-                <div class="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm">
-                    <h2 class="mb-4 text-xl font-bold text-slate-900">Pilih Packing List</h2>
+                <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <h2 class="mb-4 text-base font-bold text-slate-950">Pilih Packing List</h2>
                     <form method="GET" action="{{ route('warehouse.outbound.create') }}" id="packing-list-form">
                         <label class="mb-2 block text-sm font-semibold text-slate-700">Cari Packing List</label>
                         <input
                             id="packing-list-search"
                             type="text"
                             placeholder="Cari PL, No Resi, penerima, tujuan..."
-                            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                            class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                         />
 
                         <div id="packing-list-cards" class="mt-4 grid gap-3 max-h-[420px] overflow-y-auto">
                             @foreach($packingLists as $packingList)
                             <button
                                 type="button"
-                                class="packing-list-card w-full rounded-[24px] border border-slate-200 bg-white p-4 text-left transition hover:border-blue-500 hover:bg-slate-50"
+                                class="packing-list-card w-full rounded-lg border border-slate-200 bg-white p-4 text-left transition hover:border-blue-500 hover:bg-slate-50"
                                 data-id="{{ $packingList->id }}"
                                 data-search="{{ strtolower('PL-' . str_pad($packingList->id, 4, '0', STR_PAD_LEFT) . ' ' . $packingList->shipment->receipt_number . ' ' . $packingList->shipment->receiver_name . ' ' . $packingList->shipment->destination_city . ' ' . $packingList->shipment->destination_province) }}"
                             >
@@ -77,7 +84,7 @@
                     </form>
 
                     @if(!$packingLists->count())
-                    <div class="mt-6 rounded-3xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+                    <div class="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
                         Tidak ada packing list tersedia. Pastikan inbound dan packing list sudah dibuat.
                     </div>
                     @endif
@@ -85,31 +92,31 @@
             </div>
 
             <div class="xl:col-span-8">
-                <div class="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm">
-                    <h2 class="mb-4 text-xl font-bold text-slate-900">Detail Outbound</h2>
+                <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <h2 class="mb-4 text-base font-bold text-slate-950">Detail Outbound</h2>
 
                     @if($selectedPackingList)
-                    <div class="grid gap-6 lg:grid-cols-2">
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                    <div class="grid gap-4 lg:grid-cols-2">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm font-semibold text-slate-700">No Resi</p>
-                            <p class="mt-2 text-lg font-semibold text-slate-900">{{ $selectedPackingList->shipment->receipt_number }}</p>
+                            <p class="mt-2 text-base font-semibold text-slate-900">{{ $selectedPackingList->shipment->receipt_number }}</p>
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm font-semibold text-slate-700">Customer</p>
-                            <p class="mt-2 text-lg font-semibold text-slate-900">{{ $selectedPackingList->shipment->receiver_name }}</p>
+                            <p class="mt-2 text-base font-semibold text-slate-900">{{ $selectedPackingList->shipment->receiver_name }}</p>
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm font-semibold text-slate-700">Tujuan</p>
-                            <p class="mt-2 text-lg font-semibold text-slate-900">{{ $selectedPackingList->shipment->destination_city }}, {{ $selectedPackingList->shipment->destination_province }}</p>
+                            <p class="mt-2 text-base font-semibold text-slate-900">{{ $selectedPackingList->shipment->destination_city }}, {{ $selectedPackingList->shipment->destination_province }}</p>
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm font-semibold text-slate-700">Tanggal Packing</p>
-                            <p class="mt-2 text-lg font-semibold text-slate-900">{{ $selectedPackingList->packing_date->format('d M Y') }}</p>
+                            <p class="mt-2 text-base font-semibold text-slate-900">{{ $selectedPackingList->packing_date->format('d M Y') }}</p>
                         </div>
                     </div>
 
-                    <div class="mt-6 overflow-hidden rounded-3xl border border-slate-200">
-                        <div class="border-b border-slate-200 bg-slate-900 px-6 py-4 text-sm font-semibold text-white uppercase tracking-wider">Daftar Barang</div>
+                    <div class="mt-6 overflow-hidden rounded-lg border border-slate-200">
+                        <div class="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 uppercase tracking-wide">Daftar Barang</div>
                         <div class="overflow-x-auto bg-white">
                             <table class="w-full min-w-[800px] text-left text-sm">
                                 <thead class="bg-slate-100 text-slate-600">
@@ -135,21 +142,21 @@
                     </div>
 
                     <div class="mt-6 grid gap-4 sm:grid-cols-3">
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm text-slate-500">Total Qty</p>
-                            <p class="mt-3 text-2xl font-semibold text-slate-900">{{ $selectedPackingList->total_qty }}</p>
+                            <p class="mt-3 text-xl font-semibold text-slate-900">{{ $selectedPackingList->total_qty }}</p>
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm text-slate-500">Total Berat</p>
-                            <p class="mt-3 text-2xl font-semibold text-slate-900">{{ number_format($selectedPackingList->total_weight, 2, ',', '.') }} kg</p>
+                            <p class="mt-3 text-xl font-semibold text-slate-900">{{ number_format($selectedPackingList->total_weight, 2, ',', '.') }} kg</p>
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm text-slate-500">Total Paket</p>
-                            <p class="mt-3 text-2xl font-semibold text-slate-900">{{ $selectedPackingList->total_package }}</p>
+                            <p class="mt-3 text-xl font-semibold text-slate-900">{{ $selectedPackingList->total_package }}</p>
                         </div>
                     </div>
                     @else
-                    <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-slate-500">
+                    <div class="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-sm text-slate-500">
                         Pilih packing list terlebih dahulu untuk melihat data otomatis dan membuat outbound.
                     </div>
                     @endif
@@ -158,13 +165,13 @@
         </div>
 
         @if($selectedPackingList)
-        <form method="POST" action="{{ route('warehouse.outbound.store') }}" class="mt-8 rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm">
+        <form method="POST" action="{{ route('warehouse.outbound.store') }}" class="mt-8 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
             @csrf
             <input type="hidden" name="packing_list_id" value="{{ $selectedPackingList->id }}">
 
             <!-- Shipment transport fields -->
-            <div class="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                <h3 class="mb-4 text-lg font-semibold text-slate-900">Informasi Transportasi</h3>
+            <div class="mb-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <h3 class="mb-4 text-base font-semibold text-slate-950">Informasi Transportasi</h3>
 
                 @php
                     $defaultShippingMethod = old('shipping_method');
@@ -182,7 +189,7 @@
                 <div class="grid gap-4 lg:grid-cols-3">
                     <div>
                         <label class="mb-2 block text-sm font-semibold text-slate-700">Tipe Transportasi</label>
-                        <select id="shipping-method" name="shipping_method" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900">
+                        <select id="shipping-method" name="shipping_method" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900">
                             @foreach(App\Models\Outbound::shippingMethods() as $method)
                                 <option value="{{ $method }}" @selected(old('shipping_method', $defaultShippingMethod) === $method)>{{ $method }}</option>
                             @endforeach
@@ -193,7 +200,7 @@
 
                 <div id="transport-detail-land" class="hidden">
                         <label class="mb-2 block text-sm font-semibold text-slate-700">Driver</label>
-                        <select name="driver_id" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900">
+                        <select name="driver_id" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900">
                             <option value="">Pilih driver</option>
                             @foreach($drivers as $driver)
                                 <option value="{{ $driver->id }}" @selected(old('driver_id', optional($selectedPackingList->shipment)->driver_id) == $driver->id)>{{ $driver->name }}</option>
@@ -203,7 +210,7 @@
 
                     <div id="transport-detail-vehicle" class="hidden">
                         <label class="mb-2 block text-sm font-semibold text-slate-700">Kendaraan</label>
-                        <select name="vehicle_id" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900">
+                        <select name="vehicle_id" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900">
                             <option value="">Pilih kendaraan</option>
                             @foreach($vehicles as $vehicle)
                                 <option value="{{ $vehicle->id }}" @selected(old('vehicle_id', optional($selectedPackingList->shipment)->vehicle_id) == $vehicle->id)>{{ $vehicle->name }} ({{ $vehicle->license_plate }})</option>
@@ -218,24 +225,24 @@
 
                 <div id="transport-detail-land-extra" class="mt-6 hidden">
                     <label class="mb-2 block text-sm font-semibold text-slate-700">Tanggal Keberangkatan Darat</label>
-                    <input type="date" name="shipment[land_departure_date]" value="{{ old('shipment.land_departure_date', optional($selectedPackingList->shipment)->land_departure_date?->format('Y-m-d')) }}" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900" />
+                    <input type="date" name="shipment[land_departure_date]" value="{{ old('shipment.land_departure_date', optional($selectedPackingList->shipment)->land_departure_date?->format('Y-m-d')) }}" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900" />
                 </div>
 
                 <div id="transport-detail-sea" class="mt-6 hidden">
                     <label class="mb-2 block text-sm font-semibold text-slate-700">Pelayaran Laut</label>
-                    <input type="text" name="shipment[sea_shipping]" value="{{ old('shipment.sea_shipping', optional($selectedPackingList->shipment)->sea_shipping) }}" placeholder="Nama kapal atau rute laut" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900" />
+                    <input type="text" name="shipment[sea_shipping]" value="{{ old('shipment.sea_shipping', optional($selectedPackingList->shipment)->sea_shipping) }}" placeholder="Nama kapal atau rute laut" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900" />
                     <div class="mt-4">
                         <label class="mb-2 block text-sm font-semibold text-slate-700">Tanggal Keberangkatan Laut</label>
-                        <input type="date" name="shipment[sea_departure_date]" value="{{ old('shipment.sea_departure_date', optional($selectedPackingList->shipment)->sea_departure_date?->format('Y-m-d')) }}" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900" />
+                        <input type="date" name="shipment[sea_departure_date]" value="{{ old('shipment.sea_departure_date', optional($selectedPackingList->shipment)->sea_departure_date?->format('Y-m-d')) }}" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900" />
                     </div>
                 </div>
 
                 <div id="transport-detail-air" class="mt-6 hidden">
                     <label class="mb-2 block text-sm font-semibold text-slate-700">Pengiriman Udara</label>
-                    <input type="text" name="shipment[air_shipping]" value="{{ old('shipment.air_shipping', optional($selectedPackingList->shipment)->air_shipping) }}" placeholder="Nama maskapai atau kode penerbangan" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900" />
+                    <input type="text" name="shipment[air_shipping]" value="{{ old('shipment.air_shipping', optional($selectedPackingList->shipment)->air_shipping) }}" placeholder="Nama maskapai atau kode penerbangan" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900" />
                     <div class="mt-4">
                         <label class="mb-2 block text-sm font-semibold text-slate-700">Tanggal Keberangkatan Udara</label>
-                        <input type="date" name="shipment[air_departure_date]" value="{{ old('shipment.air_departure_date', optional($selectedPackingList->shipment)->air_departure_date?->format('Y-m-d')) }}" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900" />
+                        <input type="date" name="shipment[air_departure_date]" value="{{ old('shipment.air_departure_date', optional($selectedPackingList->shipment)->air_departure_date?->format('Y-m-d')) }}" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900" />
                     </div>
                 </div>
             </div>
@@ -243,13 +250,13 @@
             <div class="grid gap-6 lg:grid-cols-2">
                 <div>
                     <label class="mb-2 block text-sm font-semibold text-slate-700">Tanggal Outbound</label>
-                    <input type="date" name="outbound_date" value="{{ old('outbound_date', now()->format('Y-m-d')) }}" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100" />
+                    <input type="date" name="outbound_date" value="{{ old('outbound_date', now()->format('Y-m-d')) }}" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100" />
                     @error('outbound_date')<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
                 </div>
 
                 <div>
                     <label class="mb-2 block text-sm font-semibold text-slate-700">Status Pengiriman</label>
-                    <select name="status" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3.5 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
+                    <select name="status" class="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100">
                         @foreach(App\Models\Outbound::statuses() as $status)
                         <option value="{{ $status }}" @selected(old('status', App\Models\Outbound::STATUS_READY_TO_SHIP) === $status)>{{ $status }}</option>
                         @endforeach
@@ -259,8 +266,8 @@
             </div>
 
             <div class="mt-8 flex flex-wrap items-center gap-3">
-                <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">Simpan Outbound</button>
-                <a href="{{ route('warehouse.outbound.index') }}" class="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Batal</a>
+                <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">Simpan Outbound</button>
+                <a href="{{ route('warehouse.outbound.index') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Batal</a>
             </div>
         </form>
         @endif

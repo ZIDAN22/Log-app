@@ -13,7 +13,7 @@
                     KEUANGAN
                 </p>
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-                    Input Pembayaran Invoice
+                    Input Pembayaran 
                 </h1>
             </div>
             <a href="{{ route('payments.index') }}"
@@ -195,7 +195,7 @@
             <div>
 
                 {{-- Instructions --}}
-                <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                {{-- <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
                     <h3 class="font-bold text-slate-950">Panduan</h3>
 
                     <div class="mt-4 space-y-3 text-sm text-slate-600">
@@ -219,7 +219,7 @@
                             <p>Tambahkan informasi tambahan tentang pembayaran.</p>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- Info Box --}}
                 <div class="mt-5 rounded-lg border border-emerald-200 bg-emerald-50 p-4">

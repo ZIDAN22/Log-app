@@ -155,15 +155,15 @@
                         <div class="mt-5 border-t border-slate-200 pt-5">
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-sm text-slate-600">Subtotal:</span>
+                                    <span class="text-sm text-slate-600">Harga Pengiriman:</span>
                                     <span class="text-sm font-semibold text-slate-900">
-                                        Rp {{ number_format($payment->invoice->total_value, 0, ',', '.') }}
+                                        Rp {{ number_format($payment->invoice->shipping_amount, 0, ',', '.') }}
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-sm text-slate-600">Biaya Pengiriman:</span>
                                     <span class="text-sm font-semibold text-slate-900">
-                                        Rp {{ number_format($payment->invoice->delivery_fee, 0, ',', '.') }}
+                                        Rp {{ number_format($payment->invoice->shipping_amount, 0, ',', '.') }}
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-between">

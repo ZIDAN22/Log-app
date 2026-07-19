@@ -3,28 +3,22 @@
 @section('title', 'Detail Inbound')
 
 @section('content')
-<div class="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-6xl mx-auto">
-                <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+<div class="min-h-screen bg-slate-100 px-4 py-5 sm:px-6 lg:px-8">
+    <div class="mx-auto w-full max-w-screen-2xl">
+        <div class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-                <div class="mb-2 flex items-center gap-2 text-slate-900">
-                    <svg class="h-6 w-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7l9-4 9 4v11a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18" />
-                    </svg>
-                    <h1 class="text-3xl font-bold text-slate-900">Detail Barang masuk</h1>
-                </div>
-                <p class="text-slate-600">Ringkasan penerimaan barang pengiriman.</p>
+                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Inbound</p>
+                <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Detail Barang Masuk</h1>
             </div>
             <div class="flex flex-wrap gap-3">
-                <a href="{{ route('inbound.edit', $inbound) }}" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">
+                <a href="{{ route('inbound.edit', $inbound) }}" class="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232a2.062 2.062 0 0 1 2.916 2.916L7.75 18.646a.75.75 0 0 1-.338.197l-4 1a.75.75 0 0 1-.928-.928l1-4a.75.75 0 0 1 .197-.338l10.75-10.75Z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 5l3 3" />
                     </svg>
                     Edit
                 </a>
-                <a href="{{ route('inbound.index') }}" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-100">
+                <a href="{{ route('inbound.index') }}" class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
@@ -34,7 +28,7 @@
         </div>
 
         @if(session('success'))
-        <div class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+        <div class="mb-5 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 shadow-sm">
             {{ session('success') }}
         </div>
         @endif
@@ -46,8 +40,8 @@
 
         <div class="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
             <div class="space-y-6">
-                <div class="rounded-3xl border border-slate-200 bg-white p-6">
-                    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div>
                             <p class="text-sm text-slate-500">Invoice</p>
                             <p class="text-xl font-semibold text-slate-900">{{ $shipment->invoice_number }}</p>
@@ -62,10 +56,13 @@
                     </div>
                 </div>
 
-                <div class="rounded-3xl border border-slate-200 bg-white p-6">
-                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Informasi pengiriman</h2>
-                    <div class="grid gap-6 md:grid-cols-2">
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="mb-5 border-b border-slate-200 pb-4">
+                        <h2 class="text-base font-bold text-slate-950">Informasi Pengiriman</h2>
+                        <p class="mt-1 text-sm text-slate-500">Detail pengirim, penerima, dan data utama pengiriman.</p>
+                    </div>
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm text-slate-500">Pengirim</p>
                             <p class="mt-2 text-base font-semibold text-slate-900">{{ $shipment->sender_name }}</p>
                             <p class="mt-3 text-sm text-slate-600">{{ $shipment->pickup_address }}</p>
@@ -81,7 +78,7 @@
                                 <p class="mt-2 text-sm text-slate-500">Kode Pos: {{ $shipment->pickup_postal_code }}</p>
                             @endif
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm text-slate-500">Penerima</p>
                             <p class="mt-2 text-base font-semibold text-slate-900">{{ $shipment->receiver_name }}</p>
                             <p class="mt-3 text-sm text-slate-600">{{ $shipment->destination_address }}</p>
@@ -97,30 +94,33 @@
                                 <p class="mt-2 text-sm text-slate-500">Kode Pos: {{ $shipment->destination_postal_code }}</p>
                             @endif
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm text-slate-500">Tipe Barang</p>
                             <p class="mt-2 text-base font-semibold text-slate-900">{{ $shipment->item_type }}</p>
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm text-slate-500">Tanggal Inbound</p>
                             <p class="mt-2 text-base font-semibold text-slate-900">{{ $inbound->inbound_date->format('d M Y') }}</p>
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm text-slate-500">Transportasi</p>
                             <p class="mt-2 text-base font-semibold text-slate-900">{{ ucfirst($shipment->transportation_type) }}</p>
                         </div>
-                        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
                             <p class="text-sm text-slate-500">Pickup Date</p>
                             <p class="mt-2 text-base font-semibold text-slate-900">{{ $shipment->pickup_date->format('d M Y') }}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="rounded-3xl border border-slate-200 bg-white p-6">
-                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Daftar Barang</h2>
+                <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="mb-5 border-b border-slate-200 pb-4">
+                        <h2 class="text-base font-bold text-slate-950">Daftar Barang</h2>
+                        <p class="mt-1 text-sm text-slate-500">Rincian item yang diterima pada inbound ini.</p>
+                    </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-slate-100 border-b border-slate-300 text-slate-700">
+                        <table class="w-full min-w-[900px] text-sm">
+                            <thead class="border-b border-slate-200 bg-slate-50 text-slate-600">
                                 <tr>
                                     <th class="px-4 py-3 text-left">Nama Barang</th>
                                     <th class="px-4 py-3 text-center">Qty</th>
@@ -150,9 +150,9 @@
             </div>
 
             <aside class="space-y-6">
-                <div class="rounded-3xl border border-slate-200 bg-white p-6">
-                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Ringkasan Pengiriman</h2>
-                    <div class="space-y-4 text-slate-700">
+                <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <h2 class="text-base font-bold text-slate-950">Ringkasan Pengiriman</h2>
+                    <div class="mt-4 space-y-3 text-sm text-slate-700">
                         <div class="flex justify-between gap-4">
                             <span>Total Qty</span>
                             <strong>{{ $inbound->total_qty }}</strong>
@@ -168,9 +168,9 @@
                     </div>
                 </div>
 
-                <div class="rounded-3xl border border-slate-200 bg-white p-6">
-                    <h2 class="text-xl font-semibold text-slate-900 mb-5">Catatan Pengiriman</h2>
-                    <p class="text-slate-600 text-sm leading-relaxed">{{ $inbound->notes ?: 'Tidak ada catatan tambahan.' }}</p>
+                <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <h2 class="text-base font-bold text-slate-950">Catatan Pengiriman</h2>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600">{{ $inbound->notes ?: 'Tidak ada catatan tambahan.' }}</p>
                 </div>
             </aside>
         </div>

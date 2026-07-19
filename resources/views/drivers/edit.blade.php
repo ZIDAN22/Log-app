@@ -3,17 +3,20 @@
 @section('title', 'Edit Driver')
 
 @section('content')
-<div class="min-h-screen bg-slate-100 py-6 px-3 sm:px-5 lg:px-6">
-    <div class="mx-auto max-w-[1100px]">
-        <div class="mb-8 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+<div class="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+    <div class="mx-auto w-full max-w-screen-2xl">
+
+        <!-- Header -->
+        <div class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-                <h1 class="text-3xl font-bold tracking-tight text-slate-900">Edit Driver</h1>
-                <p class="mt-2 text-slate-600">Perbarui informasi driver dengan antarmuka yang modern dan profesional.</p>
+                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">DRIVER</p>
+                <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Edit Driver</h1>
             </div>
+
             <a href="{{ route('drivers.index') }}"
                 class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-100">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4.5 w-4.5 text-slate-700" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 18l-6-6 6-6"></path>
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6" />
                 </svg>
                 Kembali ke daftar
             </a>
@@ -25,19 +28,30 @@
         </div>
         @endif
 
-        <div class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 class="mb-6 text-xl font-bold text-slate-900">Form Update Driver</h2>
-            <form action="{{ route('drivers.update', $driver) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-                @csrf
-                @method('PUT')
-                @include('drivers._form')
-                @include('components.form-action-buttons', [
-                    'backUrl' => route('drivers.index'),
-                    'backLabel' => 'Batal',
-                    'submitLabel' => 'Perbarui Driver',
-                ])
-            </form>
+        <!-- Form -->
+        <div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+            <div class="border-b border-slate-200 px-6 py-5">
+                <h2 class="text-xl font-bold text-slate-900">Form Update Driver</h2>
+                <p class="mt-1 text-sm text-slate-500">Lengkapi data driver sebelum menyimpan perubahan.</p>
+            </div>
+
+            <div class="p-6">
+                <form action="{{ route('drivers.update', $driver) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    @csrf
+                    @method('PUT')
+
+                    @include('drivers._form')
+
+                    @include('components.form-action-buttons', [
+                        'backUrl' => route('drivers.index'),
+                        'backLabel' => 'Batal',
+                        'submitLabel' => 'Perbarui Driver',
+                    ])
+                </form>
+            </div>
         </div>
+
     </div>
 </div>
 @endsection
+

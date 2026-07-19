@@ -9,9 +9,7 @@
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                     Daftar Pengiriman
                 </h1>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Kelola, saring, dan pantau pengiriman pengiriman dari satu halaman operasional.
-                </p>
+  
             </div>
 
             <a
@@ -135,9 +133,7 @@
                             href="{{ route('pengiriman.index') }}"
                             class="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                         >
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6M5 19A9 9 0 0019 5" />
-                            </svg>
+
                             Reset
                         </a>
 

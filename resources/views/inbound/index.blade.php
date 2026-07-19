@@ -17,9 +17,7 @@
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                     Barang Masuk
                 </h1>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Pantau seluruh data barang masuk pengiriman dan detail barang masuk.
-                </p>
+  
             </div>
 
             <a href="{{ route('inbound.create') }}"

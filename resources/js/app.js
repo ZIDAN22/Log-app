@@ -1,4 +1,8 @@
-﻿window.addEventListener('DOMContentLoaded', () => {
+﻿import Chart from 'chart.js/auto';
+
+window.Chart = window.Chart || Chart;
+
+window.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const sidebarToggle = document.getElementById('sidebarToggle');
     const persisted = localStorage.getItem('sidebarCollapsed') === 'true';

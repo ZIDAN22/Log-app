@@ -18,10 +18,7 @@
                     Manajemen Pembayaran
                 </h1>
 
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Kelola pembayaran invoice pelanggan, verifikasi pembayaran,
-                    dan monitoring status transaksi pengiriman dalam satu halaman.
-                </p>
+ 
             </div>
 
             <a href="{{ route('payments.create') }}"

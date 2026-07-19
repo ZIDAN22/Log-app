@@ -5,8 +5,6 @@
                 <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">DELIVERY MANAGEMENT</p>
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Pengiriman Operasional
                 </h1>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600"> Statistik pengiriman (ready to ship sampai
-                    POD selesai) dan daftar pengiriman yang bisa dipantau dari satu halaman. </p>
             </div>
             <div class="flex gap-3"> <button type="button"
                     class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">

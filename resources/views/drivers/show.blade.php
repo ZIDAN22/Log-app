@@ -8,7 +8,6 @@
         <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
                 <h1 class="text-3xl font-bold text-slate-900">Detail Driver</h1>
-                <p class="mt-2 text-slate-600">Informasi lengkap driver dengan tampilan detail yang rapi dan responsif.</p>
             </div>
             <div class="flex flex-wrap gap-3">
                 <a href="{{ route('drivers.index') }}" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-100">
@@ -82,12 +81,12 @@
                 <div class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
                     <div class="flex items-center justify-between gap-4">
                         <div>
-                            <h2 class="text-xl font-bold text-slate-900">Histori Outbound</h2>
+                            <h2 class="text-xl font-bold text-slate-900">Histori </h2>
                             <p class="mt-1 text-sm text-slate-500">Catatan tugas keluar dan pengiriman driver.</p>
                         </div>
                     </div>
                     <div class="mt-5 rounded-3xl border border-dashed border-slate-200 bg-slate-50 px-6 py-12 text-center text-sm text-slate-500">
-                        Belum ada riwayat outbound untuk driver ini.
+                        Belum ada riwayat untuk driver ini.
                     </div>
                 </div>
             </div>

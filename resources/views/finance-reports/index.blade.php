@@ -10,9 +10,7 @@
             <div>
                 <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Finance STATEMENTS</p>
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Laporan Keuangan</h1>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Pantau status invoice, pembayaran customer, dan arus kas operasional logistik.
-                </p>
+               
             </div>
 
             <div class="flex flex-wrap gap-3">
@@ -232,7 +230,19 @@
                                 <div class="text-sm text-slate-900">{{ $invoice->customer_name }}</div>
                             </td>
                             <td class="px-6 py-5 whitespace-nowrap">
-                                <div class="text-sm text-slate-900">{{ $invoice->payment_method ?? '-' }}</div>
+                                <div class="text-sm text-slate-900">{{ $invoice->payment_method_display ?? $invoice->payment_method ?? '-' }}</div>
+                                @php $bankDetails = $invoice->bank_details ?? []; @endphp
+                                @if(!empty($bankDetails['bank_name']) || !empty($bankDetails['account_number']) || !empty($bankDetails['account_name']))
+                                    <div class="mt-1 text-xs text-slate-500">
+                                        {{ $bankDetails['bank_name'] ?? '-' }}
+                                        @if(!empty($bankDetails['account_number']))
+                                            • {{ $bankDetails['account_number'] }}
+                                        @endif
+                                        @if(!empty($bankDetails['account_name']))
+                                            • {{ $bankDetails['account_name'] }}
+                                        @endif
+                                    </div>
+                                @endif
                             </td>
                             <td class="px-6 py-5 whitespace-nowrap text-right">
                                 <div class="font-semibold text-slate-950">{{ $formatRp($invoice->grand_total) }}</div>

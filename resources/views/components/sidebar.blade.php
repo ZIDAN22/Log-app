@@ -1,5 +1,5 @@
 <aside id="sidebar"
-    class="sidebar bg-slate-900 text-slate-100 w-20 md:w-72 transition-all duration-300 shrink-0 overflow-y-auto">
+    class="sidebar sticky top-0 h-screen shrink-0 overflow-y-auto bg-slate-900 text-slate-100 transition-all duration-300 w-20 md:w-72 z-30 self-start">
     <!-- Brand Section -->
     <div class="sidebar-brand flex items-center gap-3 px-4 py-5 border-b border-slate-800 sticky top-0 bg-slate-900">
         <div class="brand-image hidden md:block">

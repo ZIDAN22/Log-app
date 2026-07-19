@@ -133,7 +133,7 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        $payment->load('invoice.packingList', 'verifiedBy');
+        $payment->load(['invoice.packingList.shipment', 'verifiedBy']);
 
         return view('payments.show', compact('payment'));
     }

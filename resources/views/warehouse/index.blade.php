@@ -10,10 +10,7 @@
             <div>
                 <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Warehouse</p>
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Data Gudang</h1>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Ringkasan operasional gudang, monitoring stok packing, dan aktivitas terbaru untuk mendukung alur
-                    logistik perusahaan.
-                </p>
+
             </div>
         </div>
 

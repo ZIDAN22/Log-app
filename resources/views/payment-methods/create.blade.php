@@ -16,13 +16,10 @@
                 </p>
 
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-                    Tambah Payment Method
+                    Tambah Metode Pembayaran
                 </h1>
 
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Tambahkan metode pembayaran perusahaan yang akan digunakan customer
-                    untuk pembayaran invoice logistik.
-                </p>
+
             </div>
 
             <a href="{{ route('payment-methods.index') }}"
@@ -79,7 +76,7 @@
                             {{-- Nama Payment --}}
                             <div>
                                 <label class="mb-2 block text-sm font-semibold text-slate-700">
-                                    Nama Payment Method
+                                    Nama Metode Pembayaran
                                     <span class="text-rose-500">*</span>
                                 </label>
 

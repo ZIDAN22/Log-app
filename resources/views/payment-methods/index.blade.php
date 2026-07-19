@@ -10,8 +10,8 @@
         <div
             class="mb-5 flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
 
-            <div>
-                <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">
+        <div>
+            <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">
                     PAYMENT METHOD
                 </p>
 
@@ -19,9 +19,7 @@
                     Metode Pembayaran
                 </h1>
 
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Kelola rekening perusahaan dan metode pembayaran customer untuk transaksi invoice.
-                </p>
+
             </div>
 
             <a href="{{ route('payment-methods.create') }}"

@@ -22,8 +22,8 @@ class DeliveryManagementController extends Controller
                 $sub->where('delivery_number', 'like', "%{$search}%")
                     ->orWhereHas('shipment', function ($q) use ($search) {
                         $q->where('invoice_number', 'like', "%{$search}%")
-                          ->orWhere('receipt_number', 'like', "%{$search}%")
-                          ->orWhere('receiver_name', 'like', "%{$search}%");
+                            ->orWhere('receipt_number', 'like', "%{$search}%")
+                            ->orWhere('receiver_name', 'like', "%{$search}%");
                     })
                     ->orWhereHas('outbound', function ($q) use ($search) {
                         $q->where('destination_city', 'like', "%{$search}%");
@@ -159,7 +159,7 @@ class DeliveryManagementController extends Controller
     public function printSuratJalan(DeliveryManagement $deliveryManagement)
     {
         $deliveryManagement->load(['shipment', 'outbound', 'driver', 'vehicle']);
-        
+
         // Use barryvdh/laravel-dompdf to generate PDF
         $pdf = PDF::loadView('pengiriman.management.print-surat-jalan', [
             'delivery' => $deliveryManagement
@@ -171,7 +171,7 @@ class DeliveryManagementController extends Controller
     public function printPOD(DeliveryManagement $deliveryManagement)
     {
         $deliveryManagement->load(['shipment', 'outbound', 'driver', 'vehicle']);
-        
+
         $pdf = PDF::loadView('pengiriman.management.print-pod', [
             'delivery' => $deliveryManagement
         ]);

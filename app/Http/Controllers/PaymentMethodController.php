@@ -76,8 +76,10 @@ class PaymentMethodController extends Controller
 
 
 
-        $validated['payment_code'] =
-            'bll-' . strtoupper(Str::random(6));
+        // Contoh kode sederhana: PAY001, PAY002, dst.
+        // Ambil nomor urut berdasarkan jumlah data saat ini (tanpa ketergantungan seed).
+        $nextNumber = (PaymentMethod::count() + 1);
+        $validated['payment_code'] = 'PAY' . str_pad((string) $nextNumber, 3, '0', STR_PAD_LEFT);
 
         PaymentMethod::create($validated);
 

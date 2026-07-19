@@ -5,197 +5,80 @@
 @section('content')
 <div class="min-h-screen bg-slate-100 px-4 py-5 sm:px-6 lg:px-12 2xl:px-16">
 
-    <div class="mx-auto w-full max-w-6xl">
+    <div class="mx-auto w-full max-w-7xl">
 
         {{-- HERO SECTION --}}
-        <section
-            class="relative overflow-hidden rounded-none bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.2)]">
+        <section class="relative overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-sm">
 
-            {{-- Glow --}}
-            <div class="absolute inset-0 overflow-hidden">
-                <div class="absolute right-0 top-0 h-80 w-80 rounded-full bg-cyan-500/10 blur-[90px]">
-                </div>
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-50 via-white to-cyan-50 opacity-80"></div>
 
-                <div class="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-sky-500/10 blur-[90px]">
-                </div>
-            </div>
+            <div class="relative p-8 lg:p-10 xl:p-12">
 
-            <div class="relative z-10 grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
+                <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 
-                {{-- LEFT CONTENT --}}
-                <div>
+                    <div>
 
-                    <div
-                        class="inline-flex items-center gap-2 border border-white/10 bg-white/10 px-4 py-2 backdrop-blur-xl">
-                        <span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
+                        <span class="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-emerald-700">
 
-                        <span class="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-100">
                             Dashboard Operasional
+
                         </span>
+
+                        <h1 class="mt-5 text-3xl font-bold text-slate-900 lg:text-4xl">
+
+                            {{ $greeting }}, {{ auth()->user()->name }}
+
+                        </h1>
+
+                        <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-500">
+
+                            Pantau seluruh aktivitas logistik, pengiriman, dan performa operasional
+                            perusahaan melalui satu dashboard yang terintegrasi.
+
+                        </p>
+
                     </div>
 
-                    <h1 class="mt-6 text-4xl font-bold tracking-tight text-white lg:text-5xl">
-                        Dashboard
-                        <span class="bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-transparent">
-                            Admin Operasional
-                        </span>
-                    </h1>
+                    <div class="w-full max-w-[280px] rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:ml-auto">
 
-                    <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-300">
-                        Pantau seluruh aktivitas logistik, armada, pengiriman,
-                        inbound, outbound, serta performa operasional
-                        secara real-time dalam satu dashboard modern.
-                    </p>
+                        <div class="flex items-center justify-between">
 
-                    {{-- QUICK ACTION --}}
-                    <div class="mt-8 grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                            <div>
 
-                        {{-- Kelola Pengiriman --}}
-                        <a href="{{ route('pengiriman.index') }}"
-                            class="inline-flex items-center gap-2 rounded-none bg-cyan-700 px-5 py-3 text-sm font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
 
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 7h13l3 5v5H5v-5l-2-5zM16 15a2 2 0 100 4 2 2 0 000-4zm-9 0a2 2 0 100 4 2 2 0 000-4z" />
-                            </svg>
+                                    Login Sebagai
 
-                            Kelola Pengiriman
-                        </a>
+                                </p>
 
-                        {{-- Manajemen Pengiriman --}}
-                        <a href="{{ route('delivery-management.index') }}"
-                            class="inline-flex items-center gap-2 rounded-none bg-cyan-700 px-5 py-3 text-sm font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950">
+                                <h3 class="mt-2 text-2xl font-bold text-slate-900">
 
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6v12" />
-                            </svg>
+                                    {{ auth()->user()->role_label }}
 
-                            Manajemen Pengiriman
-                        </a>
+                                </h3>
 
-                        {{-- Barang Masuk --}}
-                        <a href="{{ route('inbound.index') }}"
-                            class="inline-flex items-center gap-2 rounded-none bg-cyan-700 px-5 py-3 text-sm font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950">
+                            </div>
 
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
+                            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100">
 
-                            Barang Masuk
-                        </a>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-emerald-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
 
-                        {{-- Barang Keluar --}}
-                        <a href="{{ route('warehouse.outbound.index') }}"
-                            class="inline-flex items-center gap-2 rounded-none bg-cyan-700 px-5 py-3 text-sm font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 12c2.761 0 5-2.239 5-5S14.761 2 12 2 7 4.239 7 7s2.239 5 5 5zm0 2c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
 
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4">
-                                </path>
-                            </svg>
+                                </svg>
 
-                            Barang Keluar
-                        </a>
+                            </div>
 
-                        {{-- Kendaraan --}}
-                        <a href="{{ route('vehicles.index') }}"
-                            class="inline-flex items-center gap-2 rounded-none bg-cyan-700 px-5 py-3 text-sm font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414A1 1 0 0121 12v4a1 1 0 01-1 1h-1">
-                                </path>
-                            </svg>
-
-                            Kendaraan
-                        </a>
-
-                        {{-- Driver --}}
-                        <a href="{{ route('drivers.index') }}"
-                            class="inline-flex items-center gap-2 rounded-none bg-cyan-700 px-5 py-3 text-sm font-semibold text-white transition duration-300 hover:scale-[1.02] hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-slate-950">
-
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5.121 17.804A6.004 6.004 0 0112 15a6.004 6.004 0 016.879 2.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-
-                            Driver
-                        </a>
+                        </div>
 
                     </div>
+
                 </div>
 
-                {{-- RIGHT PANEL --}}
-                <div class="rounded-none border border-white/10 bg-white/10 p-6 backdrop-blur-2xl">
-
-                    <div class="flex items-center justify-between">
-
-                        <div>
-                            <p class="text-xs uppercase tracking-[0.2em] text-slate-400">
-                                {{ $greeting }}
-                            </p>
-
-                            <h3 class="mt-2 text-2xl font-bold text-white">
-                                Admin Operasional
-                            </h3>
-                        </div>
-
-                        <div
-                            class="flex h-16 w-16 items-center justify-center rounded-none bg-cyan-500/10 text-cyan-300">
-
-                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5.121 17.804A6.004 6.004 0 0112 15a6.004 6.004 0 016.879 2.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-
-                        </div>
-                    </div>
-
-                    {{-- Date --}}
-                    <div class="mt-8 rounded-none bg-slate-950/30 p-5">
-
-                        <p class="text-sm text-slate-400">
-                            Hari ini
-                        </p>
-
-                        <p class="mt-2 text-lg font-semibold text-white">
-                            {{ $dayNames[$now->format('l')] }},
-                            {{ $now->translatedFormat('j F Y') }}
-                        </p>
-
-                        <p id="liveClock" class="mt-2 text-3xl font-bold text-cyan-300">
-                            {{ $now->format('H:i:s') }}
-                        </p>
-                    </div>
-
-                    {{-- MINI KPI --}}
-                    <div class="mt-5 grid grid-cols-2 gap-4">
-
-                        <div class="rounded-none bg-emerald-500/10 p-4">
-                            <p class="text-xs uppercase text-emerald-300">
-                                Driver Aktif
-                            </p>
-
-                            <p class="mt-2 text-2xl font-bold text-white">
-                                {{ $summary['activeDriver'] }}
-                            </p>
-                        </div>
-
-                        <div class="rounded-none bg-cyan-500/10 p-4">
-                            <p class="text-xs uppercase text-cyan-300">
-                                Armada Aktif
-                            </p>
-
-                            <p class="mt-2 text-2xl font-bold text-white">
-                                {{ $summary['activeArmada'] }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
+
         </section>
 
         {{-- KPI SECTION --}}

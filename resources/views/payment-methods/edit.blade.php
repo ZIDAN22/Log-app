@@ -16,9 +16,7 @@
                     Edit Metode Pembayaran
                 </h1>
 
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Perbarui informasi rekening atau metode pembayaran untuk invoice.
-                </p>
+
             </div>
 
             <a href="{{ route('payment-methods.index') }}"

@@ -11,9 +11,7 @@
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                     Riwayat Packing List
                 </h1>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Pantau seluruh packing list yang terbentuk otomatis dari barang masuk pengiriman.
-                </p>
+  
             </div>
         </div>
 

@@ -17,10 +17,7 @@
                     Buat Invoice Baru
                 </h1>
 
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Buat invoice otomatis berdasarkan packing list atau shipment,
-                    lengkap dengan perhitungan biaya pengiriman.
-                </p>
+
             </div>
 
             <a href="{{ route('invoices.index') }}"
@@ -149,21 +146,29 @@
 
                         </div>
 
-                        <div class="mt-5 rounded-lg border border-slate-200 bg-white p-4">
-                            <h3 class="text-sm font-bold text-slate-900">Detail Barang (otomatis)</h3>
-                            <p class="mt-1 text-sm text-slate-500">Item diambil langsung dari Packing List. Tidak ada input manual.</p>
+                        <div class="mt-5 rounded-lg border border-slate-200 bg-white p-4 sm:p-5">
+                            <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-900">Detail Barang (otomatis)</h3>
+                                    <p class="mt-1 text-sm text-slate-500">Item diambil langsung dari Packing List. Tidak ada input manual.</p>
+                                </div>
+                                <span class="inline-flex w-fit items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                                    Otomatis
+                                </span>
+                            </div>
 
-                            <div class="mt-4 overflow-x-auto rounded-lg border border-slate-200">
-                                <table class="min-w-full divide-y divide-slate-200 text-sm">
-                                    <thead class="bg-slate-50 text-slate-700">
+<div class="mt-4 overflow-x-auto rounded-lg border border-slate-200">
+<table class="min-w-full w-full divide-y divide-slate-200 text-sm">
+                                    
+<thead class="bg-slate-50 text-slate-700">
                                         <tr>
-                                            <th class="px-4 py-3 text-left">Nama Barang</th>
-                                            <th class="px-4 py-3 text-center">Qty</th>
-                                            <th class="px-4 py-3 text-center">Packaging</th>
-                                            <th class="px-4 py-3 text-center">Total Packaging</th>
-                                            <th class="px-4 py-3 text-right">Berat</th>
-                                            <th class="px-4 py-3 text-right">Harga Unit</th>
-                                            <th class="px-4 py-3 text-right">Subtotal</th>
+                                            <th class="px-4 py-3 text-left font-semibold">Nama Barang</th>
+                                            <th class="px-4 py-3 text-center font-semibold">Qty</th>
+                                            <th class="px-4 py-3 text-center font-semibold">Packaging</th>
+                                            <th class="px-4 py-3 text-center font-semibold">Total Packaging</th>
+                                            <th class="px-4 py-3 text-right font-semibold">Berat</th>
+                                            <th class="px-4 py-3 text-right font-semibold">Harga Unit</th>
+                                            <th class="px-4 py-3 text-right font-semibold">Subtotal</th>
                                         </tr>
                                     </thead>
                                     <tbody id="invoice-items-body" class="divide-y divide-slate-200 bg-white">
@@ -364,7 +369,7 @@
                         <p class="font-semibold">Invoice otomatis</p>
 
                         <p class="mt-2 leading-6">
-                            Sistem mengambil data packing list dan menghitung biaya pengiriman secara otomatis.
+                            Sistem mengambil data dan menghitung biaya pengiriman secara otomatis.
                         </p>
                     </section>
 

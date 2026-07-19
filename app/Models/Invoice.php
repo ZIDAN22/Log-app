@@ -26,6 +26,7 @@ class Invoice extends Model
         'customer_name',
         'transportation_type',
         'payment_status',
+        'payment_method_id',
         'payment_method',
         'notes',
         'proof_of_payment',
@@ -68,9 +69,61 @@ class Invoice extends Model
         return ($styles[$this->payment_status]['bg'] ?? 'bg-slate-100') . ' ' . ($styles[$this->payment_status]['text'] ?? 'text-slate-800');
     }
 
+    public function getShippingAmountAttribute(): float
+    {
+        $deliveryFee = (float) ($this->attributes['delivery_fee'] ?? 0);
+
+        if ($deliveryFee > 0) {
+            return round($deliveryFee, 2);
+        }
+
+        $packingList = $this->packingList;
+        $shipment = $packingList?->shipment;
+
+        if ($shipment) {
+            $pricePerKg = (float) ($shipment->price_per_kg ?? 0);
+            $totalWeight = (float) ($this->total_weight ?? 0);
+
+            return round($pricePerKg * $totalWeight, 2);
+        }
+
+        return 0.0;
+    }
+
     public function packingList(): BelongsTo
     {
         return $this->belongsTo(PackingList::class);
+    }
+
+    public function paymentMethod(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function getPaymentMethodDisplayAttribute(): string
+    {
+        if ($this->paymentMethod) {
+            return $this->paymentMethod->method_name;
+        }
+
+        return $this->payment_method ?? '-';
+    }
+
+    public function getBankDetailsAttribute(): array
+    {
+        if ($this->paymentMethod) {
+            return [
+                'bank_name' => $this->paymentMethod->bank_name,
+                'account_number' => $this->paymentMethod->account_number,
+                'account_name' => $this->paymentMethod->account_name,
+            ];
+        }
+
+        return [
+            'bank_name' => $this->bank_name,
+            'account_number' => $this->bank_account_number,
+            'account_name' => $this->bank_account_name,
+        ];
     }
 
     public function payment(): HasOne

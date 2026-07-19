@@ -15,8 +15,6 @@
             <div>
                 <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">OUTBOUND</p>
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Barang Keluar</h1>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">Kelola barang keluar yang dibuat dari packing list
-                    dan cetak surat jalan.</p>
             </div>
 
             <a href="{{ route('warehouse.outbound.create') }}"

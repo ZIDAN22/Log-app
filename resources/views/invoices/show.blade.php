@@ -8,7 +8,6 @@
         <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
                 <h1 class="text-3xl font-bold text-slate-900">Detail Invoice</h1>
-                <p class="text-slate-600">Lihat ringkasan invoice yang diambil dari Packing List.</p>
             </div>
             <div class="flex flex-wrap gap-3">
                 <a href="{{ route('invoices.print-pdf', $invoice) }}" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">

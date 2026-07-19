@@ -75,7 +75,21 @@
                 <tr>
                     <td>{{ $invoice->invoice_number }}<br><small>{{ $invoice->receipt_number }}</small></td>
                     <td>{{ $invoice->customer_name }}</td>
-                    <td>{{ $invoice->payment_method ?? '-' }}</td>
+                    <td>
+                        {{ $invoice->payment_method_display ?? $invoice->payment_method ?? '-' }}
+                        @php $bankDetails = $invoice->bank_details ?? []; @endphp
+                        @if(!empty($bankDetails['bank_name']) || !empty($bankDetails['account_number']) || !empty($bankDetails['account_name']))
+                            <br><small>
+                                {{ $bankDetails['bank_name'] ?? '-' }}
+                                @if(!empty($bankDetails['account_number']))
+                                    • {{ $bankDetails['account_number'] }}
+                                @endif
+                                @if(!empty($bankDetails['account_name']))
+                                    • {{ $bankDetails['account_name'] }}
+                                @endif
+                            </small>
+                        @endif
+                    </td>
                     <td>Rp {{ number_format($invoice->grand_total, 0, ',', '.') }}</td>
                     <td>Rp {{ number_format($amountPaid, 0, ',', '.') }}</td>
                     <td>Rp {{ number_format($remaining, 0, ',', '.') }}</td>

@@ -18,9 +18,7 @@
                     Edit Invoice
                 </h1>
 
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                    Perbarui invoice berdasarkan data shipment dan packing list yang sudah tersimpan.
-                </p>
+ 
             </div>
 
             <a href="{{ route('invoices.index') }}"

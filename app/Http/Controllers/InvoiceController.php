@@ -79,7 +79,6 @@ class InvoiceController extends Controller
             'bank_name' => 'nullable|string|max:255',
             'bank_account_number' => 'nullable|string|max:255',
             'bank_account_name' => 'nullable|string|max:255',
-            'delivery_fee' => 'nullable|numeric|min:0',
             'proof_of_payment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
         ]);
 
@@ -94,16 +93,14 @@ class InvoiceController extends Controller
         $receiptNumber = $shipment->receipt_number ?: Shipment::generateReceiptNumber();
         $customerName = $shipment->receiver_name ?: $shipment->sender_name ?: 'Pelanggan';
 
-        $deliveryFee = $validated['delivery_fee'] ?? 0;
         $transportPricePerKg = $shipment->price_per_kg ?? 0;
         $baseTransport = round($transportPricePerKg * $packingList->total_weight, 2);
-        $baseTotal = round($baseTransport + $deliveryFee, 2);
 
         // Ambil nominal PPN/PPH dari shipment jika tersedia (nominal),
         // jika tidak, fallback ke persentase dari baseTransport.
         $ppnAmount = round($shipment->ppn ?? ($baseTransport * 0.011), 2);
         $pphAmount = round($shipment->pph ?? ($baseTransport * 0.02), 2);
-        $grandTotal = round($baseTotal + $ppnAmount - $pphAmount, 2);
+        $grandTotal = round($baseTransport + $ppnAmount - $pphAmount, 2);
 
         // Resolve payment method / bank details: prefer selected payment method record
         $paymentMethodText = $validated['payment_method'] ?? null;
@@ -129,6 +126,7 @@ class InvoiceController extends Controller
             'customer_name' => $customerName,
             'transportation_type' => $shipment->transportation_type,
             'payment_status' => $validated['payment_status'],
+            'payment_method_id' => $validated['payment_method_id'] ?? null,
             'payment_method' => $paymentMethodText,
             'notes' => $validated['notes'],
             'bank_name' => $bankName ?? null,
@@ -137,7 +135,6 @@ class InvoiceController extends Controller
             'total_qty' => $packingList->total_qty,
             'total_weight' => $packingList->total_weight,
             'total_value' => $packingList->total_value,
-            'delivery_fee' => $deliveryFee,
             'ppn_amount' => $ppnAmount,
             'pph_amount' => $pphAmount,
             'grand_total' => $grandTotal,
@@ -182,26 +179,19 @@ class InvoiceController extends Controller
             'bank_name' => 'nullable|string|max:255',
             'bank_account_number' => 'nullable|string|max:255',
             'bank_account_name' => 'nullable|string|max:255',
-            'delivery_fee' => 'nullable|numeric|min:0',
             'proof_of_payment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
         ]);
-
-        $deliveryFee = $invoice->delivery_fee ?? 0;
-        if (array_key_exists('delivery_fee', $validated)) {
-            $deliveryFee = $validated['delivery_fee'] ?? $deliveryFee;
-        }
 
         $invoice->load('packingList.shipment');
         $shipment = $invoice->packingList->shipment;
         $transportPricePerKg = $shipment->price_per_kg ?? 0;
         $baseTransport = round($transportPricePerKg * $invoice->total_weight, 2);
-        $baseTotal = round($baseTransport + $deliveryFee, 2);
 
         // Ambil nominal PPN/PPH dari shipment jika tersedia (nominal),
         // jika tidak, fallback ke persentase dari baseTransport.
         $ppnAmount = round($shipment->ppn ?? ($baseTransport * 0.011), 2);
         $pphAmount = round($shipment->pph ?? ($baseTransport * 0.02), 2);
-        $grandTotal = round($baseTotal + $ppnAmount - $pphAmount, 2);
+        $grandTotal = round($baseTransport + $ppnAmount - $pphAmount, 2);
 
         $paymentMethodText = $validated['payment_method'] ?? $invoice->payment_method;
         $bankName = $validated['bank_name'] ?? $invoice->bank_name;
@@ -221,12 +211,12 @@ class InvoiceController extends Controller
         $data = [
             'invoice_date' => $validated['invoice_date'],
             'payment_status' => $validated['payment_status'],
+            'payment_method_id' => $validated['payment_method_id'] ?? $invoice->payment_method_id,
             'payment_method' => $paymentMethodText,
             'notes' => $validated['notes'],
             'bank_name' => $bankName ?? null,
             'bank_account_number' => $bankAccountNumber ?? null,
             'bank_account_name' => $bankAccountName ?? null,
-            'delivery_fee' => $deliveryFee,
             'ppn_amount' => $ppnAmount,
             'pph_amount' => $pphAmount,
             'grand_total' => $grandTotal,

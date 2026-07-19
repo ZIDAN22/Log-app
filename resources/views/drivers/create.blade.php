@@ -8,7 +8,6 @@
         <div class="mb-8 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
                 <h1 class="text-3xl font-bold tracking-tight text-slate-900">Tambah Driver</h1>
-                <p class="mt-2 text-slate-600">Isi data driver baru dengan tampilan dashboard warehouse yang bersih.</p>
             </div>
             <a href="{{ route('drivers.index') }}"
                 class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-100">

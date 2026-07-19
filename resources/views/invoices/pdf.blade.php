@@ -240,8 +240,8 @@
                         </div>
 
                         <div class="company-info">
-                            Ruko Karang Anyar Permai 55 Blok B 18-19 <br>
-                            Jl. Karang Anyar Raya Jakarta Pusat 10750 <br>
+                            Jl. Kampung Bandan Rt 02/04 Lapangan Tanah Merah <br>
+                            Kecamatan Pademangan, Jakarta Utara 14430 <br>
                             Email : https://berlianlintaslogistik.com
                         </div>
                     </td>
@@ -277,7 +277,7 @@
             <tr>
                 <td class="label">NPWP</td>
                 <td class="colon">:</td>
-                <td>70.597.358.4-754.002</td>
+                <td>70.597.358.4-753.004</td>
             </tr>
 
             <tr>
