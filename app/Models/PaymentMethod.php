@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class PaymentMethod extends Model
 {
@@ -61,5 +62,19 @@ class PaymentMethod extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = (string) Str::uuid();
+            }
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 }

@@ -108,6 +108,12 @@ class Shipment extends Model
         static::updating(function ($shipment) {
             $shipment->calculateTotals();
         });
+
+        static::creating(function ($shipment) {
+            if (empty($shipment->uuid)) {
+                $shipment->uuid = (string) Str::uuid();
+            }
+        });
     }
 
     public static function generateInvoiceNumber(): string
@@ -219,5 +225,10 @@ class Shipment extends Model
     public function deliveryManagement()
     {
         return $this->hasOne(DeliveryManagement::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 }

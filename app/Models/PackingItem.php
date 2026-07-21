@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class PackingItem extends Model
 {
@@ -30,5 +31,19 @@ class PackingItem extends Model
     public function packingList(): BelongsTo
     {
         return $this->belongsTo(PackingList::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = (string) Str::uuid();
+            }
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 }

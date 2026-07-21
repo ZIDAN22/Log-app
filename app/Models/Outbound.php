@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Outbound extends Model
 {
@@ -87,5 +88,19 @@ class Outbound extends Model
     public function deliveryManagement()
     {
         return $this->hasOne(DeliveryManagement::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = (string) Str::uuid();
+            }
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 }

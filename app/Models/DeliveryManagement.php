@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class DeliveryManagement extends Model
 {
@@ -157,5 +158,19 @@ class DeliveryManagement extends Model
 
         $nextNumber = ($lastDelivery ? intval(substr($lastDelivery->delivery_number, -4)) : 0) + 1;
         return 'DLV-' . $year . '-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = (string) Str::uuid();
+            }
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 }
