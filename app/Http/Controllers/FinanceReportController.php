@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\InvoicesExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -19,10 +20,76 @@ class FinanceReportController extends Controller
 
         $statusOptions = Invoice::PAYMENT_STATUSES;
 
-        $query = Invoice::with(['packingList.shipment'])
+        $query = Invoice::with(['packingList.shipment', 'paymentMethod'])
             ->withSum('payment', 'amount_paid');
 
         $this->applyFilters($query, $request);
+
+        // Handle export request (csv/xlsx). CSV implemented as streaming response; XLSX via maatwebsite/excel.
+        $export = $request->query('export');
+
+        if ($export === 'xlsx') {
+            $items = $query->orderBy('invoice_date', 'desc')->orderBy('created_at', 'desc')->get();
+            $filename = 'laporan-keuangan-' . now()->format('YmdHis') . '.xlsx';
+
+            return Excel::download(new InvoicesExport($items), $filename);
+        }
+
+        if ($export === 'csv') {
+            $rows = [];
+
+            // header row
+            $rows[] = [
+                'Invoice Number', 'Receipt Number', 'Customer', 'Payment Method', 'Total Invoice', 'Amount Paid', 'Remaining', 'Invoice Date', 'Due Date', 'Status'
+                ];
+
+                $items = $query->orderBy('invoice_date', 'desc')->orderBy('created_at', 'desc')->get();
+
+                foreach ($items as $invoice) {
+                    $amountPaid = $invoice->payment_amount_paid_sum ?? 0;
+                    $remaining = max(0, $invoice->grand_total - $amountPaid);
+
+                    $rows[] = [
+                        $invoice->invoice_number,
+                        $invoice->receipt_number,
+                        $invoice->customer_name,
+                        $invoice->payment_method_display ?? $invoice->payment_method ?? '-',
+                        'Rp ' . number_format($invoice->grand_total, 0, ',', '.'),
+                        'Rp ' . number_format($amountPaid, 0, ',', '.'),
+                        'Rp ' . number_format($remaining, 0, ',', '.'),
+                        optional($invoice->invoice_date)->format('Y-m-d'),
+                        $invoice->due_date ? $invoice->due_date->format('Y-m-d') : '-',
+                        $invoice->payment_status,
+                    ];
+                }
+
+            $filename = 'laporan-keuangan-' . now()->format('YmdHis') . '.csv';
+
+            // Stream CSV content
+            $callback = function () use ($rows) {
+                $FH = fopen('php://output', 'w');
+                // write BOM for Excel compatibility with UTF-8
+                fwrite($FH, chr(0xEF) . chr(0xBB) . chr(0xBF));
+                foreach ($rows as $row) {
+                    // convert any value that begins with =+-@ to prevent CSV injection
+                    $safe = array_map(function ($cell) {
+                        if (is_string($cell) && preg_match('/^[=+\-@]/', $cell)) {
+                            return "'" . $cell;
+                        }
+                        return $cell;
+                    }, $row);
+                    fputcsv($FH, $safe);
+                }
+                fclose($FH);
+            };
+
+            $headers = [
+                'Content-Type' => 'text/csv; charset=UTF-8',
+                'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            ];
+
+            return response()->stream($callback, 200, $headers);
+        }
 
         $invoices = $query->orderBy('invoice_date', 'desc')
             ->orderBy('created_at', 'desc')
@@ -43,31 +110,6 @@ class FinanceReportController extends Controller
             'paymentMethods',
             'statusOptions'
         ));
-    }
-
-    public function exportPdf(Request $request)
-    {
-        $query = Invoice::with(['packingList.shipment'])
-            ->withSum('payment', 'amount_paid');
-
-        $this->applyFilters($query, $request);
-
-        $invoices = $query->orderBy('invoice_date', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        $summary = [
-            'total' => $this->countInvoices($request),
-            'unpaid' => $this->countInvoices($request, Invoice::STATUS_UNPAID),
-            'dp' => $this->countInvoices($request, Invoice::STATUS_DP),
-            'paid' => $this->countInvoices($request, Invoice::STATUS_PAID),
-            'incoming_payments' => $this->sumIncomingPayments($request),
-        ];
-
-        $pdf = Pdf::loadView('finance-reports.pdf', compact('invoices', 'summary'))
-            ->setPaper('a4', 'landscape');
-
-        return $pdf->stream('laporan-keuangan.pdf');
     }
 
     private function applyFilters(Builder $query, Request $request): Builder

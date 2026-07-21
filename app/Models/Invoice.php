@@ -130,4 +130,51 @@ class Invoice extends Model
     {
         return $this->hasOne(Payment::class);
     }
+
+    /**
+     * Get the computed due date for the invoice.
+     *
+     * Notes:
+     * - If the underlying table has a 'due_date' column it will be used.
+     * - If not present, a default term of 30 days from invoice_date is assumed.
+     *   Consider adding an explicit due_date or payment_terms field for clarity.
+     *
+     * @return \Illuminate\Support\Carbon|null
+     */
+    public function getDueDateAttribute()
+    {
+        // If a due_date column exists in attributes, return it parsed as Carbon
+        if (array_key_exists('due_date', $this->attributes) && !empty($this->attributes['due_date'])) {
+            return \Illuminate\Support\Carbon::parse($this->attributes['due_date']);
+        }
+
+        if ($this->invoice_date) {
+            // Default to net 30 if no explicit due date/terms are stored
+            return $this->invoice_date->copy()->addDays(30);
+        }
+
+        return null;
+    }
+
+    /**
+     * Aging in days (number of days overdue). Returns integer or null if due date missing.
+     * If not overdue, returns 0.
+     *
+     * @return int|null
+     */
+    public function getAgingAttribute()
+    {
+        $due = $this->due_date;
+        if (! $due) {
+            return null;
+        }
+
+        $now = \Illuminate\Support\Carbon::now();
+        if ($now->gt($due)) {
+            return $now->diffInDays($due);
+        }
+
+        return 0;
+    }
 }
+

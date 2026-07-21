@@ -57,8 +57,17 @@
     display: block !important;
 }
 
+.sidebar-collapsed .brand-image img {
+    height: 2.5rem !important;
+    width: auto !important;
+}
+
 .sidebar-collapsed .sidebar-label,
 .sidebar-collapsed .space-y-2 > div:first-child {
+    display: none !important;
+}
+
+.sidebar-collapsed #sidebar .sidebar-brand > div.sidebar-label {
     display: none !important;
 }
 
@@ -68,6 +77,8 @@
 
 .sidebar-collapsed .sidebar-brand {
     justify-content: center !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
 }
 
 .sidebar-collapsed #sidebar .sidebar-item span:first-child {

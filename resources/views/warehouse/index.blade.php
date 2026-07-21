@@ -12,6 +12,29 @@
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Data Gudang</h1>
 
             </div>
+
+            <div class="flex items-center gap-3">
+                <form method="GET" action="{{ route('warehouse.export') }}" class="inline-flex items-center gap-2">
+                    <label for="export_type" class="sr-only">Pilih Laporan</label>
+                    <select id="export_type" name="type"
+                        class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100">
+                        <option value="inbound">Barang Masuk (Inbound)</option>
+                        <option value="packing">Packing List</option>
+                        <option value="outbound">Barang Keluar (Outbound)</option>
+                    </select>
+
+                    <label for="export_format" class="sr-only">Format</label>
+                    <select id="export_format" name="format"
+                        class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100">
+                        <option value="xlsx">Excel (.xlsx)</option>
+                        <option value="csv">CSV (.csv)</option>
+                    </select>
+
+                    <button type="submit"
+                        class="rounded-xl bg-emerald-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700">Export</button>
+                </form>
+
+            </div>
         </div>
 
         <section class="grid gap-4 xl:grid-cols-4">
@@ -73,11 +96,8 @@
                     </div>
                     <div
                         class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 16V8a2 2 0 00-2-2H7a2 2 0 00-2 2v8" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v4" />
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11m16-11v11M8 14v3m4-3v3m4-3v3" />
                         </svg>
                     </div>
                 </div>
@@ -145,9 +165,9 @@
                     </div>
                     <div
                         class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-3-3" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 6h5v5" />
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 17l2 2 4-4" />
                         </svg>
                     </div>
                 </div>

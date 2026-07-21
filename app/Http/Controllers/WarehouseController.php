@@ -7,6 +7,8 @@ use App\Models\Outbound;
 use App\Models\PackingList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\WarehouseExport;
 
 class WarehouseController extends Controller
 {
@@ -192,4 +194,92 @@ class WarehouseController extends Controller
             'activitySearch'
         ));
     }
+
+    /**
+     * Export warehouse reports (inbound, packing list, outbound) to Excel or CSV.
+     * Query params: type = inbound|packing|outbound, format = xlsx|csv (optional, default xlsx)
+     */
+    public function export(Request $request)
+    {
+        $type = $request->query('type', 'inbound');
+        $format = $request->query('format', 'xlsx');
+
+        $now = now()->format('Ymd_His');
+
+        switch ($type) {
+            case 'packing':
+            case 'packing_list':
+                $items = \App\Models\PackingList::with('shipment', 'createdBy')->get()->map(function ($p) {
+                    return [
+                        'ID' => $p->id,
+                        'Packing Date' => optional($p->packing_date)->format('Y-m-d'),
+                        'Receipt Number' => optional($p->shipment)->receipt_number,
+                        'Receiver' => optional($p->shipment)->receiver_name,
+                        'Total Qty' => $p->total_qty,
+                        'Total Package' => $p->total_package,
+                        'Total Weight' => $p->total_weight,
+                        'Total Value' => $p->total_value,
+                        'Created By' => optional($p->createdBy)->name,
+                        'Notes' => $p->notes,
+                    ];
+                });
+
+                $headings = [
+                    'ID', 'Packing Date', 'Receipt Number', 'Receiver', 'Total Qty', 'Total Package', 'Total Weight', 'Total Value', 'Created By', 'Notes'
+                ];
+
+                $filename = "packing_list_report_{$now}.{$format}";
+                break;
+
+            case 'outbound':
+                $items = \App\Models\Outbound::with('packingList.shipment', 'driver', 'vehicle', 'packingList.createdBy')->get()->map(function ($o) {
+                    return [
+                        'ID' => $o->id,
+                        'Outbound Date' => optional($o->outbound_date)->format('Y-m-d'),
+                        'Receipt Number' => optional($o->packingList->shipment)->receipt_number,
+                        'Receiver' => optional($o->packingList->shipment)->receiver_name,
+                        'Shipping Method' => $o->shipping_method,
+                        'Status' => $o->status,
+                        'Driver' => optional($o->driver)->name,
+                        'Vehicle' => optional($o->vehicle)->license_plate ?? optional($o->vehicle)->name,
+                        'Created By' => optional($o->packingList->createdBy)->name,
+                        'Delivery Notes' => $o->delivery_notes,
+                    ];
+                });
+
+                $headings = [
+                    'ID', 'Outbound Date', 'Receipt Number', 'Receiver', 'Shipping Method', 'Status', 'Driver', 'Vehicle', 'Created By', 'Delivery Notes'
+                ];
+
+                $filename = "outbound_report_{$now}.{$format}";
+                break;
+
+            case 'inbound':
+            default:
+                $items = \App\Models\Inbound::with('shipment', 'createdBy')->get()->map(function ($i) {
+                    return [
+                        'ID' => $i->id,
+                        'Inbound Date' => optional($i->inbound_date)->format('Y-m-d'),
+                        'Receipt Number' => optional($i->shipment)->receipt_number,
+                        'Sender' => optional($i->shipment)->sender_name,
+                        'Total Qty' => $i->total_qty,
+                        'Total Package' => $i->total_package,
+                        'Total Weight' => $i->total_weight,
+                        'Created By' => optional($i->createdBy)->name,
+                        'Notes' => $i->notes,
+                    ];
+                });
+
+                $headings = [
+                    'ID', 'Inbound Date', 'Receipt Number', 'Sender', 'Total Qty', 'Total Package', 'Total Weight', 'Created By', 'Notes'
+                ];
+
+                $filename = "inbound_report_{$now}.{$format}";
+                break;
+        }
+
+        // Use WarehouseExport to export collection
+        return Excel::download(new WarehouseExport(collect($items), $headings), $filename);
+    }
 }
+

@@ -134,8 +134,8 @@
 
                         <tr>
 
-                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Foto</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Kode Driver</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Foto</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Nama Driver</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">No HP</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Jenis SIM</th>
@@ -159,7 +159,8 @@
                         @endphp
 
                         <tr class="transition hover:bg-slate-50">
-
+                            
+                            <td class="px-6 py-5 text-sm font-semibold text-slate-900">{{ $driver->code }}</td>
                             <td class="px-6 py-5">
                                 <div class="h-12 w-12 overflow-hidden rounded-2xl bg-slate-100">
                                     @if($driver->photo_path)
@@ -170,7 +171,6 @@
                                 </div>
                             </td>
 
-                            <td class="px-6 py-5 text-sm font-semibold text-slate-900">{{ $driver->code }}</td>
                             <td class="px-6 py-5 text-sm text-slate-700">{{ $driver->name }}</td>
                             <td class="px-6 py-5 text-sm text-slate-700">{{ $driver->phone }}</td>
                             <td class="px-6 py-5 text-sm text-slate-700">{{ $driver->license_type }}</td>

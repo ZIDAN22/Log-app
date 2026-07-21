@@ -56,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('warehouse')->name('warehouse.')->group(function () {
             Route::get('/', [WarehouseController::class, 'index'])->name('index');
+            Route::get('export', [WarehouseController::class, 'export'])->name('export');
             Route::resource('outbound', OutboundController::class);
             Route::post('outbound/{outbound}/status', [OutboundController::class, 'updateStatus'])->name('outbound.update-status');
             Route::get('outbound/{outbound}/print-pdf', [OutboundController::class, 'printPdf'])->name('outbound.print-pdf');
@@ -74,7 +75,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('payments/{invoice}/get-invoice-data', [PaymentController::class, 'getInvoiceData'])->name('payments.get-invoice-data');
         Route::resource('payment-methods', PaymentMethodController::class);
         Route::get('finance/reports', [FinanceReportController::class, 'index'])->name('finance.reports.index');
-        Route::get('finance/reports/export-pdf', [FinanceReportController::class, 'exportPdf'])->name('finance.reports.export-pdf');
     });
 
     Route::middleware(['role:manager'])->group(function () {

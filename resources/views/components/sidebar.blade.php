@@ -1,9 +1,12 @@
 <aside id="sidebar"
-    class="sidebar sticky top-0 h-screen shrink-0 overflow-y-auto bg-slate-900 text-slate-100 transition-all duration-300 w-20 md:w-72 z-30 self-start">
+    class="sidebar sticky top-0 h-screen shrink-0 overflow-y-auto bg-gradient-to-b from-indigo-950 via-slate-900 to-slate-900 text-slate-100 transition-all duration-300 w-20 md:w-72 z-30 self-start">
     <!-- Brand Section -->
-    <div class="sidebar-brand flex items-center gap-3 px-4 py-5 border-b border-slate-800 sticky top-0 bg-slate-900">
+    <div class="sidebar-brand flex items-center gap-3 px-4 py-5 border-b border-indigo-800/40 sticky top-0 bg-gradient-to-r from-indigo-950 to-slate-900">
         <div class="brand-image hidden md:block">
-            <img src="{{ asset('images/bll.png') }}" alt="LogistikPro Logo" class="h-12 w-auto">
+            <img src="{{ asset('images/bll.png') }}" alt="LogistikPro Logo" class="h-20 w-auto">
+        </div>
+        <div class="sidebar-label hidden md:flex flex-col leading-tight">
+            <span class="text-sm font-bold text-white tracking-tight">PT. Berlian Lintas Logistik</span>
         </div>
     </div>
 

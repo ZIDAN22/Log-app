@@ -75,7 +75,8 @@ class DeliveryManagementController extends Controller
         $allowedTransitions = [
             'ready_to_ship' => ['in_transit'],
             'picked_up' => ['in_transit'],
-            'in_transit' => ['delivered'],
+            // Allow reverting from in_transit back to ready_to_ship in case of accidental clicks
+            'in_transit' => ['delivered', 'ready_to_ship'],
             'arrived_destination' => ['delivered'],
             'delivered' => ['completed'],
             'completed' => [],
@@ -97,8 +98,14 @@ class DeliveryManagementController extends Controller
                 'delivery_status' => $target,
             ]);
 
+            // Set or clear delivered_at depending on the new status
             if ($target === 'delivered') {
                 $deliveryManagement->update(['delivered_at' => now()]);
+            } else {
+                // If moving away from delivered (e.g., reverting in_transit -> ready_to_ship), clear delivered_at
+                if ($deliveryManagement->delivered_at) {
+                    $deliveryManagement->update(['delivered_at' => null]);
+                }
             }
 
             if ($deliveryManagement->shipment) {

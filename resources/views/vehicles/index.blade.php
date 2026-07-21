@@ -101,8 +101,8 @@
                 <table class="w-full min-w-[1200px] border-collapse">
                     <thead class="border-b border-slate-200 bg-slate-50 text-slate-600">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Foto</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Kode</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Foto</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Nama Kendaraan</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Plat Nomor</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider">Jenis</th>
@@ -123,7 +123,8 @@
                         @endphp
 
                         <tr class="transition hover:bg-slate-50">
-
+                            
+                            <td class="px-6 py-5 text-sm font-semibold text-slate-900">{{ $vehicle->code }}</td>
                             <td class="px-6 py-5">
                                 <div class="h-12 w-12 overflow-hidden rounded-2xl bg-slate-100">
                                     @if($vehicle->photo_path)
@@ -134,7 +135,6 @@
                                 </div>
                             </td>
 
-                            <td class="px-6 py-5 text-sm font-semibold text-slate-900">{{ $vehicle->code }}</td>
                             <td class="px-6 py-5 text-sm text-slate-700">{{ $vehicle->name }}</td>
                             <td class="px-6 py-5 text-sm text-slate-700">{{ $vehicle->license_plate }}</td>
                             <td class="px-6 py-5 text-sm text-slate-700">{{ $vehicle->vehicle_type }}</td>

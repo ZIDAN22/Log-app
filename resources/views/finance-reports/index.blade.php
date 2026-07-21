@@ -14,13 +14,17 @@
             </div>
 
             <div class="flex flex-wrap gap-3">
-                <a href="{{ route('finance.reports.export-pdf', request()->query()) }}"
-                    class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8V4m0 0L8 8m4-4l4 4M4 16v4a2 2 0 002 2h12a2 2 0 002-2v-4M8 12h8" />
-                    </svg>
-                    Export PDF
+
+                <a href="{{ route('finance.reports.index', array_merge(request()->query(), ['export' => 'csv'])) }}"
+                    class="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50" aria-label="Export CSV" data-confirm-export>
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14M5 12h14"/></svg>
+                    Export CSV
+                </a>
+
+                <a href="{{ route('finance.reports.index', array_merge(request()->query(), ['export' => 'xlsx'])) }}"
+                    class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700" aria-label="Export Excel" data-confirm-export>
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14M5 12h14"/></svg>
+                    Export Excel
                 </a>
 
             </div>
@@ -67,10 +71,9 @@
                         <p class="text-sm font-medium text-slate-500">DP</p>
                         <p class="mt-3 text-3xl font-semibold text-amber-600">{{ number_format($summary['dp'] ?? 0) }}</p>
                     </div>
-                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3m0-12V4m0 4v4m0 4v4" />
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-amber-50 text-amber-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
                 </div>
@@ -210,8 +213,8 @@
                             <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wide whitespace-nowrap">Amount Paid</th>
                             <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wide whitespace-nowrap">Remaining</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Tanggal</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Jatuh Tempo</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Status</th>
-                            <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wide whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
 
@@ -256,23 +259,17 @@
                             <td class="px-6 py-5 whitespace-nowrap">
                                 <div class="text-sm text-slate-600">{{ optional($invoice->invoice_date)->format('d M Y') }}</div>
                             </td>
+
+                            <td class="px-6 py-5 whitespace-nowrap">
+                                <div class="text-sm text-slate-600">{{ $invoice->due_date ? $invoice->due_date->format('d M Y') : '-' }}</div>
+                            </td>
+
                             <td class="px-6 py-5 whitespace-nowrap">
                                 <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold {{ $invoice->paymentStatusBadge() }}">
                                     {{ $invoice->payment_status }}
                                 </span>
                             </td>
-                            <td class="px-6 py-5">
-                                <div class="flex flex-wrap items-center justify-center gap-2">
-                                    <a href="{{ route('invoices.show', $invoice) }}"
-                                        class="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
-                                        Detail
-                                    </a>
-                                    <a href="{{ route('invoices.print-pdf', $invoice) }}"
-                                        class="inline-flex h-10 items-center justify-center rounded-lg bg-slate-900 px-3 text-xs font-semibold text-white transition hover:bg-slate-800">
-                                        Print
-                                    </a>
-                                </div>
-                            </td>
+
                         </tr>
                         @empty
                         <tr>
@@ -301,8 +298,12 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const printButton = document.querySelector('button[onclick="window.print()"]');
-        if (!printButton) return;
+        document.querySelectorAll('a[data-confirm-export]').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                const ok = confirm('Ekspor laporan akan mengunduh file. Lanjutkan?');
+                if (!ok) e.preventDefault();
+            });
+        });
     });
 </script>
 @endpush

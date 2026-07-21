@@ -32,7 +32,7 @@ Hero Dashboard
 
                 <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-500">
 
-                    Monitor seluruh aktivitas operasional perusahaan,
+                    Pantau seluruh aktivitas operasional perusahaan,
                     pengiriman, pergudangan, serta performa bisnis
                     melalui satu dashboard yang terintegrasi.
 

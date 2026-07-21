@@ -14,36 +14,45 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Manager Logistik',
-            'email' => '1@123.id',
-            'password' => bcrypt('pasword123'),
+            'name' => 'Awan',
+            'email' => 'Awan21@bllogistik.online',
+            'password' => bcrypt('BLLAWAN-20260501'),
+            'role' => User::ROLE_MANAGER,
+            'status' => User::STATUS_ACTIVE,
+            'phone' => '081234567890',
+        ]);
+
+            User::create([
+            'name' => 'Susfitriah',
+            'email' => 'Fitriah002@bllogistik.online',
+            'password' => bcrypt('BLLFITRIAH-20260501'),
             'role' => User::ROLE_MANAGER,
             'status' => User::STATUS_ACTIVE,
             'phone' => '081234567890',
         ]);
 
         User::create([
-            'name' => 'Admin Operasional',
-            'email' => 'operasional@logistik.id',
-            'password' => bcrypt('password123'),
+            'name' => 'Taufik H',
+            'email' => 'Taufikhidayat11@bllogistik.online',
+            'password' => bcrypt('BLLTAUFIK-20260501'),
             'role' => User::ROLE_ADMIN_OPERASIONAL,
             'status' => User::STATUS_ACTIVE,
             'phone' => '081298765432',
         ]);
 
         User::create([
-            'name' => 'Staff Warehouse',
-            'email' => 'warehouse@logistik.id',
-            'password' => bcrypt('password123'),
+            'name' => 'Wisnu',
+            'email' => 'mhmdwisnu15@bllogistik.online',
+            'password' => bcrypt('BLLWISNU-20260501'),
             'role' => User::ROLE_WAREHOUSE,
             'status' => User::STATUS_ACTIVE,
             'phone' => '081212345678',
         ]);
 
         User::create([
-            'name' => 'Finance',
-            'email' => 'finance@logistik.id',
-            'password' => bcrypt('password123'),
+            'name' => 'Riska',
+            'email' => 'Riskarhdtl27@bllogistik.online',
+            'password' => bcrypt('BLLRISKA-20260501'),
             'role' => User::ROLE_FINANCE,
             'status' => User::STATUS_ACTIVE,
             'phone' => '081223344556',

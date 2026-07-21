@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Daftar Invoice')
+
 @section('content')
 <div class="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
     <div class="mx-auto w-full max-w-screen-2xl">
@@ -8,7 +10,7 @@
             <div>
                 <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Invoice</p>
                 <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-                    Daftar Invoice
+                    Daftar Faktur
                 </h1>
   
             </div>
@@ -121,8 +123,7 @@
                     </div>
                     <div class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-amber-50 text-amber-600">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3m0-12V4m0 4v4m0 4v4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
                 </div>

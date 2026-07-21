@@ -39,7 +39,9 @@
             class="mb-5 flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 shadow-sm">
 
             <div class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
-                ✓
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
             </div>
 
             <div class="flex-1">
@@ -66,7 +68,9 @@
                     </div>
 
                     <div class="flex h-11 w-11 items-center justify-center rounded-md bg-blue-50 text-blue-600">
-                        💳
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
                     </div>
                 </div>
             </article>
@@ -85,7 +89,9 @@
                     </div>
 
                     <div class="flex h-11 w-11 items-center justify-center rounded-md bg-blue-50 text-blue-600">
-                        🏦
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
                     </div>
                 </div>
             </article>
@@ -104,7 +110,9 @@
                     </div>
 
                     <div class="flex h-11 w-11 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
-                        📱
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
                     </div>
                 </div>
             </article>
@@ -123,7 +131,9 @@
                     </div>
 
                     <div class="flex h-11 w-11 items-center justify-center rounded-md bg-amber-50 text-amber-600">
-                        ✔
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
                     </div>
                 </div>
             </article>
@@ -383,7 +393,9 @@
 
                                     <div
                                         class="mb-4 flex h-14 w-14 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
-                                        💳
+                                        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                        </svg>
                                     </div>
 
                                     <h3 class="text-base font-bold text-slate-950">

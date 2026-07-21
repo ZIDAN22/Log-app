@@ -1,5 +1,7 @@
 ﻿@extends('layouts.app')
 
+@section('title', isset($shipment) ? 'Edit Pengiriman — ' . ($shipment->invoice_number ?? $shipment->id) : 'Edit Pengiriman')
+
 @section('content')
 <div class="min-h-screen bg-slate-100 py-6 px-3 sm:px-5 lg:px-6">
 

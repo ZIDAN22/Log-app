@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Daftar Pengiriman')
+
 @section('content')
 <div class="min-h-screen bg-slate-100 px-4 py-5 sm:px-6 lg:px-8">
     <div class="mx-auto w-full max-w-screen-2xl">
