@@ -192,20 +192,20 @@
 
                         </div>
 
-                        <!-- Berat -->
+                        <!-- Berat Aktual -->
                         <div>
 
-                            <label for="total_weight"
+                            <label for="actual_weight"
                                 class="mb-2 block text-sm font-semibold text-slate-700">
 
-                                Berat (KG)
+                                Berat Aktual (KG)
                                 <span class="text-red-500">*</span>
 
                             </label>
 
-                            <input id="total_weight"
-                                name="total_weight"
-                                value="{{ old('total_weight', $shipment->total_weight) }}"
+                            <input id="actual_weight"
+                                name="actual_weight"
+                                value="{{ old('actual_weight', $shipment->actual_weight ?? $shipment->total_weight) }}"
                                 required
                                 type="number"
                                 min="0"
@@ -213,7 +213,7 @@
                                 placeholder="0.00"
                                 class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100" />
 
-                            @error('total_weight')
+                            @error('actual_weight')
                             <p class="mt-2 text-sm text-rose-600">
                                 {{ $message }}
                             </p>
@@ -302,6 +302,44 @@
 
                         </div>
 
+                        <!-- Jenis Layanan -->
+                        <div>
+
+                            <label for="service_type"
+                                class="mb-2 block text-sm font-semibold text-slate-700">
+
+                                Jenis Layanan
+                                <span class="text-red-500">*</span>
+
+                            </label>
+
+                            <select id="service_type"
+                                name="service_type"
+                                required
+                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
+
+                                <option value="">Pilih jenis layanan</option>
+
+                                <option value="PTP"
+                                    {{ old('service_type', $shipment->service_type) === 'PTP' ? 'selected' : '' }}>
+                                    PTP (Port to Port)
+                                </option>
+
+                                <option value="DTD"
+                                    {{ old('service_type', $shipment->service_type) === 'DTD' ? 'selected' : '' }}>
+                                    DTD (Door to Door)
+                                </option>
+
+                            </select>
+
+                            @error('service_type')
+                            <p class="mt-2 text-sm text-rose-600">
+                                {{ $message }}
+                            </p>
+                            @enderror
+
+                        </div>
+
                         <div>
                             <label for="shipping_day" class="mb-2 block text-sm font-semibold text-slate-700">
                                 Hari Pengiriman
@@ -323,20 +361,92 @@
                             @enderror
                         </div>
 
+                        <!-- Volumetrik Toggle -->
+                        <div class="rounded-lg border border-slate-300 bg-slate-50 p-4">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" id="use_volumetric" name="use_volumetric" value="1" 
+                                    {{ old('use_volumetric', $shipment->use_volumetric) ? 'checked' : '' }}
+                                    class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-100" />
+                                <label for="use_volumetric" class="text-sm font-semibold text-slate-700">
+                                    Gunakan Perhitungan Volumetrik
+                                </label>
+                            </div>
+
+                            <div id="volumetric-fields" class="mt-4 grid gap-4 lg:grid-cols-4" style="display: none;">
+                                <div>
+                                    <label for="length_cm" class="mb-2 block text-sm font-semibold text-slate-700">
+                                        Panjang (cm)
+                                    </label>
+                                    <input id="length_cm" name="length_cm" value="{{ old('length_cm', $shipment->length_cm) }}"
+                                        type="number" min="0" step="0.01" placeholder="0.00"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100" />
+                                    @error('length_cm')
+                                    <p class="mt-2 text-sm text-rose-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="width_cm" class="mb-2 block text-sm font-semibold text-slate-700">
+                                        Lebar (cm)
+                                    </label>
+                                    <input id="width_cm" name="width_cm" value="{{ old('width_cm', $shipment->width_cm) }}"
+                                        type="number" min="0" step="0.01" placeholder="0.00"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100" />
+                                    @error('width_cm')
+                                    <p class="mt-2 text-sm text-rose-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="height_cm" class="mb-2 block text-sm font-semibold text-slate-700">
+                                        Tinggi (cm)
+                                    </label>
+                                    <input id="height_cm" name="height_cm" value="{{ old('height_cm', $shipment->height_cm) }}"
+                                        type="number" min="0" step="0.01" placeholder="0.00"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100" />
+                                    @error('height_cm')
+                                    <p class="mt-2 text-sm text-rose-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="volumetric_weight" class="mb-2 block text-sm font-semibold text-slate-700">
+                                        Berat Volumetrik (KG)
+                                    </label>
+                                    <input id="volumetric_weight" name="volumetric_weight" value="{{ old('volumetric_weight', $shipment->volumetric_weight) }}"
+                                        type="number" min="0" step="0.01" placeholder="0.00" readonly
+                                        class="w-full rounded-lg border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Berat Dikenakan -->
+                        <div>
+                            <label for="chargeable_weight" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Berat Dikenakan (Chargeable Weight)
+                            </label>
+                            <input id="chargeable_weight" name="chargeable_weight" value="{{ old('chargeable_weight', $shipment->chargeable_weight) }}"
+                                type="number" min="0" step="0.01" placeholder="0.00" readonly
+                                class="w-full rounded-lg border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500" />
+                            <p class="mt-2 text-xs text-slate-500">Nilai terbesar antara Berat Aktual dan Berat Volumetrik</p>
+                        </div>
+
                         <div id="transport-detail-darat" style="display: none;">
+                            <label class="mb-3 block text-sm font-semibold text-slate-900">Informasi Pengiriman Darat</label>
+                            
                             <label for="vehicle_id" class="mb-2 block text-sm font-semibold text-slate-700">
-                                Kendaraan Darat
+                                Kendaraan
                             </label>
 
                             <select
                                 id="vehicle_id"
                                 name="vehicle_id"
                                 class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
-                                <option value="">Pilih kendaraan</option>
+                                <option value="">-- Pilih Kendaraan --</option>
                                 @foreach($vehicles as $vehicle)
                                     <option value="{{ $vehicle->id }}"
                                         {{ old('vehicle_id', $shipment->vehicle_id) == $vehicle->id ? 'selected' : '' }}>
-                                        {{ $vehicle->name }} - {{ $vehicle->license_plate }}
+                                        {{ $vehicle->name }} ({{ $vehicle->license_plate }})
                                     </option>
                                 @endforeach
                             </select>
@@ -347,8 +457,31 @@
                             </p>
                             @enderror
 
+                            <label for="driver_id" class="mb-2 block text-sm font-semibold text-slate-700 mt-4">
+                                Pengemudi
+                            </label>
+
+                            <select
+                                id="driver_id"
+                                name="driver_id"
+                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
+                                <option value="">-- Pilih Pengemudi --</option>
+                                @foreach($drivers as $driver)
+                                    <option value="{{ $driver->id }}"
+                                        {{ old('driver_id', $shipment->driver_id) == $driver->id ? 'selected' : '' }}>
+                                        {{ $driver->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('driver_id')
+                            <p class="mt-2 text-sm text-rose-600">
+                                {{ $message }}
+                            </p>
+                            @enderror
+
                             <label for="land_departure_date" class="mb-2 block text-sm font-semibold text-slate-700 mt-4">
-                                Tgl Berangkat (Darat)
+                                Tanggal Berangkat Darat
                             </label>
 
                             <input
@@ -366,26 +499,46 @@
                         </div>
 
                         <div id="transport-detail-laut" style="display: none;">
-                            <label for="sea_shipping" class="mb-2 block text-sm font-semibold text-slate-700">
-                                Pelayaran Laut
+                            <label class="mb-3 block text-sm font-semibold text-slate-900">Informasi Pengiriman Laut</label>
+                            
+                            <label for="sea_fleet" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Pengiriman/Armada Laut
                             </label>
 
                             <input
-                                id="sea_shipping"
-                                name="sea_shipping"
-                                value="{{ old('sea_shipping', $shipment->sea_shipping) }}"
+                                id="sea_fleet"
+                                name="sea_fleet"
+                                value="{{ old('sea_fleet', $shipment->sea_fleet) }}"
                                 type="text"
-                                placeholder="Contoh: Dharma Kartika 8"
+                                placeholder="Contoh: Dharma Kartika"
                                 class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100" />
 
-                            @error('sea_shipping')
+                            @error('sea_fleet')
+                            <p class="mt-2 text-sm text-rose-600">
+                                {{ $message }}
+                            </p>
+                            @enderror
+
+                            <label for="ship_name" class="mb-2 block text-sm font-semibold text-slate-700 mt-4">
+                                Nama Kapal
+                            </label>
+
+                            <input
+                                id="ship_name"
+                                name="ship_name"
+                                value="{{ old('ship_name', $shipment->ship_name) }}"
+                                type="text"
+                                placeholder="Nama kapal (opsional)"
+                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100" />
+
+                            @error('ship_name')
                             <p class="mt-2 text-sm text-rose-600">
                                 {{ $message }}
                             </p>
                             @enderror
 
                             <label for="sea_departure_date" class="mb-2 block text-sm font-semibold text-slate-700 mt-4">
-                                Tgl Berangkat (Laut)
+                                Tanggal Berangkat Laut
                             </label>
 
                             <input
@@ -403,26 +556,28 @@
                         </div>
 
                         <div id="transport-detail-udara" style="display: none;">
-                            <label for="air_shipping" class="mb-2 block text-sm font-semibold text-slate-700">
-                                Pengiriman Udara
+                            <label class="mb-3 block text-sm font-semibold text-slate-900">Informasi Pengiriman Udara</label>
+                            
+                            <label for="air_carrier" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Maskapai Penerbangan
                             </label>
 
                             <input
-                                id="air_shipping"
-                                name="air_shipping"
-                                value="{{ old('air_shipping', $shipment->air_shipping) }}"
+                                id="air_carrier"
+                                name="air_carrier"
+                                value="{{ old('air_carrier', $shipment->air_carrier) }}"
                                 type="text"
-                                placeholder="Contoh: Lion Air Cargo"
+                                placeholder="Contoh: Garuda Indonesia, Lion Air, dll"
                                 class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100" />
 
-                            @error('air_shipping')
+                            @error('air_carrier')
                             <p class="mt-2 text-sm text-rose-600">
                                 {{ $message }}
                             </p>
                             @enderror
 
                             <label for="air_departure_date" class="mb-2 block text-sm font-semibold text-slate-700 mt-4">
-                                Tgl Berangkat (Udara)
+                                Tanggal Berangkat Penerbangan
                             </label>
 
                             <input
@@ -561,9 +716,82 @@
         Object.keys(sections).forEach(key => {
             sections[key].style.display = key === type ? 'block' : 'none';
         });
+
+        // Clear hidden field values
+        if (type !== 'darat') {
+            document.getElementById('vehicle_id').value = '';
+            document.getElementById('driver_id').value = '';
+            document.getElementById('land_departure_date').value = '';
+        }
+        if (type !== 'laut') {
+            document.getElementById('sea_fleet').value = '';
+            document.getElementById('ship_name').value = '';
+            document.getElementById('sea_departure_date').value = '';
+        }
+        if (type !== 'udara') {
+            document.getElementById('air_carrier').value = '';
+            document.getElementById('air_departure_date').value = '';
+        }
     }
 
+    function handleVolumetricToggle() {
+        const checkbox = document.getElementById('use_volumetric');
+        const fields = document.getElementById('volumetric-fields');
+        const lengthInput = document.getElementById('length_cm');
+        const widthInput = document.getElementById('width_cm');
+        const heightInput = document.getElementById('height_cm');
+
+        if (checkbox.checked) {
+            fields.style.display = 'grid';
+            lengthInput.required = true;
+            widthInput.required = true;
+            heightInput.required = true;
+        } else {
+            fields.style.display = 'none';
+            lengthInput.required = false;
+            widthInput.required = false;
+            heightInput.required = false;
+            lengthInput.value = '';
+            widthInput.value = '';
+            heightInput.value = '';
+            document.getElementById('volumetric_weight').value = '';
+            calculateWeights();
+        }
+    }
+
+    function calculateWeights() {
+        const actualWeight = parseFloat(document.getElementById('actual_weight').value) || 0;
+        const useVolumetric = document.getElementById('use_volumetric').checked;
+        
+        let volumetricWeight = 0;
+        if (useVolumetric) {
+            const length = parseFloat(document.getElementById('length_cm').value) || 0;
+            const width = parseFloat(document.getElementById('width_cm').value) || 0;
+            const height = parseFloat(document.getElementById('height_cm').value) || 0;
+            
+            volumetricWeight = length && width && height ? (length * width * height) / 4000 : 0;
+            document.getElementById('volumetric_weight').value = volumetricWeight.toFixed(2);
+        } else {
+            document.getElementById('volumetric_weight').value = '';
+        }
+
+        const chargeableWeight = Math.max(actualWeight, volumetricWeight);
+        document.getElementById('chargeable_weight').value = chargeableWeight.toFixed(2);
+    }
+
+    // Event listeners
     document.getElementById('transportation_type').addEventListener('change', updateTransportDetails);
-    document.addEventListener('DOMContentLoaded', updateTransportDetails);
+    document.getElementById('use_volumetric').addEventListener('change', handleVolumetricToggle);
+    document.getElementById('actual_weight').addEventListener('input', calculateWeights);
+    document.getElementById('length_cm').addEventListener('input', calculateWeights);
+    document.getElementById('width_cm').addEventListener('input', calculateWeights);
+    document.getElementById('height_cm').addEventListener('input', calculateWeights);
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateTransportDetails();
+        handleVolumetricToggle();
+        calculateWeights();
+    });
 </script>
 @endsection

@@ -42,7 +42,7 @@ class InvoicesExport implements FromCollection, WithHeadings, WithMapping, Shoul
 
     public function map($invoice): array
     {
-        $amountPaid = $invoice->payment_amount_paid_sum ?? 0;
+        $amountPaid = $invoice->payment_sum_amount_paid ?? 0;
         $remaining = max(0, $invoice->grand_total - $amountPaid);
 
         return [

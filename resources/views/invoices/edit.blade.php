@@ -554,14 +554,9 @@
         const subtotal =
             baseTransport + deliveryFee;
 
-        const ppn =
-            subtotal * 0.011;
-
-        const pph =
-            subtotal * 0.02;
-
-        const grandTotal =
-            subtotal + ppn - pph;
+        const ppn = Math.round(subtotal * 0.011);
+        const pph = Math.round(subtotal * 0.02);
+        const grandTotal = Math.round(subtotal + ppn - pph);
 
         document.getElementById('transport_base_display').value =
             formatRupiah(baseTransport);
@@ -579,13 +574,13 @@
             formatRupiah(grandTotal);
 
         document.getElementById('grand_total').value =
-            grandTotal.toFixed(2);
+            grandTotal;
 
         document.getElementById('ppn_amount').value =
-            ppn.toFixed(2);
+            ppn;
 
         document.getElementById('pph_amount').value =
-            pph.toFixed(2);
+            pph;
     }
 
     document.addEventListener('DOMContentLoaded', function () {

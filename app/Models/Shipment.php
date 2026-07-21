@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Vehicle;
+use App\Models\Driver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
@@ -28,6 +29,7 @@ class Shipment extends Model
     protected $fillable = [
         'invoice_number',
         'receipt_number',
+        'uuid',
         'customer_sender_id',
         'customer_receiver_id',
         'sender_name',
@@ -52,21 +54,39 @@ class Shipment extends Model
         'destination_postal_code',
         'destination_address',
         'item_type',
-        'total_weight',
+        'actual_weight',
+        'total_weight', // For backward compatibility
         'price_per_kg',
         'subtotal',
         'ppn',
         'pph',
         'grand_total',
         'transportation_type',
+        'service_type',
+        'use_volumetric',
+        'length_cm',
+        'width_cm',
+        'height_cm',
+        'volumetric_weight',
+        'chargeable_weight',
+        'surcharge_percent',
+        'surcharge_nominal',
+        'admin_fee_smu',
+        'admin_fee_sg',
+        'shipping_subtotal',
         'driver_id',
         'vehicle_id',
         'shipping_day',
-        'sea_shipping',
+        'air_carrier',
         'air_shipping',
-        'land_departure_date',
-        'sea_departure_date',
         'air_departure_date',
+        'land_fleet',
+        'land_license_plate',
+        'land_departure_date',
+        'sea_fleet',
+        'sea_shipping',
+        'ship_name',
+        'sea_departure_date',
         'pickup_date',
         'shipment_status',
         'notes',
@@ -74,12 +94,24 @@ class Shipment extends Model
     ];
 
     protected $casts = [
-        'total_weight' => 'decimal:2',
+        'actual_weight' => 'decimal:2',
+        'total_weight' => 'decimal:2', // For backward compatibility
         'price_per_kg' => 'decimal:2',
         'subtotal' => 'decimal:2',
         'ppn' => 'decimal:2',
         'pph' => 'decimal:2',
         'grand_total' => 'decimal:2',
+        'use_volumetric' => 'boolean',
+        'length_cm' => 'decimal:2',
+        'width_cm' => 'decimal:2',
+        'height_cm' => 'decimal:2',
+        'volumetric_weight' => 'decimal:2',
+        'chargeable_weight' => 'decimal:2',
+        'surcharge_percent' => 'decimal:2',
+        'surcharge_nominal' => 'decimal:2',
+        'admin_fee_smu' => 'decimal:2',
+        'admin_fee_sg' => 'decimal:2',
+        'shipping_subtotal' => 'decimal:2',
         'pickup_date' => 'date',
         'land_departure_date' => 'date',
         'sea_departure_date' => 'date',
@@ -177,10 +209,65 @@ class Shipment extends Model
 
     public function calculateTotals(): void
     {
-        $this->subtotal = $this->total_weight * $this->price_per_kg;
-        $this->ppn = $this->subtotal * 0.011;
-        $this->pph = $this->subtotal * 0.02;
-        $this->grand_total = $this->subtotal + $this->ppn - $this->pph;
+        // Calculate shipping subtotal (operational cost without PPN/PPh)
+        $actualWeight = $this->actual_weight ?? $this->total_weight ?? 0;
+        $chargeableWeight = $actualWeight;
+
+        // Calculate volumetric weight if enabled
+        if ($this->use_volumetric) {
+            $panjang = $this->length_cm ?? 0;
+            $lebar = $this->width_cm ?? 0;
+            $tinggi = $this->height_cm ?? 0;
+
+            if ($panjang > 0 && $lebar > 0 && $tinggi > 0) {
+                $this->volumetric_weight = ($panjang * $lebar * $tinggi) / 4000;
+                $chargeableWeight = max($actualWeight, $this->volumetric_weight);
+            }
+        } else {
+            $this->volumetric_weight = null;
+        }
+
+        $this->chargeable_weight = $chargeableWeight;
+        $this->total_weight = $chargeableWeight; // Set for backward compatibility
+
+        // Calculate surcharge based on chargeable weight
+        $this->surcharge_percent = 0;
+        $this->surcharge_nominal = 0;
+
+        if ($chargeableWeight > 70 && $chargeableWeight <= 100) {
+            $this->surcharge_percent = 50;
+            $this->surcharge_nominal = ($this->price_per_kg ?? 0) * $chargeableWeight * 0.50;
+        } elseif ($chargeableWeight > 100 && $chargeableWeight <= 150) {
+            $this->surcharge_percent = 100;
+            $this->surcharge_nominal = ($this->price_per_kg ?? 0) * $chargeableWeight * 1.00;
+        } elseif ($chargeableWeight > 150 && $chargeableWeight <= 200) {
+            $this->surcharge_percent = 200;
+            $this->surcharge_nominal = ($this->price_per_kg ?? 0) * $chargeableWeight * 2.00;
+        } elseif ($chargeableWeight > 200) {
+            // For weight > 200 KG, tariff needs confirmation - don't auto-apply surcharge
+            $this->surcharge_percent = 0;
+            $this->surcharge_nominal = 0;
+        }
+
+        // Calculate administrative fees based on transportation type
+        if ($this->transportation_type === 'udara') {
+            $this->admin_fee_smu = 15000; // Admin SMU for air
+        } else {
+            $this->admin_fee_smu = 0;
+        }
+        
+        $this->admin_fee_sg = 500; // Admin SG is always applied
+
+        // Calculate shipping subtotal (operational cost)
+        // PPN dan PPh akan dihitung di Invoice oleh Finance
+        $baseTariff = ($this->price_per_kg ?? 0) * $chargeableWeight;
+        $this->shipping_subtotal = $baseTariff + $this->surcharge_nominal + $this->admin_fee_smu + $this->admin_fee_sg;
+
+        // Reset PPN, PPh, subtotal, grand_total - akan dihitung di Invoice
+        $this->subtotal = null;
+        $this->ppn = null;
+        $this->pph = null;
+        $this->grand_total = null;
     }
 
     public static function statusStyles(): array
@@ -215,6 +302,11 @@ class Shipment extends Model
     public function vehicle(): BelongsTo
     {
         return $this->belongsTo(Vehicle::class);
+    }
+
+    public function driver(): BelongsTo
+    {
+        return $this->belongsTo(Driver::class);
     }
 
     public function inbound()

@@ -89,4 +89,20 @@ class User extends Authenticatable
     {
         return 'uuid';
     }
+
+    public function getRouteKey()
+    {
+        return $this->uuid ?? $this->getKey();
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $field = $field ?? $this->getRouteKeyName();
+
+        return $this->where($field, $value)
+            ->when($field === 'uuid' && is_numeric($value), function ($query) use ($value) {
+                $query->orWhere('id', $value);
+            })
+            ->firstOrFail();
+    }
 }

@@ -177,7 +177,7 @@
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Penerima</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Tujuan</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Transportasi</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Total</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Biaya Operasional</th>
                             <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide whitespace-nowrap">Status</th>
                             <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wide whitespace-nowrap">Aksi</th>
                         </tr>
@@ -209,7 +209,7 @@
                                     </span>
                                 </td>
 
-                                <td class="px-5 py-4 text-sm font-bold text-slate-950">{{ $formatRp($shipment->grand_total) }}</td>
+                                <td class="px-5 py-4 text-sm font-bold text-slate-950">{{ $formatRp($shipment->shipping_subtotal) }}</td>
 
                                 <td class="px-5 py-4">
                                     @if($shipment->deliveryManagement)

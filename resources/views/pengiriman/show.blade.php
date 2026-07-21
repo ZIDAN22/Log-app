@@ -110,28 +110,19 @@
                     </div>
                 </div>
 
-                <!-- Biaya Pengiriman -->
+                <!-- Biaya Pengiriman (Operasional) -->
                 <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
                     <div class="mb-5 border-b border-slate-200 pb-4">
-                        <h2 class="text-base font-bold text-slate-950">Biaya Pengiriman</h2>
-                        <p class="mt-1 text-sm text-slate-500">Rincian biaya pengiriman secara detail.</p>
+                        <h2 class="text-base font-bold text-slate-950">Biaya Pengiriman (Operasional)</h2>
+                        <p class="mt-1 text-sm text-slate-500">Biaya pengiriman tanpa PPN dan PPh (akan dihitung di Invoice oleh Finance).</p>
                     </div>
-                    <div class="grid gap-4 md:grid-cols-2">
-                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                            <p class="text-sm text-slate-500">Subtotal</p>
-                            <p class="mt-2 text-base font-semibold text-slate-900">{{ formatRp($shipment->subtotal) }}</p>
+                    <div class="grid gap-4 md:grid-cols-1">
+                        <div class="rounded-lg border border-blue-200 bg-blue-50 p-4">
+                            <p class="text-sm font-semibold text-blue-900">Total Biaya Pengiriman (Shipping Subtotal)</p>
+                            <p class="mt-2 text-lg font-bold text-blue-950">{{ formatRp($shipment->shipping_subtotal) }}</p>
                         </div>
-                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                            <p class="text-sm text-slate-500">PPN (1.1%)</p>
-                            <p class="mt-2 text-base font-semibold text-slate-900">{{ formatRp($shipment->ppn) }}</p>
-                        </div>
-                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                            <p class="text-sm text-slate-500">PPH (2%)</p>
-                            <p class="mt-2 text-base font-semibold text-slate-900">{{ formatRp($shipment->pph) }}</p>
-                        </div>
-                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                            <p class="text-sm text-slate-500">Grand Total</p>
-                            <p class="mt-2 text-base font-semibold text-slate-900">{{ formatRp($shipment->grand_total) }}</p>
+                        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 mt-3">
+                            <p class="text-xs text-slate-600">Catatan: PPN dan PPh akan dihitung pada proses pembuatan Invoice oleh bagian Finance.</p>
                         </div>
                     </div>
                 </div>

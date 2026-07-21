@@ -94,13 +94,13 @@ class InvoiceController extends Controller
         $customerName = $shipment->receiver_name ?: $shipment->sender_name ?: 'Pelanggan';
 
         $transportPricePerKg = $shipment->price_per_kg ?? 0;
-        $baseTransport = round($transportPricePerKg * $packingList->total_weight, 2);
+        $shippingSubtotal = $shipment->shipping_subtotal ?? round($transportPricePerKg * $packingList->total_weight, 2);
 
         // Ambil nominal PPN/PPH dari shipment jika tersedia (nominal),
-        // jika tidak, fallback ke persentase dari baseTransport.
-        $ppnAmount = round($shipment->ppn ?? ($baseTransport * 0.011), 2);
-        $pphAmount = round($shipment->pph ?? ($baseTransport * 0.02), 2);
-        $grandTotal = round($baseTransport + $ppnAmount - $pphAmount, 2);
+        // jika tidak, fallback ke persentase dari shipping subtotal.
+        $ppnAmount = isset($shipment->ppn) ? round($shipment->ppn) : round($shippingSubtotal * 0.011);
+        $pphAmount = isset($shipment->pph) ? round($shipment->pph) : round($shippingSubtotal * 0.02);
+        $grandTotal = round($shippingSubtotal + $ppnAmount - $pphAmount);
 
         // Resolve payment method / bank details: prefer selected payment method record
         $paymentMethodText = $validated['payment_method'] ?? null;
@@ -185,13 +185,13 @@ class InvoiceController extends Controller
         $invoice->load('packingList.shipment');
         $shipment = $invoice->packingList->shipment;
         $transportPricePerKg = $shipment->price_per_kg ?? 0;
-        $baseTransport = round($transportPricePerKg * $invoice->total_weight, 2);
+        $shippingSubtotal = $shipment->shipping_subtotal ?? round($transportPricePerKg * $invoice->total_weight, 2);
 
         // Ambil nominal PPN/PPH dari shipment jika tersedia (nominal),
-        // jika tidak, fallback ke persentase dari baseTransport.
-        $ppnAmount = round($shipment->ppn ?? ($baseTransport * 0.011), 2);
-        $pphAmount = round($shipment->pph ?? ($baseTransport * 0.02), 2);
-        $grandTotal = round($baseTransport + $ppnAmount - $pphAmount, 2);
+        // jika tidak, fallback ke persentase dari shipping subtotal.
+        $ppnAmount = isset($shipment->ppn) ? round($shipment->ppn) : round($shippingSubtotal * 0.011);
+        $pphAmount = isset($shipment->pph) ? round($shipment->pph) : round($shippingSubtotal * 0.02);
+        $grandTotal = round($shippingSubtotal + $ppnAmount - $pphAmount);
 
         $paymentMethodText = $validated['payment_method'] ?? $invoice->payment_method;
         $bankName = $validated['bank_name'] ?? $invoice->bank_name;

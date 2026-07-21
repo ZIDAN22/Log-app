@@ -46,7 +46,7 @@ class FinanceReportController extends Controller
                 $items = $query->orderBy('invoice_date', 'desc')->orderBy('created_at', 'desc')->get();
 
                 foreach ($items as $invoice) {
-                    $amountPaid = $invoice->payment_amount_paid_sum ?? 0;
+                    $amountPaid = $invoice->payment_sum_amount_paid ?? 0;
                     $remaining = max(0, $invoice->grand_total - $amountPaid);
 
                     $rows[] = [

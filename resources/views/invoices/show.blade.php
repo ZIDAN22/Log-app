@@ -128,8 +128,8 @@
                             <strong>Rp {{ number_format($invoice->packingList->shipment->price_per_kg ?? 0, 0, ',', '.') }} / kg</strong>
                         </div>
                         <div class="flex justify-between gap-4">
-                            <span>Transportasi (Tarif × Berat)</span>
-                            <strong>Rp {{ number_format(($invoice->packingList->shipment->price_per_kg ?? 0) * $invoice->total_weight, 0, ',', '.') }}</strong>
+                            <span>Biaya Pengiriman (Operasional)</span>
+                            <strong>Rp {{ number_format($invoice->packingList->shipment->shipping_subtotal ?? 0, 0, ',', '.') }}</strong>
                         </div>
 
                         <div class="flex justify-between gap-4">

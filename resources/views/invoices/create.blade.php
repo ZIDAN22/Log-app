@@ -500,32 +500,23 @@
         totalWeightInput.value = totalWeight;
         pricePerKgInput.value = pricePerKg;
 
-        // Hitung: PPn dan PPH di-*invoice* sebagai nominal (bukan persentase)
-        // Sesuai permintaan: nominal PPn/PPH dihitung dari total harga (harga per kg * berat).
-        // Tax & pph input di halaman ini dianggap sebagai nilai nominal, sehingga:
-        // ppnAmount = baseTransport * (tax/100)
-        // pphAmount = baseTransport * (pph/100)
-        const baseTransport = pricePerKg * totalWeight;
-        const baseTotal = baseTransport + deliveryFee;
+        // Gunakan shipping_subtotal dari shipment (sudah termasuk surcharge, admin fees, dll)
+        // PPN dan PPh dihitung dari shipping_subtotal
+        const shippingSubtotal = parseFloat(shipment.shipping_subtotal) || 0;
 
-        const shipmentPpn = parseFloat(shipment.ppn) || 0;
-        const shipmentPph = parseFloat(shipment.pph) || 0;
+        // Hitung PPN (1.1%) dan PPh (2%) dari shipping_subtotal
+        const ppnAmount = Math.round(shippingSubtotal * 0.011);
+        const pphAmount = Math.round(shippingSubtotal * 0.02);
 
-        // Jika shipment memberikan nilai nominal PPN/PPH, gunakan itu.
-        // Jika tidak tersedia, fallback ke perhitungan persentase (1.1% dan 2%) dari baseTransport.
-        const ppnAmount = shipmentPpn || (baseTransport * 0.011);
-        const pphAmount = shipmentPph || (baseTransport * 0.02);
-
-        const grandTotal = baseTotal + ppnAmount - pphAmount;
+        const grandTotal = Math.round(shippingSubtotal + ppnAmount - pphAmount);
 
         // Tampilkan nominal sebagai Rupiah di field readonly, dan simpan nominal di hidden inputs.
         taxInput.value = formatRupiah(ppnAmount);
         pphInput.value = formatRupiah(pphAmount);
         const ppnHidden = document.getElementById('ppn_amount');
         const pphHidden = document.getElementById('pph_amount');
-        if (ppnHidden) ppnHidden.value = Number(ppnAmount).toFixed(2);
-        if (pphHidden) pphHidden.value = Number(pphAmount).toFixed(2);
-
+        if (ppnHidden) ppnHidden.value = ppnAmount;
+        if (pphHidden) pphHidden.value = pphAmount;
 
         grandTotalHidden.value = grandTotal;
         grandTotalPreview.textContent = formatRupiah(grandTotal);

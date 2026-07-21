@@ -221,7 +221,7 @@
                     <tbody class="divide-y divide-slate-100">
                         @forelse($invoices as $invoice)
                         @php
-                            $amountPaid = $invoice->payment_amount_paid_sum ?? 0;
+                            $amountPaid = $invoice->payment_sum_amount_paid ?? 0;
                             $remaining = max(0, $invoice->grand_total - $amountPaid);
                         @endphp
                         <tr class="transition hover:bg-slate-50">

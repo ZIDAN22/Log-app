@@ -6,6 +6,7 @@ use App\Http\Requests\StoreShipmentRequest;
 use App\Http\Requests\UpdateShipmentRequest;
 use App\Models\Shipment;
 use App\Models\Vehicle;
+use App\Models\Driver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,8 +57,9 @@ class ShipmentController extends Controller
     public function create()
     {
         $vehicles = Vehicle::orderBy('name')->get();
+        $drivers = Driver::where('status', Driver::STATUS_ACTIVE)->orderBy('name')->get();
 
-        return view('pengiriman.create', compact('vehicles'));
+        return view('pengiriman.create', compact('vehicles', 'drivers'));
     }
 
     public function store(StoreShipmentRequest $request)
@@ -80,10 +82,12 @@ class ShipmentController extends Controller
     public function edit(Shipment $pengiriman)
     {
         $vehicles = Vehicle::orderBy('name')->get();
+        $drivers = Driver::where('status', Driver::STATUS_ACTIVE)->orderBy('name')->get();
 
         return view('pengiriman.edit', [
             'shipment' => $pengiriman,
             'vehicles' => $vehicles,
+            'drivers' => $drivers,
         ]);
     }
 

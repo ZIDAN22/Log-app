@@ -340,6 +340,13 @@
         {{-- SUMMARY --}}
         <table class="summary">
             <tr>
+                <td>Biaya Pengiriman (Operasional)</td>
+                <td class="text-right">
+                    Rp {{ number_format($invoice->packingList->shipment->shipping_subtotal ?? 0, 0, ',', '.') }}
+                </td>
+            </tr>
+
+            <tr>
                 <td>PPN 1.1%</td>
                 <td class="text-right">
                     Rp {{ number_format($invoice->ppn_amount, 0, ',', '.') }}
