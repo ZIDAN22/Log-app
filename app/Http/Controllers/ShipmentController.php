@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreShipmentRequest;
 use App\Http\Requests\UpdateShipmentRequest;
 use App\Models\Shipment;
+use App\Exports\ShipmentsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Vehicle;
 use App\Models\Driver;
 use Illuminate\Http\Request;
@@ -40,8 +43,70 @@ class ShipmentController extends Controller
         }
 
         // Eager-load relasi deliveryManagement agar status bisa ditampilkan (ready_to_ship → in_transit → delivered/completed)
-        $shipments = $query->with(['deliveryOrder', 'deliveryManagement'])
-            ->orderBy('pickup_date', 'desc')
+        $query = $query->with(['deliveryOrder', 'deliveryManagement']);
+
+        // handle export requests
+        $export = $request->query('export');
+
+        if ($export === 'xlsx') {
+            $items = $query->orderBy('pickup_date', 'desc')->orderBy('created_at', 'desc')->get();
+            $filename = 'pengiriman-' . now()->format('YmdHis') . '.xlsx';
+
+            return Excel::download(new ShipmentsExport($items), $filename);
+        }
+
+        if ($export === 'csv') {
+            $rows = [];
+
+            // header row
+            $rows[] = [
+                'Invoice Number', 'Receipt Number', 'Sender', 'Receiver', 'Destination City', 'Transportation', 'Shipping Subtotal', 'Status', 'Pickup Date', 'Created At'
+            ];
+
+            $items = $query->orderBy('pickup_date', 'desc')->orderBy('created_at', 'desc')->get();
+
+            foreach ($items as $shipment) {
+                $rows[] = [
+                    $shipment->invoice_number,
+                    $shipment->receipt_number,
+                    $shipment->sender_name,
+                    $shipment->receiver_name,
+                    $shipment->destination_city,
+                    ucfirst($shipment->transportation_type),
+                    'Rp ' . number_format($shipment->shipping_subtotal, 0, ',', '.'),
+                    $shipment->shipment_status,
+                    optional($shipment->pickup_date)->format('Y-m-d'),
+                    optional($shipment->created_at)->format('Y-m-d H:i:s'),
+                ];
+            }
+
+            $filename = 'pengiriman-' . now()->format('YmdHis') . '.csv';
+
+            $callback = function () use ($rows) {
+                $FH = fopen('php://output', 'w');
+                // write BOM for Excel compatibility with UTF-8
+                fwrite($FH, chr(0xEF) . chr(0xBB) . chr(0xBF));
+                foreach ($rows as $row) {
+                    $safe = array_map(function ($cell) {
+                        if (is_string($cell) && preg_match('/^[=+\-@]/', $cell)) {
+                            return "'" . $cell;
+                        }
+                        return $cell;
+                    }, $row);
+                    fputcsv($FH, $safe);
+                }
+                fclose($FH);
+            };
+
+            $headers = [
+                'Content-Type' => 'text/csv; charset=UTF-8',
+                'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            ];
+
+            return response()->stream($callback, 200, $headers);
+        }
+
+        $shipments = $query->orderBy('pickup_date', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();

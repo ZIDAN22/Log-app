@@ -14,15 +14,31 @@
   
             </div>
 
-            <a
-                href="{{ route('pengiriman.create') }}"
-                class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
-            >
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                Buat Pengiriman
-            </a>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('pengiriman.index', array_merge(request()->query(), ['export' => 'csv'])) }}"
+                    class="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                    aria-label="Export CSV" data-confirm-export>
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14M5 12h14"/></svg>
+                    Export CSV
+                </a>
+
+                <a href="{{ route('pengiriman.index', array_merge(request()->query(), ['export' => 'xlsx'])) }}"
+                    class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+                    aria-label="Export Excel" data-confirm-export>
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14M5 12h14"/></svg>
+                    Export Excel
+                </a>
+
+                <a
+                    href="{{ route('pengiriman.create') }}"
+                    class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                >
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Buat Pengiriman
+                </a>
+            </div>
         </div>
 
         @if(session('success'))
@@ -484,6 +500,14 @@
             if (event.key === 'Escape' && deleteModal && !deleteModal.classList.contains('hidden')) {
                 closeDeleteModal();
             }
+        });
+
+        // Confirm before exporting files
+        document.querySelectorAll('a[data-confirm-export]').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                const ok = confirm('Ekspor data pengiriman akan mengunduh file. Lanjutkan?');
+                if (!ok) e.preventDefault();
+            });
         });
     });
 </script>

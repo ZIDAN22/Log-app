@@ -38,6 +38,7 @@ class Shipment extends Model
         'pickup_province',
         'pickup_province_code',
         'pickup_city_code',
+        'pickup_city',
         'pickup_district',
         'pickup_district_code',
         'pickup_village',

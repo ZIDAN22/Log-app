@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inbound;
 use App\Models\Outbound;
 use App\Models\PackingList;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -31,8 +32,12 @@ class WarehouseController extends Controller
         $deliveredOutbounds = Outbound::where('status', Outbound::STATUS_DELIVERED)->count();
         $packingConversionRate = $totalPackingLists > 0 ? round(($totalOutbounds / $totalPackingLists) * 100) : 0;
 
-        $weeklyPeriods = collect(range(5, 0, -1))->map(fn ($weeksAgo) => now()->subWeeks($weeksAgo)->startOfWeek());
-        $weeklyLabels = $weeklyPeriods->map(fn ($week) => 'Minggu ' . $week->format('d M'))->toArray();
+        $weeklyPeriods = collect(range(5, 0, -1))->map(function ($weeksAgo) {
+            return Carbon::now()->subWeeks($weeksAgo)->startOfWeek(Carbon::MONDAY);
+        });
+        $weeklyLabels = $weeklyPeriods->map(function ($week) {
+            return $week->format('d M') . ' - ' . $week->copy()->endOfWeek(Carbon::SUNDAY)->format('d M');
+        })->toArray();
         $weeklyKeys = $weeklyPeriods->map(fn ($week) => $week->format('o-W'))->toArray();
 
         $months = collect(range(5, 0, -1))->map(fn ($monthsAgo) => now()->subMonths($monthsAgo)->startOfMonth());
@@ -45,19 +50,19 @@ class WarehouseController extends Controller
 
         $inboundWeekly = Inbound::whereDate('inbound_date', '>=', $weeklyPeriods->first())
             ->get(['inbound_date'])
-            ->groupBy(fn ($item) => $item->inbound_date->copy()->startOfWeek()->format('o-W'))
+            ->groupBy(fn ($item) => $item->inbound_date->copy()->startOfWeek(Carbon::MONDAY)->format('o-W'))
             ->map->count()
             ->toArray();
 
         $packingWeekly = PackingList::whereDate('packing_date', '>=', $weeklyPeriods->first())
             ->get(['packing_date'])
-            ->groupBy(fn ($item) => $item->packing_date->copy()->startOfWeek()->format('o-W'))
+            ->groupBy(fn ($item) => $item->packing_date->copy()->startOfWeek(Carbon::MONDAY)->format('o-W'))
             ->map->count()
             ->toArray();
 
         $outboundWeekly = Outbound::whereDate('outbound_date', '>=', $weeklyPeriods->first())
             ->get(['outbound_date'])
-            ->groupBy(fn ($item) => $item->outbound_date->copy()->startOfWeek()->format('o-W'))
+            ->groupBy(fn ($item) => $item->outbound_date->copy()->startOfWeek(Carbon::MONDAY)->format('o-W'))
             ->map->count()
             ->toArray();
 
