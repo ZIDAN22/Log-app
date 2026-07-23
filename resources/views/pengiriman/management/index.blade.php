@@ -131,11 +131,7 @@
                     <div class="flex flex-col gap-3 sm:flex-row sm:justify-end"> <a
                             href="{{ route('delivery-management.index') }}"
                             class="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 4v6h6M20 20v-6h-6M5 19A9 9 0 0019 5" />
-                            </svg> Reset </a> <button type="submit"
+                            Reset </a> <button type="submit"
                             class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200">
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 aria-hidden="true">

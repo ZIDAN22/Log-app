@@ -92,7 +92,7 @@ HEADER DASHBOARD
 SUMMARY CARD
 ========================== --}}
 
-<section class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+<section class="grid gap-8 md:grid-cols-2 xl:grid-cols-4 my-10">
 
     {{-- Card 1 --}}
     <article
@@ -214,7 +214,7 @@ SUMMARY CARD
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
 
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
 
                 </svg>
 
@@ -257,8 +257,7 @@ SUMMARY CARD
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-600" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
 
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 8c-2 0-4 1-4 4s2 4 4 4 4-1 4-4-2-4-4-4z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
 
                 </svg>
 
@@ -304,7 +303,7 @@ REVENUE OVERVIEW
 
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-5">
 
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 px-6 py-4">
 
@@ -358,7 +357,7 @@ REVENUE OVERVIEW
 
 </section>
 
-<section class="mt-8 grid gap-6 xl:grid-cols-2">
+<section class="mt-8 grid gap-8 xl:grid-cols-2">
 
 <article class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
 
@@ -548,7 +547,7 @@ REVENUE OVERVIEW
 
 </section>
 
-<article class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+<article class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm my-10">
 
     {{-- Header --}}
     <div class="flex items-center justify-between border-b border-slate-100 px-6 py-5">
@@ -882,6 +881,14 @@ const monthlyPaymentData = @json($monthlyPaymentTrend->pluck('value'));
 const invoiceStatusLabels = @json(array_keys($invoiceStatusCounts));
 const invoiceStatusData = @json(array_values($invoiceStatusCounts));
 
+const invoiceStatusColors = {
+    'Belum Bayar': '#EF4444',
+    'DP': '#F59E0B',
+    'Lunas': '#22C55E'
+};
+
+const invoiceStatusBackgrounds = invoiceStatusLabels.map(label => invoiceStatusColors[label] ?? '#3B82F6');
+
 const paymentMethodLabels = @json(array_keys($paymentMethodUsage));
 const paymentMethodData = @json(array_values($paymentMethodUsage));
 
@@ -1092,15 +1099,7 @@ if (doughnutCtx) {
 
                 data: invoiceStatusData,
 
-                backgroundColor: [
-
-                    '#22C55E',
-                    '#F59E0B',
-                    '#EF4444',
-                    '#3B82F6',
-                    '#8B5CF6'
-
-                ],
+                backgroundColor: invoiceStatusBackgrounds,
 
                 borderWidth: 0,
 

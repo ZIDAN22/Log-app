@@ -107,7 +107,7 @@ class OutboundController extends Controller
         }
 
         return redirect()->route('warehouse.outbound.index')
-            ->with('success', 'Outbound berhasil dibuat. Surat jalan sudah tersedia.');
+            ->with('success', 'Barang Keluar berhasil dibuat. Siap dikirim.');
     }
 
     public function show(Outbound $outbound)
