@@ -9,7 +9,6 @@
     </title>
 
     <style>
-
         /* =========================================================
            PENGATURAN HALAMAN PDF
         ========================================================= */
@@ -169,14 +168,14 @@
             margin-bottom: 7px;
         }
 
-        .info-section > tbody > tr > td {
+        .info-section>tbody>tr>td {
             width: 50%;
             vertical-align: top;
             border: 1px solid #cbd5e1;
             padding: 7px 9px;
         }
 
-        .info-section > tbody > tr > td:first-child {
+        .info-section>tbody>tr>td:first-child {
             border-right: none;
         }
 
@@ -218,14 +217,14 @@
             margin-bottom: 7px;
         }
 
-        .address-table > tbody > tr > td {
+        .address-table>tbody>tr>td {
             width: 50%;
             border: 1px solid #cbd5e1;
             vertical-align: top;
             padding: 7px 9px;
         }
 
-        .address-table > tbody > tr > td:first-child {
+        .address-table>tbody>tr>td:first-child {
             border-right: none;
         }
 
@@ -429,14 +428,13 @@
         .footer-right {
             text-align: right;
         }
-
     </style>
 </head>
 
 
 <body>
 
-@php
+    @php
 
     /*
     |--------------------------------------------------------------------------
@@ -446,8 +444,8 @@
 
     $shipment = $delivery->shipment;
     $outbound = $delivery->outbound;
-    $driver   = $delivery->driver;
-    $vehicle  = $delivery->vehicle;
+    $driver = $delivery->driver;
+    $vehicle = $delivery->vehicle;
 
 
     /*
@@ -457,12 +455,12 @@
     */
 
     $deliveryMethod = match (
-        strtoupper((string) ($delivery->delivery_method ?? ''))
+    strtoupper((string) ($delivery->delivery_method ?? ''))
     ) {
-        'DARAT'  => 'Darat',
-        'LAUT'   => 'Laut',
-        'UDARA'  => 'Udara',
-        default  => $delivery->delivery_method ?? '-',
+    'DARAT' => 'Darat',
+    'LAUT' => 'Laut',
+    'UDARA' => 'Udara',
+    default => $delivery->delivery_method ?? '-',
     };
 
 
@@ -473,13 +471,13 @@
     */
 
     $senderAddress = trim(
-        implode(', ', array_filter([
-            $shipment->pickup_village ?? null,
-            $shipment->pickup_district ?? null,
-            $shipment->pickup_city ?? null,
-            $shipment->pickup_province ?? null,
-            $shipment->pickup_postal_code ?? null,
-        ]))
+    implode(', ', array_filter([
+    $shipment->pickup_village ?? null,
+    $shipment->pickup_district ?? null,
+    $shipment->pickup_city ?? null,
+    $shipment->pickup_province ?? null,
+    $shipment->pickup_postal_code ?? null,
+    ]))
     );
 
 
@@ -490,13 +488,13 @@
     */
 
     $receiverAddress = trim(
-        implode(', ', array_filter([
-            $shipment->destination_village ?? null,
-            $shipment->destination_district ?? null,
-            $shipment->destination_city ?? null,
-            $shipment->destination_province ?? null,
-            $shipment->destination_postal_code ?? null,
-        ]))
+    implode(', ', array_filter([
+    $shipment->destination_village ?? null,
+    $shipment->destination_district ?? null,
+    $shipment->destination_city ?? null,
+    $shipment->destination_province ?? null,
+    $shipment->destination_postal_code ?? null,
+    ]))
     );
 
 
@@ -507,28 +505,28 @@
     */
 
     $itemDescription =
-        $outbound->item_description
-        ?? $shipment->item_type
-        ?? 'Barang Kiriman';
+    $outbound->item_description
+    ?? $shipment->item_type
+    ?? 'Barang Kiriman';
 
     $weight =
-        $shipment->actual_weight
-        ?? $shipment->total_weight
-        ?? 0;
+    $shipment->actual_weight
+    ?? $shipment->total_weight
+    ?? 0;
 
     $chargeableWeight =
-        $shipment->chargeable_weight
-        ?? $weight;
+    $shipment->chargeable_weight
+    ?? $weight;
 
     $quantity =
-        $outbound->quantity
-        ?? $shipment->total_qty
-        ?? 1;
+    $outbound->quantity
+    ?? $shipment->total_qty
+    ?? 1;
 
     $noteText =
-        $outbound->delivery_notes
-        ?? $shipment->notes
-        ?? null;
+    $outbound->delivery_notes
+    ?? $shipment->notes
+    ?? null;
 
 
     /*
@@ -538,13 +536,13 @@
     */
 
     $vehicleName =
-        $vehicle->name
-        ?? '-';
+    $vehicle->name
+    ?? '-';
 
     $vehiclePlate =
-        $vehicle->plate_number
-        ?? $vehicle->license_plate
-        ?? '-';
+    $vehicle->plate_number
+    ?? $vehicle->license_plate
+    ?? '-';
 
 
     /*
@@ -554,688 +552,685 @@
     */
 
     $driverName =
-        $driver->name
-        ?? '-';
+    $driver->name
+    ?? '-';
 
-@endphp
-
-
-<div class="page">
+    @endphp
 
 
-    <!-- =========================================================
+    <div class="page">
+
+
+        <!-- =========================================================
          KOP SURAT
     ========================================================== -->
 
-    <table class="header-table">
-
-        <tr>
-
-            <td class="logo-cell">
-
-                <img
-                    src="{{ public_path('images/bll.png') }}"
-                    class="logo"
-                    alt="Logo PT Berlian Lintas Logistik"
-                >
-
-            </td>
-
-
-            <td class="company-cell">
-
-                <div class="company-name">
-                    PT. BERLIAN LINTAS LOGISTIK
-                </div>
-
-                <div class="company-info">
-                    Ruko Karang Anyar Permai 55 Blok B 18-19<br>
-                    Jl. Karang Anyar Raya, Jakarta Pusat 10750<br>
-                    Email : info@berlianlintaslogistik.com
-                </div>
-
-            </td>
-
-
-            <td class="document-cell">
-
-                <div class="document-title">
-                    SURAT JALAN
-                </div>
-
-                <div class="document-subtitle">
-                    Pengiriman Barang
-                </div>
-
-
-                <table class="doc-info">
-
-                    <tr>
-
-                        <td class="doc-label">
-                            No. Surat Jalan
-                        </td>
-
-                        <td class="doc-colon">
-                            :
-                        </td>
-
-                        <td class="doc-value document-number">
-                            {{ $delivery->delivery_number ?? '-' }}
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td class="doc-label">
-                            Tanggal
-                        </td>
-
-                        <td class="doc-colon">
-                            :
-                        </td>
-
-                        <td class="doc-value">
-                            {{ optional($delivery->created_at ?? now())->format('d/m/Y') }}
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td class="doc-label">
-                            No. Resi
-                        </td>
-
-                        <td class="doc-colon">
-                            :
-                        </td>
-
-                        <td class="doc-value">
-                            {{ $shipment->receipt_number ?? '-' }}
-                        </td>
-
-                    </tr>
-
-                </table>
-
-            </td>
-
-        </tr>
-
-    </table>
-
-
-    <div class="header-line"></div>
-
-
-
-    <!-- =========================================================
-         INFORMASI DOKUMEN & OPERASIONAL
-    ========================================================== -->
-
-    <table class="info-section">
-
-        <tr>
-
-            <!-- KIRI -->
-
-            <td>
-
-                <div class="section-title">
-                    Informasi Pengiriman
-                </div>
-
-
-                <table class="detail-table">
-
-                    <tr>
-
-                        <td class="detail-label">
-                            No. Invoice
-                        </td>
-
-                        <td class="detail-colon">
-                            :
-                        </td>
-
-                        <td class="detail-value">
-                            {{ $shipment->invoice_number ?? '-' }}
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td class="detail-label">
-                            Pengirim
-                        </td>
-
-                        <td class="detail-colon">
-                            :
-                        </td>
-
-                        <td class="detail-value">
-                            {{ $shipment->sender_name ?? '-' }}
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td class="detail-label">
-                            Penerima
-                        </td>
-
-                        <td class="detail-colon">
-                            :
-                        </td>
-
-                        <td class="detail-value">
-                            {{ $shipment->receiver_name ?? '-' }}
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td class="detail-label">
-                            Transportasi
-                        </td>
-
-                        <td class="detail-colon">
-                            :
-                        </td>
-
-                        <td class="detail-value">
-                            {{ $deliveryMethod }}
-                        </td>
-
-                    </tr>
-
-                </table>
-
-            </td>
-
-
-
-            <!-- KANAN -->
-
-            <td>
-
-                <div class="section-title">
-                    Informasi Operasional
-                </div>
-
-
-                <table class="detail-table">
-
-                    <tr>
-
-                        <td class="detail-label">
-                            Driver
-                        </td>
-
-                        <td class="detail-colon">
-                            :
-                        </td>
-
-                        <td class="detail-value">
-                            {{ $driverName }}
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td class="detail-label">
-                            Kendaraan
-                        </td>
-
-                        <td class="detail-colon">
-                            :
-                        </td>
-
-                        <td class="detail-value">
-                            {{ $vehicleName }}
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td class="detail-label">
-                            No. Polisi
-                        </td>
-
-                        <td class="detail-colon">
-                            :
-                        </td>
-
-                        <td class="detail-value">
-                            {{ $vehiclePlate }}
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td class="detail-label">
-                            Status
-                        </td>
-
-                        <td class="detail-colon">
-                            :
-                        </td>
-
-                        <td class="detail-value">
-                            {{ $delivery->statusLabel() }}
-                        </td>
-
-                    </tr>
-
-                </table>
-
-            </td>
-
-        </tr>
-
-    </table>
-
-
-
-    <!-- =========================================================
-         PENGIRIM & PENERIMA
-    ========================================================== -->
-
-    <table class="address-table">
-
-        <tr>
-
-            <!-- PENGIRIM -->
-
-            <td>
-
-                <div class="section-title">
-                    Pengirim (Shipper)
-                </div>
-
-
-                <div class="party-name">
-                    {{ $shipment->sender_name ?? '-' }}
-                </div>
-
-
-                <div class="address-text">
-
-                    {{ $shipment->pickup_address ?? '-' }}
-
-                    @if($senderAddress)
-
-                        <br>
-                        {{ $senderAddress }}
-
-                    @endif
-
-                </div>
-
-            </td>
-
-
-
-            <!-- PENERIMA -->
-
-            <td>
-
-                <div class="section-title">
-                    Penerima (Consignee)
-                </div>
-
-
-                <div class="party-name">
-                    {{ $shipment->receiver_name ?? '-' }}
-                </div>
-
-
-                <div class="address-text">
-
-                    {{ $shipment->destination_address ?? '-' }}
-
-                    @if($receiverAddress)
-
-                        <br>
-                        {{ $receiverAddress }}
-
-                    @endif
-
-                </div>
-
-            </td>
-
-        </tr>
-
-    </table>
-
-
-
-    <!-- =========================================================
-         DETAIL BARANG
-    ========================================================== -->
-
-    <div class="goods-title">
-        Detail Barang
-    </div>
-
-
-    <table class="goods-table">
-
-        <thead>
+        <table class="header-table">
 
             <tr>
 
-                <th style="width: 5%;">
-                    NO
-                </th>
+                <td class="logo-cell">
 
-                <th style="width: 36%;">
-                    DESKRIPSI BARANG
-                </th>
+                    <img src="{{ public_path('images/bll.png') }}" class="logo" alt="Logo PT Berlian Lintas Logistik">
 
-                <th style="width: 11%;">
-                    JUMLAH
-                </th>
-
-                <th style="width: 14%;">
-                    BERAT (KG)
-                </th>
-
-                <th style="width: 16%;">
-                    CHARGEABLE
-                </th>
-
-                <th style="width: 18%;">
-                    KETERANGAN
-                </th>
-
-            </tr>
-
-        </thead>
-
-
-        <tbody>
-
-            <tr>
-
-                <td class="text-center">
-                    1
                 </td>
 
 
-                <td>
-                    {{ $itemDescription }}
+                <td class="company-cell">
+
+                    <div class="company-name">
+                        PT. BERLIAN LINTAS LOGISTIK
+                    </div>
+
+                    <div class="company-info">
+                        Jl. Kampung Bandan Rt 02/04 Lapangan Tanah Merah <br>
+                        Kecamatan Pademangan, Jakarta Utara 14430 <br>
+                        Email : berlianlintaslogistik@gmail.com
+                    </div>
+
                 </td>
 
 
-                <td class="text-center">
-                    {{ $quantity }}
-                </td>
+                <td class="document-cell">
 
+                    <div class="document-title">
+                        SURAT JALAN
+                    </div>
 
-                <td class="text-center">
-                    {{ number_format((float) $weight, 2, ',', '.') }}
-                </td>
+                    <div class="document-subtitle">
+                        Pengiriman Barang
+                    </div>
 
 
-                <td class="text-center">
-                    {{ number_format((float) $chargeableWeight, 2, ',', '.') }} kg
-                </td>
+                    <table class="doc-info">
 
+                        <tr>
 
-                <td>
-                    {{ $noteText ?: '-' }}
-                </td>
+                            <td class="doc-label">
+                                No. Surat Jalan
+                            </td>
 
-            </tr>
+                            <td class="doc-colon">
+                                :
+                            </td>
 
-        </tbody>
+                            <td class="doc-value document-number">
+                                {{ $delivery->delivery_number ?? '-' }}
+                            </td>
 
-    </table>
+                        </tr>
 
 
+                        <tr>
 
-    <!-- =========================================================
-         INFORMASI TRANSPORTASI
-    ========================================================== -->
+                            <td class="doc-label">
+                                Tanggal
+                            </td>
 
-    <table class="operational-box">
+                            <td class="doc-colon">
+                                :
+                            </td>
 
-        <tr>
+                            <td class="doc-value">
+                                {{ optional($delivery->created_at ?? now())->format('d/m/Y') }}
+                            </td>
 
-            <td style="width: 25%;">
+                        </tr>
 
-                <span class="operational-label">
-                    Transportasi
-                </span>
 
-                <span class="operational-value">
-                    {{ $deliveryMethod }}
-                </span>
+                        <tr>
 
-            </td>
+                            <td class="doc-label">
+                                No. Resi
+                            </td>
 
+                            <td class="doc-colon">
+                                :
+                            </td>
 
-            <td style="width: 25%;">
+                            <td class="doc-value">
+                                {{ $shipment->receipt_number ?? '-' }}
+                            </td>
 
-                <span class="operational-label">
-                    Driver / Kurir
-                </span>
+                        </tr>
 
-                <span class="operational-value">
-                    {{ $driverName }}
-                </span>
+                    </table>
 
-            </td>
-
-
-            <td style="width: 25%;">
-
-                <span class="operational-label">
-                    Kendaraan
-                </span>
-
-                <span class="operational-value">
-                    {{ $vehicleName }}
-                </span>
-
-            </td>
-
-
-            <td style="width: 25%;">
-
-                <span class="operational-label">
-                    Nomor Polisi
-                </span>
-
-                <span class="operational-value">
-                    {{ $vehiclePlate }}
-                </span>
-
-            </td>
-
-        </tr>
-
-    </table>
-
-
-
-    <!-- =========================================================
-         CATATAN
-    ========================================================== -->
-
-    <div class="notes-box">
-
-        <div class="notes-title">
-            Catatan Pengiriman
-        </div>
-
-
-        <div class="notes-text">
-
-            @if($noteText)
-
-                {{ $noteText }}
-
-            @else
-
-                Barang dibawa oleh driver PT. Berlian Lintas Logistik
-                untuk dikirimkan ke alamat penerima sebagaimana
-                tercantum pada dokumen ini.
-
-            @endif
-
-        </div>
-
-    </div>
-
-
-
-    <!-- =========================================================
-         PERNYATAAN
-    ========================================================== -->
-
-    <div class="statement">
-
-        Dokumen ini menyatakan bahwa barang telah keluar untuk proses
-        pengiriman dan dibawa oleh driver PT. Berlian Lintas Logistik
-        menuju alamat penerima sesuai informasi pengiriman yang tercantum.
-
-    </div>
-
-
-
-    <!-- =========================================================
-         TANDA TANGAN
-    ========================================================== -->
-
-    <table class="signature-table">
-
-        <tr>
-
-            <!-- ADMIN -->
-
-            <td>
-
-                <div class="signature-title">
-                    Dibuat Oleh
-                </div>
-
-                <div class="signature-role">
-                    Admin Operasional
-                </div>
-
-                <div class="signature-space"></div>
-
-                <div class="signature-name">
-                    ( ____________________ )
-                </div>
-
-            </td>
-
-
-
-            <!-- DRIVER -->
-
-            <td>
-
-                <div class="signature-title">
-                    Dibawa Oleh
-                </div>
-
-                <div class="signature-role">
-                    Driver / Kurir
-                </div>
-
-                <div class="signature-space"></div>
-
-                <div class="signature-name">
-
-                    @if($driverName !== '-')
-
-                        ( {{ $driverName }} )
-
-                    @else
-
-                        ( ____________________ )
-
-                    @endif
-
-                </div>
-
-            </td>
-
-
-
-            <!-- PENERIMA -->
-
-            <td>
-
-                <div class="signature-title">
-                    Diterima Oleh
-                </div>
-
-                <div class="signature-role">
-                    Penerima Barang
-                </div>
-
-                <div class="signature-space"></div>
-
-                <div class="signature-name">
-                    ( ____________________ )
-                </div>
-
-            </td>
-
-        </tr>
-
-    </table>
-
-
-
-    <!-- =========================================================
-         FOOTER
-    ========================================================== -->
-
-    <div class="footer">
-
-        <table class="footer-table">
-
-            <tr>
-
-                <td>
-                    PT. Berlian Lintas Logistik
-                </td>
-
-                <td class="footer-right">
-                    Surat Jalan Pengiriman Barang
                 </td>
 
             </tr>
 
         </table>
 
+
+        <div class="header-line"></div>
+
+
+
+        <!-- =========================================================
+         INFORMASI DOKUMEN & OPERASIONAL
+    ========================================================== -->
+
+        <table class="info-section">
+
+            <tr>
+
+                <!-- KIRI -->
+
+                <td>
+
+                    <div class="section-title">
+                        Informasi Pengiriman
+                    </div>
+
+
+                    <table class="detail-table">
+
+                        <tr>
+
+                            <td class="detail-label">
+                                No. Invoice
+                            </td>
+
+                            <td class="detail-colon">
+                                :
+                            </td>
+
+                            <td class="detail-value">
+                                {{ $shipment->invoice_number ?? '-' }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="detail-label">
+                                Pengirim
+                            </td>
+
+                            <td class="detail-colon">
+                                :
+                            </td>
+
+                            <td class="detail-value">
+                                {{ $shipment->sender_name ?? '-' }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="detail-label">
+                                Penerima
+                            </td>
+
+                            <td class="detail-colon">
+                                :
+                            </td>
+
+                            <td class="detail-value">
+                                {{ $shipment->receiver_name ?? '-' }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="detail-label">
+                                Transportasi
+                            </td>
+
+                            <td class="detail-colon">
+                                :
+                            </td>
+
+                            <td class="detail-value">
+                                {{ $deliveryMethod }}
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </td>
+
+
+
+                <!-- KANAN -->
+
+                <td>
+
+                    <div class="section-title">
+                        Informasi Operasional
+                    </div>
+
+
+                    <table class="detail-table">
+
+                        <tr>
+
+                            <td class="detail-label">
+                                Driver
+                            </td>
+
+                            <td class="detail-colon">
+                                :
+                            </td>
+
+                            <td class="detail-value">
+                                {{ $driverName }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="detail-label">
+                                Kendaraan
+                            </td>
+
+                            <td class="detail-colon">
+                                :
+                            </td>
+
+                            <td class="detail-value">
+                                {{ $vehicleName }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="detail-label">
+                                No. Polisi
+                            </td>
+
+                            <td class="detail-colon">
+                                :
+                            </td>
+
+                            <td class="detail-value">
+                                {{ $vehiclePlate }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="detail-label">
+                                Status
+                            </td>
+
+                            <td class="detail-colon">
+                                :
+                            </td>
+
+                            <td class="detail-value">
+                                {{ $delivery->statusLabel() }}
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+        <!-- =========================================================
+         PENGIRIM & PENERIMA
+    ========================================================== -->
+
+        <table class="address-table">
+
+            <tr>
+
+                <!-- PENGIRIM -->
+
+                <td>
+
+                    <div class="section-title">
+                        Pengirim (Shipper)
+                    </div>
+
+
+                    <div class="party-name">
+                        {{ $shipment->sender_name ?? '-' }}
+                    </div>
+
+
+                    <div class="address-text">
+
+                        {{ $shipment->pickup_address ?? '-' }}
+
+                        @if($senderAddress)
+
+                        <br>
+                        {{ $senderAddress }}
+
+                        @endif
+
+                    </div>
+
+                </td>
+
+
+
+                <!-- PENERIMA -->
+
+                <td>
+
+                    <div class="section-title">
+                        Penerima (Consignee)
+                    </div>
+
+
+                    <div class="party-name">
+                        {{ $shipment->receiver_name ?? '-' }}
+                    </div>
+
+
+                    <div class="address-text">
+
+                        {{ $shipment->destination_address ?? '-' }}
+
+                        @if($receiverAddress)
+
+                        <br>
+                        {{ $receiverAddress }}
+
+                        @endif
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+        <!-- =========================================================
+         DETAIL BARANG
+    ========================================================== -->
+
+        <div class="goods-title">
+            Detail Barang
+        </div>
+
+
+        <table class="goods-table">
+
+            <thead>
+
+                <tr>
+
+                    <th style="width: 5%;">
+                        NO
+                    </th>
+
+                    <th style="width: 36%;">
+                        DESKRIPSI BARANG
+                    </th>
+
+                    <th style="width: 11%;">
+                        JUMLAH
+                    </th>
+
+                    <th style="width: 14%;">
+                        BERAT (KG)
+                    </th>
+
+                    <th style="width: 16%;">
+                        CHARGEABLE
+                    </th>
+
+                    <th style="width: 18%;">
+                        KETERANGAN
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td class="text-center">
+                        1
+                    </td>
+
+
+                    <td>
+                        {{ $itemDescription }}
+                    </td>
+
+
+                    <td class="text-center">
+                        {{ $quantity }}
+                    </td>
+
+
+                    <td class="text-center">
+                        {{ number_format((float) $weight, 2, ',', '.') }}
+                    </td>
+
+
+                    <td class="text-center">
+                        {{ number_format((float) $chargeableWeight, 2, ',', '.') }} kg
+                    </td>
+
+
+                    <td>
+                        {{ $noteText ?: '-' }}
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+
+
+        <!-- =========================================================
+         INFORMASI TRANSPORTASI
+    ========================================================== -->
+
+        <table class="operational-box">
+
+            <tr>
+
+                <td style="width: 25%;">
+
+                    <span class="operational-label">
+                        Transportasi
+                    </span>
+
+                    <span class="operational-value">
+                        {{ $deliveryMethod }}
+                    </span>
+
+                </td>
+
+
+                <td style="width: 25%;">
+
+                    <span class="operational-label">
+                        Driver / Kurir
+                    </span>
+
+                    <span class="operational-value">
+                        {{ $driverName }}
+                    </span>
+
+                </td>
+
+
+                <td style="width: 25%;">
+
+                    <span class="operational-label">
+                        Kendaraan
+                    </span>
+
+                    <span class="operational-value">
+                        {{ $vehicleName }}
+                    </span>
+
+                </td>
+
+
+                <td style="width: 25%;">
+
+                    <span class="operational-label">
+                        Nomor Polisi
+                    </span>
+
+                    <span class="operational-value">
+                        {{ $vehiclePlate }}
+                    </span>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+        <!-- =========================================================
+         CATATAN
+    ========================================================== -->
+
+        <div class="notes-box">
+
+            <div class="notes-title">
+                Catatan Pengiriman
+            </div>
+
+
+            <div class="notes-text">
+
+                @if($noteText)
+
+                {{ $noteText }}
+
+                @else
+
+                Barang dibawa oleh driver PT. Berlian Lintas Logistik
+                untuk dikirimkan ke alamat penerima sebagaimana
+                tercantum pada dokumen ini.
+
+                @endif
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================================================
+         PERNYATAAN
+    ========================================================== -->
+
+        <div class="statement">
+
+            Dokumen ini menyatakan bahwa barang telah keluar untuk proses
+            pengiriman dan dibawa oleh driver PT. Berlian Lintas Logistik
+            menuju alamat penerima sesuai informasi pengiriman yang tercantum.
+
+        </div>
+
+
+
+        <!-- =========================================================
+         TANDA TANGAN
+    ========================================================== -->
+
+        <table class="signature-table">
+
+            <tr>
+
+                <!-- ADMIN -->
+
+                <td>
+
+                    <div class="signature-title">
+                        Dibuat Oleh
+                    </div>
+
+                    <div class="signature-role">
+                        Admin Operasional
+                    </div>
+
+                    <div class="signature-space"></div>
+
+                    <div class="signature-name">
+                        ( ____________________ )
+                    </div>
+
+                </td>
+
+
+
+                <!-- DRIVER -->
+
+                <td>
+
+                    <div class="signature-title">
+                        Dibawa Oleh
+                    </div>
+
+                    <div class="signature-role">
+                        Driver / Kurir
+                    </div>
+
+                    <div class="signature-space"></div>
+
+                    <div class="signature-name">
+
+                        @if($driverName !== '-')
+
+                        ( {{ $driverName }} )
+
+                        @else
+
+                        ( ____________________ )
+
+                        @endif
+
+                    </div>
+
+                </td>
+
+
+
+                <!-- PENERIMA -->
+
+                <td>
+
+                    <div class="signature-title">
+                        Diterima Oleh
+                    </div>
+
+                    <div class="signature-role">
+                        Penerima Barang
+                    </div>
+
+                    <div class="signature-space"></div>
+
+                    <div class="signature-name">
+                        ( ____________________ )
+                    </div>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+        <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+        <div class="footer">
+
+            <table class="footer-table">
+
+                <tr>
+
+                    <td>
+                        PT. Berlian Lintas Logistik
+                    </td>
+
+                    <td class="footer-right">
+                        Surat Jalan Pengiriman Barang
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
     </div>
 
-
-</div>
-
 </body>
+
 </html>

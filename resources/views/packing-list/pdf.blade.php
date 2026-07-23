@@ -212,7 +212,7 @@
                     <div class="company-info">
                         Jl. Kampung Bandan Rt 02/04 Lapangan Tanah Merah  <br>
                         Kecamatan Pademangan, Jakarta Utara 14430 <br>
-                        Email : https://berlianlintaslogistik.com
+                        Email : berlianlintaslogistik.com
                     </div>
                 </td>
 
