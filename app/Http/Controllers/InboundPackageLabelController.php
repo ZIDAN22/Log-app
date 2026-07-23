@@ -30,7 +30,7 @@ class InboundPackageLabelController extends Controller
         [$barcodeData, $qrData] = $this->generateBarcodeQr($inbound->shipment->receipt_number ?? '');
 
         $pdf = PDF::loadView('inbound.label_pdf', compact('inbound', 'barcodeData', 'qrData'))
-            ->setPaper(array(0, 0, 283.46, 425.2), 'portrait');
+            ->setPaper('a4', 'portrait');
 
         $filename = 'package-label-' . ($inbound->id ?? time()) . '.pdf';
 
@@ -55,29 +55,41 @@ class InboundPackageLabelController extends Controller
             try {
                 $d = new \Milon\Barcode\DNS1D();
                 $png = $d->getBarcodePNG($code, 'C128');
-                // getBarcodePNG returns base64 string already
                 $barcodeData = 'data:image/png;base64,' . $png;
             } catch (\Exception $e) {
                 $barcodeData = null;
             }
         }
 
-        // Generate QR code via simple-qrcode if available
-        if (class_exists('\\SimpleSoftwareIO\\QrCode\\Facades\\QrCode') || class_exists('\\SimpleSoftwareIO\\QrCode\\QrCode')) {
-            try {
-                if (class_exists('\\SimpleSoftwareIO\\QrCode\\Facades\\QrCode')) {
-                    $png = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')->size(200)->generate($code);
-                } else {
-                    // fallback to instantiating generator class
-                    $generator = app()->make(\SimpleSoftwareIO\QrCode\QrCode::class);
-                    $png = $generator->format('png')->size(200)->generate($code);
-                }
+        // Generate QR code using simple-qrcode with a safe fallback.
+        // PNG generation may fail on servers without Imagick, so SVG is used first.
+        if (class_exists('\SimpleSoftwareIO\QrCode\Generator')) {
+            $generator = null;
 
-                if (!empty($png)) {
-                    $qrData = 'data:image/png;base64,' . base64_encode($png);
+            try {
+                $generator = app()->make(\SimpleSoftwareIO\QrCode\Generator::class);
+
+                $svg = $generator->format('svg')->size(200)->generate($code);
+                $svgPayload = (string) $svg;
+
+                if (!empty($svgPayload)) {
+                    $qrData = 'data:image/svg+xml;base64,' . base64_encode($svgPayload);
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $qrData = null;
+            }
+
+            if (empty($qrData) && $generator !== null) {
+                try {
+                    $png = $generator->format('png')->size(200)->generate($code);
+                    $pngPayload = (string) $png;
+
+                    if (!empty($pngPayload)) {
+                        $qrData = 'data:image/png;base64,' . base64_encode($pngPayload);
+                    }
+                } catch (\Throwable $e) {
+                    $qrData = null;
+                }
             }
         }
 
@@ -89,7 +101,7 @@ class InboundPackageLabelController extends Controller
                 if ($img !== false) {
                     $qrData = 'data:image/png;base64,' . base64_encode($img);
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $qrData = null;
             }
         }
