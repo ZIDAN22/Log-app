@@ -240,9 +240,9 @@
                                     </a>
 
                                     <!-- Print -->
-                                    <a href="{{ route('inbound.package-label.preview', $inbound) }}" target="_blank"
+                                    <a href="{{ route('inbound.package-label.pdf', $inbound) }}"
                                         class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-50 text-cyan-700 transition hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-100"
-                                        title="Print Label">
+                                        title="Download Label PDF">
 
                                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                             aria-hidden="true">

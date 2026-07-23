@@ -27,7 +27,7 @@ class DashboardController extends Controller
         return match ($role) {
             User::ROLE_MANAGER => $this->renderSuperAdmin(),
             User::ROLE_ADMIN_OPERASIONAL => $this->renderAdminOperasional(),
-            User::ROLE_WAREHOUSE => $this->renderWarehouse(),
+            User::ROLE_WAREHOUSE => $this->renderWarehouse($request),
             User::ROLE_FINANCE => $this->renderFinance(),
             default => $this->renderAdminOperasional(),
         };
@@ -271,12 +271,32 @@ class DashboardController extends Controller
         ));
     }
 
-    protected function renderWarehouse()
+    protected function renderWarehouse(Request $request)
     {
         date_default_timezone_set('Asia/Jakarta');
 
         $today = Carbon::today();
         $now = Carbon::now();
+        $selectedYear = (int) $request->input('year', $today->year);
+        $selectedMonth = (int) $request->input('month', $today->month);
+        $selectedPeriod = Carbon::create($selectedYear, $selectedMonth, 1, 0, 0, 0, 'Asia/Jakarta');
+        $periodStart = $selectedPeriod->copy()->startOfMonth();
+        $periodEnd = $selectedPeriod->copy()->endOfMonth();
+
+        $monthNames = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
 
         $greeting = match (true) {
             $now->hour >= 5 && $now->hour < 11 => 'Selamat Pagi',
@@ -285,25 +305,31 @@ class DashboardController extends Controller
             default => 'Selamat Malam',
         };
 
-        $totalInbound = Inbound::count();
-        $totalPackingList = PackingList::count();
-        $totalOutbound = Outbound::count();
-        $readyToShip = Outbound::where('status', Outbound::STATUS_READY_TO_SHIP)->count();
-        $inTransit = Outbound::where('status', Outbound::STATUS_IN_TRANSIT)->count();
-        $delivered = Outbound::where('status', Outbound::STATUS_DELIVERED)->count();
+        $totalInbound = Inbound::whereBetween('inbound_date', [$periodStart, $periodEnd])->count();
+        $totalPackingList = PackingList::whereBetween('packing_date', [$periodStart, $periodEnd])->count();
+        $totalOutbound = Outbound::whereBetween('outbound_date', [$periodStart, $periodEnd])->count();
+        $readyToShip = Outbound::whereBetween('outbound_date', [$periodStart, $periodEnd])->where('status', Outbound::STATUS_READY_TO_SHIP)->count();
+        $inTransit = Outbound::whereBetween('outbound_date', [$periodStart, $periodEnd])->where('status', Outbound::STATUS_IN_TRANSIT)->count();
+        $delivered = Outbound::whereBetween('outbound_date', [$periodStart, $periodEnd])->where('status', Outbound::STATUS_DELIVERED)->count();
         $inboundToday = Inbound::whereDate('inbound_date', $today)->count();
         $packingToday = PackingList::whereDate('packing_date', $today)->count();
         $outboundToday = Outbound::whereDate('outbound_date', $today)->count();
 
-        $weekRanges = collect(range(5, 0))
-            ->map(function (int $weeksAgo) use ($today) {
-                $start = $today->copy()->subWeeks($weeksAgo)->startOfWeek();
+        $weekRanges = [];
+        $cursor = $periodStart->copy()->startOfWeek();
+        $endCursor = $periodEnd->copy()->endOfWeek();
+        $weekIndex = 1;
 
-                return [
-                    'start' => $start,
-                    'end' => $start->copy()->endOfWeek(),
-                ];
-            });
+        while ($cursor->lte($endCursor)) {
+            $weekRanges[] = [
+                'label' => 'Minggu ' . $weekIndex,
+                'start' => $cursor->copy()->max($periodStart),
+                'end' => $cursor->copy()->endOfWeek()->min($periodEnd),
+            ];
+
+            $cursor->addWeek();
+            $weekIndex++;
+        }
 
         $warehouseActivity = [
             'labels' => [],
@@ -312,24 +338,25 @@ class DashboardController extends Controller
             'outbound' => [],
         ];
 
-        foreach ($weekRanges as $index => $range) {
-            $warehouseActivity['labels'][] = 'Minggu ' . ($index + 1);
+        foreach ($weekRanges as $range) {
+            $warehouseActivity['labels'][] = $range['label'];
             $warehouseActivity['inbound'][] = Inbound::whereBetween('inbound_date', [$range['start'], $range['end']])->count();
             $warehouseActivity['packing'][] = PackingList::whereBetween('packing_date', [$range['start'], $range['end']])->count();
             $warehouseActivity['outbound'][] = Outbound::whereBetween('outbound_date', [$range['start'], $range['end']])->count();
         }
 
-        $shippingMethodCounts = Outbound::selectRaw('shipping_method, COUNT(*) as total')
+        $shippingMethodCounts = Outbound::whereBetween('outbound_date', [$periodStart, $periodEnd])
+            ->selectRaw('shipping_method, COUNT(*) as total')
             ->groupBy('shipping_method')
             ->pluck('total', 'shipping_method')
             ->toArray();
 
-        $shippingMethodLabels = array_keys($shippingMethodCounts);
-        $shippingMethodData = array_values($shippingMethodCounts);
+        $shippingMethodLabels = array_keys($shippingMethodCounts) ?: ['Belum ada data'];
+        $shippingMethodData = array_values($shippingMethodCounts) ?: [0];
 
         $recentActivities = collect()
             ->concat(
-                Inbound::latest('created_at')->take(3)->with('shipment')->get()->map(fn (Inbound $inbound) => [
+                Inbound::whereBetween('inbound_date', [$periodStart, $periodEnd])->latest('created_at')->take(3)->with('shipment')->get()->map(fn (Inbound $inbound) => [
                     'title' => 'Barang Masuk Baru',
                     'description' => sprintf('Inbound untuk %s', $inbound->shipment?->receipt_number ?? '-'),
                     'time' => $inbound->created_at,
@@ -337,7 +364,7 @@ class DashboardController extends Controller
                 ])
             )
             ->concat(
-                PackingList::latest('created_at')->take(3)->with('shipment')->get()->map(fn (PackingList $packingList) => [
+                PackingList::whereBetween('packing_date', [$periodStart, $periodEnd])->latest('created_at')->take(3)->with('shipment')->get()->map(fn (PackingList $packingList) => [
                     'title' => 'Packing List Dibuat',
                     'description' => sprintf('Packing list untuk %s', $packingList->shipment?->receipt_number ?? '-'),
                     'time' => $packingList->created_at,
@@ -345,7 +372,7 @@ class DashboardController extends Controller
                 ])
             )
             ->concat(
-                Outbound::latest('created_at')->take(3)->with('packingList.shipment')->get()->map(fn (Outbound $outbound) => [
+                Outbound::whereBetween('outbound_date', [$periodStart, $periodEnd])->latest('created_at')->take(3)->with('packingList.shipment')->get()->map(fn (Outbound $outbound) => [
                     'title' => 'Outbound Diproses',
                     'description' => sprintf('%s ke %s', $outbound->shipping_method, $outbound->packingList?->shipment->destination_city ?? '-'),
                     'time' => $outbound->created_at,
@@ -356,7 +383,13 @@ class DashboardController extends Controller
             ->values()
             ->take(6);
 
-        return view('dashboard.warehouse.index', compact(
+        $performanceScore = $totalOutbound > 0 ? min(100, (int) round(($delivered / $totalOutbound) * 100)) : 0;
+        $packingCoverage = $totalInbound > 0 ? min(100, (int) round(($totalPackingList / $totalInbound) * 100)) : 0;
+        $dispatchReadiness = $totalOutbound > 0 ? min(100, (int) round(($readyToShip / $totalOutbound) * 100)) : 0;
+        $selectedMonthLabel = $monthNames[$selectedMonth] ?? $selectedPeriod->translatedFormat('F');
+        $chartTitle = 'Performa Bulan ' . $selectedMonthLabel . ' ' . $selectedYear;
+
+        $payload = compact(
             'greeting',
             'totalInbound',
             'totalPackingList',
@@ -370,8 +403,32 @@ class DashboardController extends Controller
             'warehouseActivity',
             'shippingMethodLabels',
             'shippingMethodData',
-            'recentActivities'
-        ));
+            'recentActivities',
+            'selectedYear',
+            'selectedMonth',
+            'selectedMonthLabel',
+            'chartTitle',
+            'performanceScore',
+            'packingCoverage',
+            'dispatchReadiness'
+        );
+
+        if ($request->ajax()) {
+            return response()->json([
+                'warehouseActivity' => $warehouseActivity,
+                'shippingMethodLabels' => $shippingMethodLabels,
+                'shippingMethodData' => $shippingMethodData,
+                'performanceScore' => $performanceScore,
+                'packingCoverage' => $packingCoverage,
+                'dispatchReadiness' => $dispatchReadiness,
+                'selectedYear' => $selectedYear,
+                'selectedMonth' => $selectedMonth,
+                'selectedMonthLabel' => $selectedMonthLabel,
+                'chartTitle' => $chartTitle,
+            ]);
+        }
+
+        return view('dashboard.warehouse.index', $payload);
     }
 
     protected function renderFinance()
